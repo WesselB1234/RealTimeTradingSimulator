@@ -1,3 +1,5 @@
+using RealTimeStockSimulator.BackgroundServices;
+
 namespace RealTimeStockSimulator
 {
     public class Program
@@ -8,6 +10,7 @@ namespace RealTimeStockSimulator
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddHostedService<MarketWebsocketRelay>();
 
             var app = builder.Build();
 

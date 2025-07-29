@@ -482,3 +482,5 @@ $RECYCLE.BIN/
 
 # Vim temporary swap files
 *.swp
+/RealTimeStockSimulator/appsettings.json
+/RealTimeStockSimulator/appsettings.Development.json

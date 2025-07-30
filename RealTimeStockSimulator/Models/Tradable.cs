@@ -4,6 +4,9 @@
     {
         public string Symbol { get; set; }
 
-        public Tradable() { }
+        public Tradable(string symbol) 
+        { 
+            Symbol = symbol;
+        }
     }
 }

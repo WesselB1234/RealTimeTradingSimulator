@@ -6,7 +6,7 @@
 
         public DbBaseRepository(IConfiguration configuration)
         {
-            _connectionString = configuration.GetConnectionString("MarketSimulator");
+            _connectionString = configuration.GetConnectionString("MarketSimulatorDb");
         }
     }
 }

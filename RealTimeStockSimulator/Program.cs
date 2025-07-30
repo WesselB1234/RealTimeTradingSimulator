@@ -1,6 +1,10 @@
 using RealTimeStockSimulator.Hubs;
+using RealTimeStockSimulator.Repositories;
+using RealTimeStockSimulator.Repositories.Interfaces;
+using RealTimeStockSimulator.Services;
 using RealTimeStockSimulator.Services.BackgroundServices;
 using RealTimeStockSimulator.Services.HostedServices;
+using RealTimeStockSimulator.Services.Interfaces;
 
 namespace RealTimeStockSimulator
 {
@@ -12,9 +16,14 @@ namespace RealTimeStockSimulator
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
-            // builder.Services.AddHostedService<MarketWebsocketRelay>();
-            builder.Services.AddHostedService<ApiCacheInitializer>();
             builder.Services.AddSignalR();
+
+            builder.Services.AddSingleton<ITradablesRepository, DbTradablesRepository>();
+
+            builder.Services.AddSingleton<ITradablesService, TradablesService>();
+
+            //builder.Services.AddHostedService<MarketWebsocketRelay>();
+            builder.Services.AddHostedService<ApiCacheInitializer>();
 
             var app = builder.Build();
 

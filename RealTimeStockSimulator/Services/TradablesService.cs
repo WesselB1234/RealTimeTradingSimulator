@@ -35,8 +35,12 @@ namespace RealTimeStockSimulator.Services
 
                         if (response.IsSuccessStatusCode)
                         {
-                            string content = await response.Content.ReadAsStringAsync();
-                            Console.WriteLine(content);
+                            Tradable? responseTradable = await response.Content.ReadFromJsonAsync<Tradable>();
+
+                            if (responseTradable != null && responseTradable.Price != null)
+                            {
+                                tradable.Price = responseTradable.Price;
+                            }
                         }
                         else
                         {

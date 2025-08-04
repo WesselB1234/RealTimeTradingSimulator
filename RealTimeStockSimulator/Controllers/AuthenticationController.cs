@@ -15,14 +15,26 @@ namespace RealTimeStockSimulator.Controllers
 
         public IActionResult Login()
         {
-            if (_memoryCache.TryGetValue("TradablesDictionary", out Dictionary<string, Tradable>? tradablesDictionary) 
-                && tradablesDictionary.TryGetValue("BINANCE:BTCUSDT", out Tradable? tradable))
-            {
-                
-                Console.WriteLine(tradable.Price);
-            }
-
             return View();
+        }
+
+        public IActionResult LoginIntoAccount()
+        {
+            Console.WriteLine("login account");
+
+            return RedirectToAction("Login");
+        }
+
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        public IActionResult RegisterNewAccount()
+        {
+            Console.WriteLine("register account");
+
+            return RedirectToAction("Register");
         }
     }
 }

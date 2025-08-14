@@ -33,7 +33,7 @@ namespace RealTimeStockSimulator.Controllers
 
         public IActionResult RegisterNewAccount(RegisterViewModel registerViewModel)
         {
-            if(_usersService.GetUserByName(registerViewModel.UserName) == null)
+            try
             {
                 User user = new User
                 {
@@ -43,11 +43,11 @@ namespace RealTimeStockSimulator.Controllers
                     Money = 0
                 };
 
-                _usersService.AddUser(user);
+                User? addedUser = _usersService.AddUser(user);
             }
-            else
+            catch (Exception ex)
             {
-                Console.WriteLine("already exists");
+                Console.WriteLine(ex);
             }
 
             return RedirectToAction("Register", registerViewModel);

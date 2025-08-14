@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using RealTimeStockSimulator.Models;
+using RealTimeStockSimulator.Models.ViewModels;
 
 namespace RealTimeStockSimulator.Controllers
 {
@@ -23,16 +24,14 @@ namespace RealTimeStockSimulator.Controllers
             return RedirectToAction("Login");
         }
 
-        public IActionResult Register()
+        public IActionResult Register(RegisterViewModel registerViewModel)
         {
-            return View();
+            return View(registerViewModel);
         }
 
-        public IActionResult RegisterNewAccount()
+        public IActionResult RegisterNewAccount(RegisterViewModel registerViewModel)
         {
-            Console.WriteLine("register account");
-
-            return RedirectToAction("Register");
+            return RedirectToAction("Register", registerViewModel);
         }
     }
 }

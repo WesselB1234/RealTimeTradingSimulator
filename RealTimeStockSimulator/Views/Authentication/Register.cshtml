@@ -1,22 +1,22 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
+    @model RealTimeStockSimulator.Models.ViewModels.RegisterViewModel
+
+    ViewData["title"] = "Register";
 }
 
 <form method="post" action="/Authentication/RegisterNewAccount">
 
     <label for="username">Username:</label>
-    <input type="text" id="username" name="username" placeholder="Your username" required />
+    <input type="text" id="username" name="username" placeholder="Your username" required value="@Model?.UserName" />
 
     <label for="email">Email:</label>
-    <input type="text" id="email" name="email" placeholder="Your email address" required />
+    <input type="text" id="email" name="email" placeholder="Your email address" required value="@Model?.Email" />
 
     <label for="repeat_password">Password:</label>
-    <input type="password" id="password" name="password" placeholder="Your password" required />
+    <input type="password" id="password" name="password" placeholder="Your password" required value="@Model?.Password" />
 
     <label for="repeat_password">Repeat password:</label>
-    <input type="password" id="repeat_password" placeholder="Repeat the previous password" required />
+    <input type="password" id="repeat_password" placeholder="Repeat the your password" required />
 
     <input type="submit" value="Register" />
 </form>

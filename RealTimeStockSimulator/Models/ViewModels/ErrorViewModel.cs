@@ -1,4 +1,4 @@
-namespace RealTimeStockSimulator.Models
+namespace RealTimeStockSimulator.Models.ViewModels
 {
     public class ErrorViewModel
     {

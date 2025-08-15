@@ -28,7 +28,7 @@ namespace RealTimeStockSimulator.Services
         {
             if (GetUserByName(user.UserName) != null)
             {
-                throw new Exception("User already exists");
+                throw new Exception("User already exists.");
             }
 
             user.Password = HashPassword(user.Password);

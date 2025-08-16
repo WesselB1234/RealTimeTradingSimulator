@@ -2,7 +2,15 @@
     --primary-color-default: #CB2E5D;
 }
 
-nav {
+.primary-background-color {
     background-color: var(--primary-color-default);
 }
 
+.primary-text-color {
+    color: var(--primary-color-default);
+}
+
+footer{
+    height: 50px;
+    text-align:center;
+}

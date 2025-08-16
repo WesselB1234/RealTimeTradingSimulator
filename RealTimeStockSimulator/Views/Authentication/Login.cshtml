@@ -7,13 +7,30 @@
 <partial name="_ConfirmMessage" />
 <partial name="_ErrorMessage" />
 
-<form method="post" action="/Authentication/LoginIntoAccount">
-
-    <label for="username">Username:</label>
-    <input type="text" id="username" name="username" placeholder="Your username" required value="@Model?.UserName"/>
-
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="password" placeholder="Your password" required value="@Model?.Password" />
-
-    <input type="submit" value="Login"/>
-</form>
+<div class="card shadow-lg w-75 mx-auto" style="max-width: 480px;">
+    <div class="card-body">
+        <div class="text-center">
+            <h1 class="card-title h3">Login page</h1>
+        </div>
+        <div class="mt-1">
+            <form method="post" action="/Authentication/LoginIntoAccount">
+                <div class="mb-2">
+                    <label class="form-label" for="username">Username:</label>
+                    <input class="form-control" type="text" id="username" name="username" placeholder="Your username" required value="@Model?.UserName" />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="password">Password:</label>
+                    <input class="form-control" type="password" id="password" name="password" placeholder="Your password" required value="@Model?.Password" />
+                </div>
+                <div class="d-grid">
+                    <input type="submit" class="btn primary-background-color text-light" value="Login">
+                </div>
+                
+                <p class="text-center mt-2">
+                    Don't have an account yet?
+                    <a href="#!" class="primary-text-color">Register</a>.
+                </p>
+            </form>
+        </div>
+    </div>
+</div>

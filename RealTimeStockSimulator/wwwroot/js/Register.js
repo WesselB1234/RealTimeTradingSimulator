@@ -5,7 +5,7 @@ function onRegister() {
 
     if (passwordInput.value !== repeatPasswordInput.value) {
 
-        alert("Password is not equal to repeated password.");
+        alert("Password is not equal to the repeated password.");
 
         return false;
     }

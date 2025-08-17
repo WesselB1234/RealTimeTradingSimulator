@@ -4,24 +4,66 @@
     ViewData["title"] = "Register";
 }
 
-<partial name="_ConfirmMessage" />
-<partial name="_ErrorMessage" />
+@* <partial name="_ConfirmMessage" /> *@
+@* <partial name="_ErrorMessage" /> *@
 
-<form method="post" action="/Authentication/RegisterNewAccount" onsubmit="return onRegister();">
+@* <form method="post" action="/Authentication/RegisterNewAccount" onsubmit="return onRegister();"> *@
 
-    <label for="username">Username:</label>
-    <input type="text" id="username" name="username" placeholder="Your username" required value="@Model?.UserName" />
+@*     <label for="username">Username:</label> *@
+@*     <input type="text" id="username" name="username" placeholder="Your username" required value="@Model?.UserName" /> *@
 
-    <label for="email">Email:</label>
-    <input type="text" id="email" name="email" placeholder="Your email address" required value="@Model?.Email" />
+@*     <label for="email">Email:</label> *@
+@*     <input type="text" id="email" name="email" placeholder="Your email address" required value="@Model?.Email" /> *@
 
-    <label for="repeat_password">Password:</label>
-    <input type="password" id="password" name="password" placeholder="Your password" required value="@Model?.Password" />
+@*     <label for="repeat_password">Password:</label> *@
+@*     <input type="password" id="password" name="password" placeholder="Your password" required value="@Model?.Password" /> *@
 
-    <label for="repeat_password">Repeat password:</label>
-    <input type="password" id="repeat_password" placeholder="Repeat the your password" required />
+@*     <label for="repeat_password">Repeat password:</label> *@
+@*     <input type="password" id="repeat_password" placeholder="Repeat your password" required /> *@
 
-    <input type="submit" value="Register" />
-</form>
+@*     <input type="submit" value="Register" /> *@
+@* </form> *@
+
+<main class="d-flex justify-content-center align-items-center auth-main">
+    <div class="card shadow-lg w-75 mx-auto" style="max-width: 480px;">
+
+        <partial name="_ConfirmMessage" />
+        <partial name="_ErrorMessage" />
+
+        <div class="card-body">
+            <div class="text-center">
+                <h1 class="card-title h3">Realtime stock simulator register</h1>
+            </div>
+            <div class="mt-1">
+                <form method="post" action="/Authentication/RegisterNewAccount" onsubmit="return onRegister();">
+                    <div class="mb-2">
+                        <label class="form-label" for="username">Username:</label>
+                        <input class="form-control" type="text" id="username" name="username" placeholder="Your username" required value="@Model?.UserName" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="email">Email:</label>
+                        <input class="form-control" type="text" id="email" name="email" placeholder="Your email" required value="@Model?.Email" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="password">Password:</label>
+                        <input class="form-control" type="password" id="password" name="password" placeholder="Your password" required value="@Model?.Password" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="repeat_password">Repeat password:</label>
+                        <input class="form-control" type="password" id="repeat_password" name="repeat_password" placeholder="Repeat your password" required />
+                    </div>
+                    <div class="d-grid">
+                        <input type="submit" class="btn primary-background-color text-light" value="Register">
+                    </div>
+
+                    <p class="text-center mt-2">
+                        Already have an account?
+                        <a href="/Authentication/Login" class="primary-text-color">Login</a>.
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
 
 <script src="~/js/Register.js"></script>

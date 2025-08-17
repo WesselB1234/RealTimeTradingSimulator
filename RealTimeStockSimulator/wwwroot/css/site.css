@@ -1,16 +1,26 @@
 :root {
-    --primary-color-default: #CB2E5D;
+    --primary-color: #CB2E5D;
+    --light-primary-color: #c98398;
 }
 
 .primary-background-color {
-    background-color: var(--primary-color-default);
+    background-color: var(--primary-color);
 }
 
 .primary-text-color {
-    color: var(--primary-color-default);
+    color: var(--primary-color);
 }
 
 footer{
     height: 50px;
     text-align:center;
+}
+
+.auth-main {
+    height: 100vh;
+    background-color: var(--light-primary-color);
+}
+
+.auth-box {
+    max-width: 480px;
 }

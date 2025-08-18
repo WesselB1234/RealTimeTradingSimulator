@@ -6,7 +6,7 @@ function OnMarketData(message) {
     const symbol = tradableUpdatePayload["Symbol"];
     const price = tradablePriceInfos["Price"];
 
-    const priceLabelsOfSymbol = document.getElementsByClassName("tradable_price_" + symbol);
+    const priceLabelsOfSymbol = document.getElementsByClassName("TradablePrice_" + symbol);
 
     for (let priceLabel of priceLabelsOfSymbol) {
         priceLabel.textContent = price + "$";

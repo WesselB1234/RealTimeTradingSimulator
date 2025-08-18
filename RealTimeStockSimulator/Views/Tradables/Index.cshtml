@@ -25,21 +25,25 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>
-                    AAPL
-                </td>
-                <td>
-                    1.00$
-                </td>
-                <td>
-                    <a href="/Tradables/Buy?Symbol=AAPL">Buy</a>
-                    |
-                    <a href="/Tradables/Sell?Symbol=AAPL">Sell</a>
-                </td>
-            </tr>
+            @foreach(Tradable tradable in Model)
+            {
+                <tr>
+                    <td>
+                        @tradable.Symbol
+                    </td>
+                    <td>
+                        @tradable.Price$
+                    </td>
+                    <td>
+                        <a href="/Tradables/Buy?Symbol=@tradable.Symbol">Buy</a>
+                        |
+                        <a href="/Tradables/Sell?Symbol=@tradable.Symbol">Sell</a>
+                    </td>
+                </tr>
+            }
         </tbody>
     </table>
 </main>
 
 <partial name="_Footer" />
+<partial name="_MarketConnectionScripts" />

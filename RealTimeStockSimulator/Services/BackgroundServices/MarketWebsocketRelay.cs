@@ -33,7 +33,7 @@ namespace RealTimeStockSimulator.Services.BackgroundServices
 
             if (tradablesDictionary == null)
             {
-                return;
+                throw new Exception("Tradables dictionary does not exist.");
             }
 
             foreach (KeyValuePair<string, Tradable> entry in tradablesDictionary)

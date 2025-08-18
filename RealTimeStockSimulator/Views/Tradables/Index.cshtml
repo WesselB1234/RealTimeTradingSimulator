@@ -31,7 +31,23 @@
                     <td>
                         @tradable.Symbol
                     </td>
+                    <td class="tradable_price_@tradable.Symbol">
+                        @tradable.Price$
+                    </td>
                     <td>
+                        <a href="/Tradables/Buy?Symbol=@tradable.Symbol">Buy</a>
+                        |
+                        <a href="/Tradables/Sell?Symbol=@tradable.Symbol">Sell</a>
+                    </td>
+                </tr>
+            }
+            @foreach (Tradable tradable in Model)
+            {
+                <tr>
+                    <td>
+                        @tradable.Symbol
+                    </td>
+                    <td class="tradable_price_@tradable.Symbol">
                         @tradable.Price$
                     </td>
                     <td>

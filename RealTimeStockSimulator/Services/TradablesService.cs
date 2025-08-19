@@ -8,49 +8,54 @@ namespace RealTimeStockSimulator.Services
     public class TradablesService : ITradablesService
     {
         private string? _marketApiKey;
+        IMemoryCache _memoryCache;
         ITradablesRepository _tradablesRepository;
 
         public TradablesService(IConfiguration configuration, IMemoryCache memoryCache, ITradablesRepository tradablesRepository)
         {
             _marketApiKey = configuration.GetValue<string>("ApiKeyStrings:MarketApiKey");
+            _memoryCache = memoryCache;
             _tradablesRepository = tradablesRepository;
         }
 
-        public List<Tradable> GetAllTradablesFromDb()
+        public List<Tradable> GetAllTradables()
         {
-            return _tradablesRepository.GetAllTradables();
+            List<Tradable> tradables = _tradablesRepository.GetAllTradables();
+            Dictionary<string, TradablePriceInfos>? tradablePriceInfosDictionary = _memoryCache.Get<Dictionary<string, TradablePriceInfos>?>("TradablePriceInfosDictionary");
+
+            if (tradablePriceInfosDictionary != null)
+            {
+                foreach(Tradable tradable in tradables)
+                {
+                    tradable.TradablePriceInfos = tradablePriceInfosDictionary[tradable.Symbol];
+                }
+            }
+
+            return tradables;
         }
 
         public async Task<List<Tradable>> GetAllTradablesWithApiDataAsync(CancellationToken cancellationToken)
         {
-            List<Tradable> tradables = GetAllTradablesFromDb();
-            
-            try
+            List<Tradable> tradables = GetAllTradables();
+            HttpClient client = new HttpClient();
+
+            foreach (Tradable tradable in tradables) 
             {
-                HttpClient client = new HttpClient();
+                HttpResponseMessage response = await client.GetAsync($"https://finnhub.io/api/v1/quote?symbol={tradable.Symbol}&token={_marketApiKey}", cancellationToken);
 
-                foreach (Tradable tradable in tradables) 
+                if (response.IsSuccessStatusCode)
                 {
-                    HttpResponseMessage response = await client.GetAsync($"https://finnhub.io/api/v1/quote?symbol={tradable.Symbol}&token={_marketApiKey}", cancellationToken);
+                    TradablePriceInfos? responseTradablePriceInfos = await response.Content.ReadFromJsonAsync<TradablePriceInfos>();
 
-                    if (response.IsSuccessStatusCode)
+                    if (responseTradablePriceInfos != null)
                     {
-                        Tradable? responseTradable = await response.Content.ReadFromJsonAsync<Tradable>();
-
-                        if (responseTradable != null && responseTradable.Price != null)
-                        {
-                            tradable.Price = responseTradable.Price;
-                        }
-                    }
-                    else
-                    {
-                        Console.WriteLine($"Error: {response.StatusCode} - {response.ReasonPhrase}");
+                        tradable.TradablePriceInfos = responseTradablePriceInfos;
                     }
                 }
-            }
-            catch (HttpRequestException ex)
-            {
-                Console.WriteLine($"Request error: {ex.Message}");
+                else
+                {
+                    throw new Exception($"Error: {response.StatusCode} - {response.ReasonPhrase}");
+                }
             }
 
             return tradables;

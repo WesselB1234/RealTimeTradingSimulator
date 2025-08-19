@@ -4,21 +4,8 @@ namespace RealTimeStockSimulator.Models
 {
     public class Tradable
     {
-        [JsonPropertyName("s")]
         public string Symbol { get; set; }
-        [JsonPropertyName("c")]
-        public decimal? Price { get; set; }
-        [JsonPropertyName("p")]
-        public decimal? PriceFromWebsocket {
-            get
-            {
-                return Price;
-            }
-            set 
-            { 
-                Price = value;
-            } 
-        }
+        public TradablePriceInfos? TradablePriceInfos { get; set; }
 
         public Tradable(string symbol) 
         { 

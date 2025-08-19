@@ -24,8 +24,8 @@ namespace RealTimeStockSimulator
             builder.Services.AddSingleton<ITradablesService, TradablesService>();
             builder.Services.AddSingleton<IUsersService, UsersService>();
 
-            //builder.Services.AddHostedService<ApiCacheInitializer>();
-            //builder.Services.AddHostedService<MarketWebsocketRelay>();
+            builder.Services.AddHostedService<ApiCacheInitializer>();
+            builder.Services.AddHostedService<MarketWebsocketRelay>();
 
             builder.Services.AddSession(options =>
             {

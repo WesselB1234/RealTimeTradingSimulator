@@ -20,14 +20,17 @@ namespace RealTimeStockSimulator.Services.HostedServices
 
         public async Task StartAsync(CancellationToken cancellationToken)
         {
-            Dictionary<string, Tradable> tradablesDictionary = new Dictionary<string, Tradable>();
+            Dictionary<string, TradablePriceInfos> tradablePriceInfosDictionary = new Dictionary<string, TradablePriceInfos>();
 
             foreach (Tradable tradable in await _tradablesService.GetAllTradablesWithApiDataAsync(cancellationToken))
             {
-                tradablesDictionary.Add(tradable.Symbol, tradable);
+                if (tradable.TradablePriceInfos != null)
+                {
+                    tradablePriceInfosDictionary.Add(tradable.Symbol, tradable.TradablePriceInfos);
+                }
             }
 
-            _memoryCache.Set("TradablesDictionary", tradablesDictionary);
+            _memoryCache.Set("TradablePriceInfosDictionary", tradablePriceInfosDictionary);
         }
 
         public Task StopAsync(CancellationToken cancellationToken)

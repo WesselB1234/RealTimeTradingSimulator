@@ -1,30 +1,24 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using RealTimeStockSimulator.Models;
+using RealTimeStockSimulator.Services.Interfaces;
 
 namespace RealTimeStockSimulator.Controllers
 {
     public class TradablesController : BaseController
     {
-        private IMemoryCache _memoryCache { get; set; }
+        private ITradablesService _tradablesService { get; set; }
 
-        public TradablesController(IMemoryCache memoryCache)
+        public TradablesController(ITradablesService tradablesService)
         {
-            _memoryCache = memoryCache;
+            _tradablesService = tradablesService;
         }
 
         public IActionResult Index()
         {
-            Dictionary<string, Tradable>? tradablesDictionary = (Dictionary<string, Tradable>?)_memoryCache.Get("TradablesDictionary");
+            List<Tradable> tradables = _tradablesService.GetAllTradables();
 
-            if (tradablesDictionary == null)
-            {
-                return NotFound();
-            }
-
-            List<Tradable> tradablesList = tradablesDictionary.Values.ToList();
-
-            return View(tradablesList);
+            return View(tradables);
         }
     }
 }

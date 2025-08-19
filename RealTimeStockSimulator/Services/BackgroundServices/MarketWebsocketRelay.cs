@@ -29,16 +29,11 @@ namespace RealTimeStockSimulator.Services.BackgroundServices
 
         private async Task SubscribeToTradablesInCache(ClientWebSocket client, CancellationToken stoppingToken)
         {
-            Dictionary<string, Tradable>? tradablesDictionary = (Dictionary<string, Tradable>?)_memoryCache.Get("TradablesDictionary");
+            Dictionary<string, TradablePriceInfos> tradablePriceInfosDictionary = GetTradablePriceInfosDictionary();
 
-            if (tradablesDictionary == null)
+            foreach (KeyValuePair<string, TradablePriceInfos> entry in tradablePriceInfosDictionary)
             {
-                throw new Exception("Tradables dictionary does not exist.");
-            }
-
-            foreach (KeyValuePair<string, Tradable> entry in tradablesDictionary)
-            {
-                var subscribeRequest = new MarketSubscriptionRequest("subscribe", entry.Value.Symbol);
+                var subscribeRequest = new MarketSubscriptionRequest("subscribe", entry.Key);
                 string requestJson = JsonSerializer.Serialize(subscribeRequest, _jsonSerializerOptions);
 
                 await client.SendAsync(
@@ -52,24 +47,32 @@ namespace RealTimeStockSimulator.Services.BackgroundServices
 
         private async Task HandleMarketWebSocketPayload(MarketWebsocketPayload marketPayload, CancellationToken cancellationToken)
         {
-            Tradable responseTradable = marketPayload.Data[marketPayload.Data.Count - 1];
-            Dictionary<string, Tradable>? tradablesDictionary = (Dictionary<string, Tradable>?)_memoryCache.Get("TradablesDictionary");
+            MarketWebsocketTradable responseTradable = marketPayload.Data[marketPayload.Data.Count - 1];
+            Dictionary<string, TradablePriceInfos> tradablePriceInfosDictionary = GetTradablePriceInfosDictionary();
+            TradablePriceInfos tradablePriceInfos = tradablePriceInfosDictionary[responseTradable.Symbol];
 
-            if (tradablesDictionary != null)
+            if (responseTradable.Price != null && tradablePriceInfos.Price != responseTradable.Price)
             {
-                Tradable tradable = tradablesDictionary[responseTradable.Symbol];
+                tradablePriceInfos.Price = (decimal)responseTradable.Price;
+                TradableUpdatePayload tradableUpdatePayload = new TradableUpdatePayload(responseTradable.Symbol, tradablePriceInfos);
 
-                if(tradable.Price != responseTradable.Price && responseTradable.Price != null)
-                {
-                    TradablePriceInfos tradablePriceInfos = new TradablePriceInfos((decimal)responseTradable.Price);
-                    TradableUpdatePayload tradableUpdatePayload = new TradableUpdatePayload(responseTradable.Symbol, tradablePriceInfos);
+                await _hubContext.Clients.All.SendAsync(
+                    "ReceiveMarketData", 
+                    JsonSerializer.Serialize(tradableUpdatePayload), 
+                    cancellationToken
+                );
+            }
+        }
 
-                    await _hubContext.Clients.All.SendAsync(
-                        "ReceiveMarketData", 
-                        JsonSerializer.Serialize(tradableUpdatePayload), 
-                        cancellationToken
-                    );
-                }
+        private Dictionary<string, TradablePriceInfos> GetTradablePriceInfosDictionary()
+        {
+            if (_memoryCache.Get("TradablePriceInfosDictionary") is Dictionary<string, TradablePriceInfos> tradablePriceInfosDictionary)
+            {
+                return tradablePriceInfosDictionary;
+            }
+            else
+            {
+                throw new Exception("TradablesPriceInfosDictionary does not exist.");
             }
         }
 
@@ -91,11 +94,11 @@ namespace RealTimeStockSimulator.Services.BackgroundServices
 
                     string json = Encoding.UTF8.GetString(buffer, 0, result.Count);
                     MarketWebsocketPayload? marketPayload = JsonSerializer.Deserialize<MarketWebsocketPayload>(json);
-                    
+
                     if (marketPayload != null && marketPayload.Type == "trade")
                     {
                         await HandleMarketWebSocketPayload(marketPayload, cancellationToken);
-                    }    
+                    }
                 }
             }
             catch (OperationCanceledException)

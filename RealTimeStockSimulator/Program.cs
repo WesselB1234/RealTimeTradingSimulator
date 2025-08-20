@@ -28,8 +28,8 @@ namespace RealTimeStockSimulator
 
             builder.Services.AddSingleton<IStringFormatter, StringFormatter>();
 
-            //builder.Services.AddHostedService<ApiCacheInitializer>();
-            //builder.Services.AddHostedService<MarketWebsocketRelay>();
+            builder.Services.AddHostedService<ApiCacheInitializer>();
+            builder.Services.AddHostedService<MarketWebsocketRelay>();
 
             builder.Services.AddSession(options =>
             {

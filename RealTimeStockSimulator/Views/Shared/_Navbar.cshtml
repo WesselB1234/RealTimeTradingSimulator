@@ -1,9 +1,13 @@
-﻿<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3 primary-background-color">
+﻿@{
+    @inject RealTimeStockSimulator.Models.Interfaces.IStringFormatter stringFormatter
+}
+
+<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3 primary-background-color">
     <div class="container-fluid">
         <span class="navbar-brand text-light">RealTimeStockSimulator</span>
         <ul class="navbar-nav flex-grow-1">
             <li class="nav-item">
-                <a class="nav-link text-light" href="/Authentication/Logout">Portfolio</a>
+                <a class="nav-link text-light" href="/Portfolio/Index">Portfolio</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link text-light" href="/Tradables/Index">Tradables</a>
@@ -15,7 +19,7 @@
                 <a class="nav-link text-light" href="/Settings/Index">Settings</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-light" href="/Authentication/Logout">Transactions</a>
+                <a class="nav-link text-light" href="/Transactions/Index">Transactions</a>
             </li>
             <li class="nav-item">
                 <span class="nav-link text-light">
@@ -24,12 +28,11 @@
 
                         if (ViewBag.LoggedInUser != null)
                         {
-                            string priceLabel = $"${stringFormatter.FormatDecimalPrice(tradable.TradablePriceInfos.Price)}";
-                            @priceLabel
+                            money = ViewBag.LoggedInUser.Money;
                         }
                     }
                     
-                    Money: $@money
+                    Money: $@stringFormatter.FormatDecimalPrice(money)
                 </span>
             </li>
             <li class="nav-item">

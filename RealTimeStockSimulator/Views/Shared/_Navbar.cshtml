@@ -19,12 +19,22 @@
             </li>
             <li class="nav-item">
                 <span class="nav-link text-light">
-                    Money: $100.000,00
+                    @{
+                        decimal money = 0;
+
+                        if (ViewBag.LoggedInUser != null)
+                        {
+                            string priceLabel = $"${stringFormatter.FormatDecimalPrice(tradable.TradablePriceInfos.Price)}";
+                            @priceLabel
+                        }
+                    }
+                    
+                    Money: $@money
                 </span>
             </li>
             <li class="nav-item">
                 <span class="nav-link text-light">
-                    Logged in as Bruhman
+                    Logged in as @ViewBag.LoggedInUser?.UserName
                 </span>
             </li>
             <li class="nav-item">

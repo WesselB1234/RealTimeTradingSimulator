@@ -18,6 +18,8 @@ namespace RealTimeStockSimulator.Controllers
                 context.Result = new RedirectToActionResult("Login", "Authentication", null);
             }
 
+            ViewBag.LoggedInUser = LoggedInUser;
+
             base.OnActionExecuting(context);
         }
     }

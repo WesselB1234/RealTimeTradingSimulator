@@ -30,7 +30,7 @@ namespace RealTimeStockSimulator.Controllers
                 return RedirectToAction("Index", "Portfolio");
             }
 
-            TempData["ErrorMessage"] = "User does not exist or password incorrect.";
+            TempData["ErrorMessage"] = "User does not exist or password is incorrect.";
 
             return RedirectToAction("Login", loginViewModel);
         }

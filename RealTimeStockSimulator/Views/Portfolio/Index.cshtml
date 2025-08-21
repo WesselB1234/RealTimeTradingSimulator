@@ -1,6 +1,59 @@
 ﻿@{
+    @model List<Tradable>;
+    @inject RealTimeStockSimulator.Models.Interfaces.IStringFormatter stringFormatter
+
     ViewData["title"] = "Portfolio";
 }
 
 <partial name="_Navbar" />
+
+<main class="w-75 mx-auto">
+    <h1>
+        Portfolio
+    </h1>
+    <h2>
+        Total value: 121212
+    </h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Symbol
+                </th>
+                <th>
+                    Price
+                </th>
+                <th>
+                    Actions
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @* @foreach (Tradable tradable in Model) *@
+            @* { *@
+            @*     <tr> *@
+            @*         <td> *@
+            @*             @tradable.Symbol *@
+            @*         </td> *@
+            @*         <td class="TradablePrice_@tradable.Symbol"> *@
+            @*             @{ *@
+            @*                 if (tradable.TradablePriceInfos != null) *@
+            @*                 { *@
+            @*                     string priceLabel = $"${stringFormatter.FormatDecimalPrice(tradable.TradablePriceInfos.Price)}"; *@
+            @*                     @priceLabel *@
+            @*                 } *@
+            @*             } *@
+            @*         </td> *@
+            @*         <td> *@
+            @*             <a href="/Tradables/Buy?Symbol=@tradable.Symbol">Buy</a> *@
+            @*             | *@
+            @*             <a href="/Tradables/Sell?Symbol=@tradable.Symbol">Sell</a> *@
+            @*         </td> *@
+            @*     </tr> *@
+            @* } *@
+        </tbody>
+    </table>
+</main>
+
 <partial name="_Footer" />
+<partial name="_MarketConnectionScripts" />

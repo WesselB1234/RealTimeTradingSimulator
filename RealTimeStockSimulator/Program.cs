@@ -27,6 +27,7 @@ namespace RealTimeStockSimulator
             builder.Services.AddSingleton<IUsersService, UsersService>();
 
             builder.Services.AddSingleton<IStringFormatter, StringFormatter>();
+            builder.Services.AddSingleton<IDataMapper, DataMapper>();
 
             builder.Services.AddHostedService<ApiCacheInitializer>();
             builder.Services.AddHostedService<MarketWebsocketRelay>();

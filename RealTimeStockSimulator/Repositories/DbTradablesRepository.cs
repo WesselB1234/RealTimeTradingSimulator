@@ -1,19 +1,13 @@
 ﻿using RealTimeStockSimulator.Models;
 using RealTimeStockSimulator.Repositories.Interfaces;
 using Microsoft.Data.SqlClient;
+using RealTimeStockSimulator.Models.Interfaces;
 
 namespace RealTimeStockSimulator.Repositories
 {
     public class DbTradablesRepository : DbBaseRepository, ITradablesRepository
     {
-        public DbTradablesRepository(IConfiguration configuration) : base(configuration) { }
-
-        private Tradable ReadTradable(SqlDataReader reader)
-        {
-            string symbol = (string)reader["symbol"];
-
-            return new Tradable(symbol);
-        }
+        public DbTradablesRepository(IConfiguration configuration, IDataMapper dataMapper) : base(configuration, dataMapper) { }
 
         public List<Tradable> GetAllTradables()
         {
@@ -21,7 +15,7 @@ namespace RealTimeStockSimulator.Repositories
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
-                string query = "SELECT * FROM Tradables";
+                string query = "SELECT symbol FROM Tradables";
                 SqlCommand command = new SqlCommand(query, connection);
 
                 command.Connection.Open();
@@ -30,7 +24,7 @@ namespace RealTimeStockSimulator.Repositories
                 {
                     while (reader.Read())
                     {
-                        Tradable tradable = ReadTradable(reader);
+                        Tradable tradable = _dataMapper.MapTradable(reader);
                         tradables.Add(tradable);
                     }
                 }

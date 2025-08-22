@@ -1,7 +1,10 @@
-﻿namespace RealTimeStockSimulator.Models
+﻿using System.Text.Json.Serialization;
+
+namespace RealTimeStockSimulator.Models
 {
     public class OwnershipTradable : Tradable
     {
+        [JsonInclude]
         public int Amount;
         public decimal TotalValue
         {

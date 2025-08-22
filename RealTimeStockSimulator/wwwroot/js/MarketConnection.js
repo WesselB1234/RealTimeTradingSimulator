@@ -9,34 +9,56 @@ function IsNumber(value) {
     return !isNaN(parseFloat(value)) && isFinite(value);
 }
 
-function UpdatePriceLabel(priceLabel, symbol, price) {
+function UpdatePriceLabel(updatedSymbol, newPrice) {
 
-    if (IsNumber(priceLabel.dataset.labelNumber) != false) {
+    const priceLabels = document.getElementsByClassName("TradablePrice_" + updatedSymbol);
 
-        const amountLabel = document.getElementById("TradableAmount_" + priceLabel.dataset.labelNumber + "_" + symbol);
-        const amount = parseInt(amountLabel.textContent);
+    for (let priceLabel of priceLabels) {
 
-        price *= amount;
-    } 
+        if (IsNumber(priceLabel.dataset.labelNumber) != false) {
 
-    priceLabel.textContent = FormatPrice(price);
+            const amountLabel = document.getElementById("TradableAmount_" + priceLabel.dataset.labelNumber + "_" + updatedSymbol);
+            const amount = parseInt(amountLabel.textContent);
+
+            newPrice *= amount;
+        }
+
+        priceLabel.textContent = FormatPrice(newPrice);
+    }
+}
+
+function UpdateOwnershipLabels(updatedSymbol, newPrice) {
+
+    let totalPriceOfOwnership = 0
+
+    ownershipJson.forEach((entry) => {
+
+        if (updatedSymbol === entry.Symbol) {
+            entry.TradablePriceInfos.Price = newPrice;
+        }
+
+        const totalPrice = entry.TradablePriceInfos.Price * entry.Amount;
+        totalPriceOfOwnership += totalPrice;
+    });
+
+    const TotalOwnershipValueLabels = document.getElementsByClassName("TotalOwnershipValue");
+
+    for (let totalOwnershipValueLabel of TotalOwnershipValueLabels) {
+        totalOwnershipValueLabel.textContent = FormatPrice(totalPriceOfOwnership);
+    }
 }
 
 function OnMarketData(message) {
 
     const tradableUpdatePayload = JSON.parse(message);
     const tradablePriceInfos = tradableUpdatePayload["TradablePriceInfos"];
-    const symbol = tradableUpdatePayload["Symbol"];
-    const price = tradablePriceInfos["Price"];
+    const updatedSymbol = tradableUpdatePayload["Symbol"];
+    const newPrice = tradablePriceInfos["Price"];
 
-    const priceLabelsOfSymbol = document.getElementsByClassName("TradablePrice_" + symbol);
-
-    for (let priceLabel of priceLabelsOfSymbol) {
-        UpdatePriceLabel(priceLabel, symbol, price);
-    }
+    UpdatePriceLabel(updatedSymbol, newPrice);
 
     if (ownershipJson !== null) {
-        console.log("let it become da owner");
+        UpdateOwnershipLabels(updatedSymbol, newPrice);
     }
 }
 

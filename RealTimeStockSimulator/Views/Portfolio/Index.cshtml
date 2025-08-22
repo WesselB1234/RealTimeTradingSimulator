@@ -13,7 +13,7 @@
         Portfolio
     </h1>
     <h2>
-        Total value: <span class="TotalTradablesValue">$@stringFormatter.FormatDecimalPrice(@Model.TotalOwnershipValue)</span>
+        Total value: <span class="TotalOwnershipValue">$@stringFormatter.FormatDecimalPrice(@Model.TotalOwnershipValue)</span>
     </h2>
     <table class="table">
         <thead>
@@ -25,7 +25,7 @@
                     Amount owned
                 </th>
                 <th>
-                    Price
+                    Value
                 </th>
                 <th>
                     Actions
@@ -64,7 +64,7 @@
 </main>
 
 <script>
-    const ownershipJson = @Html.Raw(JsonSerializer.Serialize(Model.Tradables))
+    var ownershipJson = @Html.Raw(JsonSerializer.Serialize(Model.Tradables))
 </script>
 
 <partial name="_Footer" />

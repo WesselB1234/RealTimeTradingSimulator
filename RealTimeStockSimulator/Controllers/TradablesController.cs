@@ -20,5 +20,15 @@ namespace RealTimeStockSimulator.Controllers
 
             return View(tradables);
         }
+
+        public IActionResult Buy()
+        {
+            return View();
+        }
+
+        public IActionResult Sell()
+        {
+            return View();
+        }
     }
 }

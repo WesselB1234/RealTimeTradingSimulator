@@ -1,5 +1,24 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿<partial name="_Navbar" />
+
+<main class="w-75 mx-auto">
+    <h1>
+        Buying AAPL
+    </h1>
+    <h2>
+        Cost: $10,000.00?
+    </h2>
+
+    <partial name="_ConfirmMessage" />
+    <partial name="_ErrorMessage" />
+
+    <form action="/Tradables/ConfirmBuyTradable">
+        <div class="mb-2">
+            <label class="form-label" for="amount">Amount:</label>
+            <input class="form-control" type="number" id="amount" name="amount" required />
+        </div>
+        <input type="submit" class="btn mb-2 primary-background-color text-white" value="Buy amount" />
+    </form>
+</main>
+
+<partial name="_Footer" />
+<partial name="_MarketConnectionScripts" />

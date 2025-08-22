@@ -1,6 +1,6 @@
 ﻿namespace RealTimeStockSimulator.Models.Enums
 {
-    public enum TransactionStatus
+    public enum MarketTransactionStatus
     {
         Bought,
         Sold

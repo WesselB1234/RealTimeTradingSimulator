@@ -60,5 +60,18 @@ namespace RealTimeStockSimulator.Services
 
             return tradables;
         }
+
+        public Tradable? GetTradableBySymbol(string symbol)
+        {
+            Tradable? tradable = _tradablesRepository.GetTradableBySymbol(symbol);
+            Dictionary<string, TradablePriceInfos>? tradablePriceInfosDictionary = _memoryCache.Get<Dictionary<string, TradablePriceInfos>?>("TradablePriceInfosDictionary");
+
+            if (tradablePriceInfosDictionary != null && tradable != null)
+            {
+                tradable.TradablePriceInfos = tradablePriceInfosDictionary[tradable.Symbol];
+            }
+
+            return tradable;
+        }
     }
 }

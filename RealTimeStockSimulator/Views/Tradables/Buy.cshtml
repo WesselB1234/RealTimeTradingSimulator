@@ -1,17 +1,27 @@
-﻿<partial name="_Navbar" />
+﻿@{
+    @model RealTimeStockSimulator.Models.ViewModels.BuySellViewModel
+    @inject RealTimeStockSimulator.Models.Interfaces.IStringFormatter stringFormatter
+
+    ViewData["title"] = "Buy tradable";
+}
+
+<partial name="_Navbar" />
 
 <main class="w-75 mx-auto">
     <h1>
-        Buying AAPL
+        Buying @Model.Tradable.Symbol
     </h1>
-    <h2>
-        Cost: $10,000.00?
-    </h2>
+    <h3>
+        Value of @Model.Tradable.Symbol: <span class="TradablePrice_@Model.Tradable.Symbol">$@stringFormatter.FormatDecimalPrice(Model.Tradable.TradablePriceInfos.Price)</span>
+    </h3>
+    <h3>
+        Total cost of order: <span class="TradablePrice_@Model.Tradable.Symbol">$@stringFormatter.FormatDecimalPrice(Model.Tradable.TradablePriceInfos.Price)</span>
+    </h3>
 
     <partial name="_ConfirmMessage" />
     <partial name="_ErrorMessage" />
 
-    <form action="/Tradables/ConfirmBuyTradable">
+    <form action="/Tradables/ConfirmBuyTradable" method="post">
         <div class="mb-2">
             <label class="form-label" for="amount">Amount:</label>
             <input class="form-control" type="number" id="amount" name="amount" required />

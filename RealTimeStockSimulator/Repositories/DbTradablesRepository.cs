@@ -32,5 +32,26 @@ namespace RealTimeStockSimulator.Repositories
 
             return tradables;
         }
+
+        public Tradable? GetTradableBySymbol(string symbol)
+        {
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                string query = "SELECT symbol FROM Tradables";
+                SqlCommand command = new SqlCommand(query, connection);
+
+                command.Connection.Open();
+
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        return _dataMapper.MapTradable(reader);
+                    }
+                }
+            }
+
+            return null;
+        }
     }
 }

@@ -21,9 +21,21 @@ namespace RealTimeStockSimulator.Controllers
             return View(tradables);
         }
 
-        public IActionResult Buy()
+        public IActionResult Buy(string? symbol)
         {
-            return View();
+            if (symbol == null)
+            {
+                return NotFound();
+            }
+
+            Tradable? tradable = _tradablesService.GetTradableBySymbol(symbol);
+
+            if (tradable == null)
+            {
+                return NotFound();
+            }
+
+            return View(tradable);
         }
 
         public IActionResult Sell()

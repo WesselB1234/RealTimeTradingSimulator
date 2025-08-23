@@ -4,7 +4,8 @@ namespace RealTimeStockSimulator.Services.Interfaces
 {
     public interface ITradablesService
     {
-        public List<Tradable> GetAllTradables();
-        public Task<List<Tradable>> GetAllTradablesWithApiDataAsync(CancellationToken cancellationToken);
+        List<Tradable> GetAllTradables();
+        Task<List<Tradable>> GetAllTradablesWithApiDataAsync(CancellationToken cancellationToken);
+        Tradable? GetTradableBySymbol(string symbol);
     }
 }

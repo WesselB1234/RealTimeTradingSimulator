@@ -1,11 +1,4 @@
-﻿function FormatPrice(price) {
-    return price.toLocaleString('en-US', {
-        style: 'currency',
-        currency: 'USD',
-    });
-}
-
-function IsNumber(value) {
+﻿function IsNumber(value) {
     return !isNaN(parseFloat(value)) && isFinite(value);
 }
 
@@ -67,7 +60,7 @@ function OnMarketData(message) {
     }
 }
 
-function init() {
+function InitMarketConnection() {
 
     CurrentConnection = new signalR.HubConnectionBuilder().withUrl("/marketHub").build();
 
@@ -78,4 +71,4 @@ function init() {
     });
 }
 
-init();
+InitMarketConnection();

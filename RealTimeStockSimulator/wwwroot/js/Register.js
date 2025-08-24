@@ -1,7 +1,7 @@
 ﻿const passwordInput = document.getElementById("password");
 const repeatPasswordInput = document.getElementById("repeat_password");
 
-function onRegister() {
+function OnRegister() {
 
     if (passwordInput.value !== repeatPasswordInput.value) {
 

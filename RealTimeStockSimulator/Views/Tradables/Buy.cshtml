@@ -3,6 +3,13 @@
     @inject RealTimeStockSimulator.Models.Interfaces.IStringFormatter stringFormatter
 
     ViewData["title"] = "Buy tradable";
+
+    int amountValue = 1;
+
+    if (Model.Amount != null)
+    {
+        amountValue = (int)Model.Amount;
+    }    
 }
 
 <partial name="_Navbar" />
@@ -18,13 +25,13 @@
         Total cost of order: <span class="TradablePrice_@Model.Tradable.Symbol">$@stringFormatter.FormatDecimalPrice(Model.Tradable.TradablePriceInfos.Price)</span>
     </h3>
 
-    <partial name="_ConfirmMessage" />
     <partial name="_ErrorMessage" />
 
     <form action="/Tradables/ConfirmBuyTradable" method="post">
+        <input type="hidden" name="symbol" value="@Model.Tradable.Symbol"/>
         <div class="mb-2">
             <label class="form-label" for="amount">Amount:</label>
-            <input class="form-control" type="number" id="amount" name="amount" required />
+            <input class="form-control" type="number" id="amount" name="amount" value="@amountValue" required />
         </div>
         <input type="submit" class="btn mb-2 primary-background-color text-white" value="Buy amount" />
     </form>

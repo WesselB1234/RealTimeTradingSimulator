@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using RealTimeStockSimulator.Models;
+using RealTimeStockSimulator.Models.ViewModels;
 using RealTimeStockSimulator.Services.Interfaces;
 
 namespace RealTimeStockSimulator.Controllers
@@ -21,21 +22,28 @@ namespace RealTimeStockSimulator.Controllers
             return View(tradables);
         }
 
-        public IActionResult Buy(string? symbol)
+        public IActionResult Buy(ConfirmBuySellViewModel confirmViewModel)
         {
-            if (symbol == null)
+            if (confirmViewModel.Symbol == null)
             {
                 return NotFound();
             }
 
-            Tradable? tradable = _tradablesService.GetTradableBySymbol(symbol);
+            Tradable? tradable = _tradablesService.GetTradableBySymbol(confirmViewModel.Symbol);
 
             if (tradable == null)
             {
                 return NotFound();
             }
 
-            return View(tradable);
+            BuySellViewModel viewModel = new BuySellViewModel(tradable, confirmViewModel.Amount);
+
+            return View(viewModel);
+        }
+
+        public IActionResult ConfirmBuyTradable(ConfirmBuySellViewModel confirmViewModel)
+        {
+            return RedirectToAction("Buy", confirmViewModel);
         }
 
         public IActionResult Sell()

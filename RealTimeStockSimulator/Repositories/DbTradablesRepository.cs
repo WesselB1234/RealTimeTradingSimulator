@@ -37,8 +37,10 @@ namespace RealTimeStockSimulator.Repositories
         {
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
-                string query = "SELECT symbol FROM Tradables";
+                string query = "SELECT symbol FROM Tradables WHERE symbol = @Symbol;";
                 SqlCommand command = new SqlCommand(query, connection);
+
+                command.Parameters.AddWithValue("@Symbol", symbol);
 
                 command.Connection.Open();
 

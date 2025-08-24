@@ -1,8 +1,8 @@
 ﻿@{
-    @model RealTimeStockSimulator.Models.ViewModels.BuySellViewModel
+    @model RealTimeStockSimulator.Models.ViewModels.BuyViewModel
     @inject RealTimeStockSimulator.Models.Interfaces.IStringFormatter stringFormatter
 
-    ViewData["title"] = "Buy tradable";
+    ViewData["title"] = "Buy";
 
     int amountValue = 1;
 
@@ -31,7 +31,7 @@
 
     <partial name="_ErrorMessage" />
 
-    <form action="/Tradables/ConfirmBuyTradable" method="post">
+    <form action="/Tradables/ConfirmBuy" method="post">
         <input type="hidden" name="symbol" value="@Model.Tradable.Symbol"/>
         <div class="mb-2">
             <label class="form-label" for="amount">Amount:</label>

@@ -36,12 +36,12 @@ namespace RealTimeStockSimulator.Controllers
                 return NotFound();
             }
 
-            BuySellViewModel viewModel = new BuySellViewModel(tradable, confirmViewModel.Amount);
+            BuyViewModel viewModel = new BuyViewModel(tradable, confirmViewModel.Amount);
 
             return View(viewModel);
         }
 
-        public IActionResult ConfirmBuyTradable(ConfirmBuySellViewModel confirmViewModel)
+        public IActionResult ConfirmBuy(ConfirmBuySellViewModel confirmViewModel)
         {
             return RedirectToAction("Buy", confirmViewModel);
         }

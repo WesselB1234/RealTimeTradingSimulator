@@ -1,5 +1,50 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
+    @model RealTimeStockSimulator.Models.ViewModels.SellViewModel
+    @inject RealTimeStockSimulator.Models.Interfaces.IStringFormatter stringFormatter
+
+    ViewData["title"] = "Sell";
+
+    int amountValue = 1;
+
+    if (Model.Amount != null)
+    {
+        amountValue = (int)Model.Amount;
+    }
 }
+
+<partial name="_Navbar" />
+
+<main class="w-75 mx-auto">
+    <h1>
+        Selling @Model.OwnershipTradable.Symbol
+    </h1>
+    <h3>
+        Value of @Model.OwnershipTradable.Symbol: <span data-price-symbol="@Model.OwnershipTradable.Symbol" data-price="@stringFormatter.FormatDecimalToJsDecimal((decimal)Model.OwnershipTradable.TradablePriceInfos.Price)">
+            $@stringFormatter.FormatDecimalPrice(Model.OwnershipTradable.TradablePriceInfos.Price)
+        </span>
+    </h3>
+    <h3>
+        Total rewards of order: <span id="totalValueLbl" data-amount-label-number="1" data-price-symbol="@Model.OwnershipTradable.Symbol" data-price="@stringFormatter.FormatDecimalToJsDecimal((decimal)Model.OwnershipTradable.TradablePriceInfos.Price)">
+            $@stringFormatter.FormatDecimalPrice(Model.OwnershipTradable.TradablePriceInfos.Price * amountValue)
+        </span>
+    </h3>
+    <h3>
+        Available ownership of @Model.OwnershipTradable.Symbol: <span>@Model.OwnershipTradable.Amount</span>
+    </h3>
+
+    <partial name="_ErrorMessage" />
+
+    <form action="/Tradables/ConfirmSell" method="post">
+        <input type="hidden" name="symbol" value="@Model.OwnershipTradable.Symbol" />
+        <div class="mb-2">
+            <label class="form-label" for="amount">Amount:</label>
+            <input class="form-control" type="number" id="amount" name="amount" value="@amountValue"
+                   data-amount-label-number="1" data-amount-label-symbol="@Model.OwnershipTradable.Symbol" data-amount-label-value="@amountValue" required />
+        </div>
+        <input type="submit" class="btn mb-2 primary-background-color text-white" value="Sell amount" />
+    </form>
+</main>
+
+<partial name="_Footer" />
+<partial name="_MarketConnectionScripts" />
+<script src="~/js/BuySellPriceSetter.js"></script>

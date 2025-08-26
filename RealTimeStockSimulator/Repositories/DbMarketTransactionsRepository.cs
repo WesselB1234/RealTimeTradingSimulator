@@ -37,13 +37,13 @@ namespace RealTimeStockSimulator.Repositories
             }
         }
 
-        public MarketTransactions GetTransactionsByUser(User user)
+        public MarketTransactions GetTransactionsByUserPagnated(User user)
         {
             MarketTransactions transactions = new MarketTransactions(user, new List<MarketTransactionTradable>());
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
-                string query = "SELECT transaction_id, symbol, price, status, amount, date " +
+                string query = "SELECT TOP(25) transaction_id, symbol, price, status, amount, date " +
                    "FROM Transactions " +
                    "WHERE user_id = @UserId " +
                    "ORDER BY transaction_id DESC;";

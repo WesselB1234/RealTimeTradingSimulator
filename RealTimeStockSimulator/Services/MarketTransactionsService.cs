@@ -17,9 +17,9 @@ namespace RealTimeStockSimulator.Services
             return _marketTransactionsRepository.AddTransaction(user ,transaction);
         }
 
-        public MarketTransactions GetTransactionsByUser(User user)
+        public MarketTransactions GetTransactionsByUserPagnated(User user)
         {
-            return _marketTransactionsRepository.GetTransactionsByUser(user);
+            return _marketTransactionsRepository.GetTransactionsByUserPagnated(user);
         }
     }
 }

@@ -1,5 +1,48 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
+    @model List<User>
+
+    ViewData["title"] = "Users";
 }
+
+<partial name="_Navbar" />
+
+<main class="w-75 mx-auto">
+    <h1>
+        Users
+    </h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    User ID
+                </th>
+                <th>
+                    Username
+                </th>
+                <th>
+                    Actions
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                foreach (User user in Model)
+                {
+                    <tr>
+                        <td>
+                            @user.UserId
+                        </td>
+                        <td>
+                            @user.UserName
+                        </td>
+                        <td>
+                            <a href="/Users/Portfolio?UserId=@user.UserId">View portfolio</a>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</main>
+
+<partial name="_Footer" />

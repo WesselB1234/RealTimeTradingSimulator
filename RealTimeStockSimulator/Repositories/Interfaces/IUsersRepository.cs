@@ -6,8 +6,9 @@ namespace RealTimeStockSimulator.Repositories.Interfaces
     {
         List<User> GetAllUsers();
         User? GetUserByName(string userName);
-        int AddUser(User user);
         User? GetUserByLoginCredentials(string userName, string password);
+        User? GetUserByUserId(int userId);
+        int AddUser(User user);
         void UpdateUser(User user);
     }
 }

@@ -122,5 +122,28 @@ namespace RealTimeStockSimulator.Repositories
 
             return users;
         }
+
+        public User? GetUserByUserId(int userId)
+        {
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                string query = "SELECT user_id, username, email, password, money " +
+                    "FROM Users " +
+                    "WHERE user_id = @UserId";
+                SqlCommand command = new SqlCommand(query, connection);
+
+                command.Parameters.AddWithValue("@UserId", userId);
+                command.Connection.Open();
+
+                SqlDataReader reader = command.ExecuteReader();
+
+                if (reader.Read())
+                {
+                    return _dataMapper.MapUser(reader);
+                }
+            }
+
+            return null;
+        }
     }
 }

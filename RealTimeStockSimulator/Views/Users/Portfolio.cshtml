@@ -1,5 +1,76 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
+    @model Ownership
+    @inject RealTimeStockSimulator.Models.Interfaces.IStringFormatter stringFormatter
+    @using System.Text.Json
+
+    ViewData["title"] = "Portfolio";
 }
+
+<partial name="_Navbar" />
+
+<main class="w-75 mx-auto">
+    <h1>
+        @Model.User.UserName's Portfolio
+    </h1>
+    <h2>
+        Total value: <span class="TotalOwnershipValue">$@stringFormatter.FormatDecimalPrice(@Model.TotalOwnershipValue)</span>
+    </h2>
+
+    <partial name="_ErrorMessage" />
+    <partial name="_ConfirmMessage" />
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Symbol
+                </th>
+                <th>
+                    Amount owned
+                </th>
+                <th>
+                    Total value
+                </th>
+                <th>
+                    Actions
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                foreach (OwnershipTradable tradable in Model.Tradables)
+                {
+                    <tr>
+                        <td>
+                            @tradable.Symbol
+                        </td>
+                        <td data-amount-label-number="1" data-amount-label-symbol="@tradable.Symbol" data-amount-label-value="@tradable.Amount">
+                            @tradable.Amount
+                        </td>
+                        <td data-price-symbol="@tradable.Symbol" data-price="@stringFormatter.FormatDecimalToJsDecimal(tradable.TradablePriceInfos.Price)" data-amount-label-number="1">
+                            @{
+                                if (tradable.TradablePriceInfos != null)
+                                {
+                                    string priceLabel = $"${stringFormatter.FormatDecimalPrice(tradable.TotalValue)}";
+                                    @priceLabel
+                                }
+                            }
+                        </td>
+                        <td>
+                            <a href="/Tradables/Buy?Symbol=@tradable.Symbol">Buy</a>
+                            |
+                            <a href="/Tradables/Sell?Symbol=@tradable.Symbol">Sell</a>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</main>
+
+<script>
+    var ownershipJson = @Html.Raw(JsonSerializer.Serialize(Model.Tradables))
+</script>
+
+<partial name="_Footer" />
+<partial name="_MarketConnectionScripts" />

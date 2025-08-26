@@ -55,5 +55,10 @@ namespace RealTimeStockSimulator.Services
         {
             return _usersRepository.GetAllUsers();
         }
+
+        public User? GetUserByUserId(int userId)
+        {
+            return _usersRepository.GetUserByUserId(userId);
+        }
     }
 }

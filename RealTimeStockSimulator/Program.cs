@@ -15,7 +15,7 @@ namespace RealTimeStockSimulator
     {
         public static void Main(string[] args)
         {
-            var builder = WebApplication.CreateBuilder(args);
+            WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
@@ -25,8 +25,8 @@ namespace RealTimeStockSimulator
             builder.Services.AddSingleton<IUsersRepository, DbUsersRepository>();
             builder.Services.AddSingleton<IOwnershipsRepository, DbOwnershipRepository>();
             builder.Services.AddSingleton<IMarketTransactionsRepository, DbMarketTransactionsRepository>();
-            builder.Services.AddSingleton<ITradablePriceInfosRepository, CacheTradablePriceInfosRepository>();
-            //builder.Services.AddSingleton<ITradablePriceInfosRepository, RedisTradablePriceInfosRepository>();
+            //builder.Services.AddSingleton<ITradablePriceInfosRepository, CacheTradablePriceInfosRepository>();
+            builder.Services.AddSingleton<ITradablePriceInfosRepository, RedisTradablePriceInfosRepository>();
 
             builder.Services.AddSingleton<ITradablesService, TradablesService>();
             builder.Services.AddSingleton<IUsersService, UsersService>();
@@ -47,7 +47,7 @@ namespace RealTimeStockSimulator
                 options.Cookie.IsEssential = true;
             });
 
-            var app = builder.Build();
+            WebApplication app = builder.Build();
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())

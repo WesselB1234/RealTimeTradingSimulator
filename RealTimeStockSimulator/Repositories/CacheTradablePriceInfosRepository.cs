@@ -24,7 +24,7 @@ namespace RealTimeStockSimulator.Repositories
 
         public void SetPriceInfosBySymbol(string symbol, TradablePriceInfos priceInfos)
         {
-            _tradablesPriceInfosDictionary.Add(symbol, priceInfos);
+            _tradablesPriceInfosDictionary[symbol] = priceInfos;
         }
     }
 }

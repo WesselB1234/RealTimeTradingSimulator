@@ -50,6 +50,8 @@ namespace RealTimeStockSimulator.Services.BackgroundServices
                 tradablePriceInfos.Price = (decimal)responseTradable.Price;
                 TradableUpdatePayload tradableUpdatePayload = new TradableUpdatePayload(responseTradable.Symbol, tradablePriceInfos);
 
+                _priceInfosService.SetPriceInfosBySymbol(responseTradable.Symbol, tradablePriceInfos);
+
                 await _hubContext.Clients.All.SendAsync("ReceiveMarketData", JsonSerializer.Serialize(tradableUpdatePayload), CancellationToken.None);
             }
         }

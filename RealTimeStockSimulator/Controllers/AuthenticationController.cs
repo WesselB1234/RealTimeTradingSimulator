@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using RealTimeStockSimulator.Extensions;
 using RealTimeStockSimulator.Models;
 using RealTimeStockSimulator.Models.ViewModels;
@@ -15,18 +18,27 @@ namespace RealTimeStockSimulator.Controllers
             _usersService = usersService;
         }
 
+        public IActionResult AccessDeniedPath()
+        {
+            TempData["ErrorMessage"] = "You are not authorized to perform this action.";
+
+            return RedirectToAction("Login");
+        }
+
         public IActionResult Login(LoginViewModel loginViewModel)
         {
             return View(loginViewModel); 
         }
 
-        public IActionResult LoginIntoAccount(LoginViewModel loginViewModel)
+        public async Task<IActionResult> LoginIntoAccount(LoginViewModel loginViewModel)
         {
             UserAccount? user = _usersService.GetUserByLoginCredentials(loginViewModel.UserName, loginViewModel.Password);
 
             if (user != null)
             {
                 HttpContext.Session.SetObject("LoggedInUser", user);
+
+                await HttpContext.SignInAsync(_usersService.GetClaimsPrincipleFromUser(user));
 
                 return RedirectToAction("Index", "Portfolio");
             }
@@ -66,10 +78,11 @@ namespace RealTimeStockSimulator.Controllers
             return RedirectToAction("Register", registerViewModel);
         }
 
-        public IActionResult Logout()
+        public async Task<IActionResult> Logout()
         {
             if (LoggedInUser != null)
             {
+                await HttpContext.SignOutAsync();
                 HttpContext.Session.Remove("LoggedInUser");
                 TempData["ConfirmationMessage"] = "Successfully logged out.";
             }

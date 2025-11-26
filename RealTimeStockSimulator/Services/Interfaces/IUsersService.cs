@@ -1,4 +1,5 @@
 ﻿using RealTimeStockSimulator.Models;
+using System.Security.Claims;
 
 namespace RealTimeStockSimulator.Services.Interfaces
 {
@@ -10,5 +11,6 @@ namespace RealTimeStockSimulator.Services.Interfaces
         UserAccount? GetUserByUserId(int userId);
         int AddUser(UserAccount user);
         void UpdateUser(UserAccount user);
+        ClaimsPrincipal GetClaimsPrincipleFromUser(UserAccount user);
     }
 }

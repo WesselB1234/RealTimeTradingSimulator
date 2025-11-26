@@ -1,6 +1,8 @@
-﻿using RealTimeStockSimulator.Models;
+﻿using Microsoft.AspNetCore.Identity;
+using RealTimeStockSimulator.Models;
 using RealTimeStockSimulator.Repositories.Interfaces;
 using RealTimeStockSimulator.Services.Interfaces;
+using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -59,6 +61,20 @@ namespace RealTimeStockSimulator.Services
         public UserAccount? GetUserByUserId(int userId)
         {
             return _usersRepository.GetUserByUserId(userId);
+        }
+
+        public ClaimsPrincipal GetClaimsPrincipleFromUser(UserAccount user)
+        {
+            List<Claim> claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
+                    new Claim(ClaimTypes.Name, user.UserName),
+                    new Claim(ClaimTypes.Email, user.Email)
+                };
+
+            ClaimsIdentity identity = new ClaimsIdentity(claims, IdentityConstants.ApplicationScheme);
+
+            return new ClaimsPrincipal(identity);
         }
     }
 }

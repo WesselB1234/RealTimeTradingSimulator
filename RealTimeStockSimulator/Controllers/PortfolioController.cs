@@ -14,6 +14,8 @@ namespace RealTimeStockSimulator.Controllers
         
         public IActionResult Index()
         {
+            Console.WriteLine(User.Identity.Name);
+
             return View(_ownershipsService.GetOwnershipByUser(LoggedInUser));
         }
     }

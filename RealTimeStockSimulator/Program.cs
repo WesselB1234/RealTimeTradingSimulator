@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Identity;
 using RealTimeStockSimulator.Hubs;
 using RealTimeStockSimulator.Models;
 using RealTimeStockSimulator.Models.Interfaces;
@@ -7,7 +8,6 @@ using RealTimeStockSimulator.Services;
 using RealTimeStockSimulator.Services.BackgroundServices;
 using RealTimeStockSimulator.Services.HostedServices;
 using RealTimeStockSimulator.Services.Interfaces;
-using System.Globalization;
 
 namespace RealTimeStockSimulator
 {
@@ -40,12 +40,21 @@ namespace RealTimeStockSimulator
             builder.Services.AddHostedService<ApiCacheInitializer>();
             builder.Services.AddHostedService<MarketWebsocketRelay>();
 
+            builder.Services.AddAuthentication(IdentityConstants.ApplicationScheme)
+               .AddCookie(IdentityConstants.ApplicationScheme, options =>
+               {
+                   options.LoginPath = "/Authentication/Login";
+                   options.AccessDeniedPath = "/Authentication/AccessDeniedPath";
+               });
+
             builder.Services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromMinutes(30);
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
             });
+
+            builder.Services.AddAuthorization();
 
             WebApplication app = builder.Build();
 
@@ -67,7 +76,7 @@ namespace RealTimeStockSimulator
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Authentication}/{action=Login}/{id?}");
+                pattern: "{controller=Authentication}/{action=Login}");
 
             app.MapHub<MarketHub>("/marketHub");
 

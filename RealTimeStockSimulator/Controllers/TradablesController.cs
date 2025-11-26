@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using RealTimeStockSimulator.Extensions;
 using RealTimeStockSimulator.Models;
 using RealTimeStockSimulator.Models.ViewModels;
@@ -6,7 +7,8 @@ using RealTimeStockSimulator.Services.Interfaces;
 
 namespace RealTimeStockSimulator.Controllers
 {
-    public class TradablesController : BaseController
+    [Authorize]
+    public class TradablesController : Controller
     {
         private ITradablesService _tradablesService { get; set; }
         private IOwnershipsService _ownershipsService { get; set; }

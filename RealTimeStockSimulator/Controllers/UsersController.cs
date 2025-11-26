@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RealTimeStockSimulator.Services.Interfaces;
 using RealTimeStockSimulator.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace RealTimeStockSimulator.Controllers
 {
-    public class UsersController : BaseController
+    [Authorize]
+    public class UsersController : Controller
     {
         private IUsersService _usersService;
         private IOwnershipsService _ownershipsService;

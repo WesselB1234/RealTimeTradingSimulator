@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using RealTimeStockSimulator.Models;
 using RealTimeStockSimulator.Services.Interfaces;
 
 namespace RealTimeStockSimulator.Controllers
 {
-    public class TransactionsController : BaseController
+    [Authorize]
+    public class TransactionsController : Controller
     {
         private IMarketTransactionsService _marketTransactionsService;
 

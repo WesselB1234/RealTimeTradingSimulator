@@ -1,15 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using RealTimeStockSimulator.Extensions;
 using RealTimeStockSimulator.Models;
 using RealTimeStockSimulator.Models.ViewModels;
 using RealTimeStockSimulator.Services.Interfaces;
 
 namespace RealTimeStockSimulator.Controllers
 {
-    public class AuthenticationController : BaseController
+    public class AuthenticationController : Controller
     {
         private IUsersService _usersService;
 
@@ -36,10 +34,7 @@ namespace RealTimeStockSimulator.Controllers
 
             if (user != null)
             {
-                HttpContext.Session.SetObject("LoggedInUser", user);
-
                 await HttpContext.SignInAsync(_usersService.GetClaimsPrincipleFromUser(user));
-
                 return RedirectToAction("Index", "Portfolio");
             }
 
@@ -78,18 +73,11 @@ namespace RealTimeStockSimulator.Controllers
             return RedirectToAction("Register", registerViewModel);
         }
 
+        [Authorize]        
         public async Task<IActionResult> Logout()
         {
-            if (LoggedInUser != null)
-            {
-                await HttpContext.SignOutAsync();
-                HttpContext.Session.Remove("LoggedInUser");
-                TempData["ConfirmationMessage"] = "Successfully logged out.";
-            }
-            else
-            {
-                TempData["ErrorMessage"] = "You are not logged in.";
-            }
+            await HttpContext.SignOutAsync();
+            TempData["ConfirmationMessage"] = "Successfully logged out.";
 
             return RedirectToAction("Login");
         }

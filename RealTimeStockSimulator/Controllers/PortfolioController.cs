@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using RealTimeStockSimulator.Services.Interfaces;
 
 namespace RealTimeStockSimulator.Controllers
 {
-    public class PortfolioController : BaseController
+    [Authorize]
+    public class PortfolioController : Controller
     {
         private IOwnershipsService _ownershipsService;
 

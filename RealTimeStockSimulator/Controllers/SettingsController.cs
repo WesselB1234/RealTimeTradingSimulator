@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace RealTimeStockSimulator.Controllers
 {
-    public class SettingsController : BaseController
+    [Authorize]
+    public class SettingsController : Controller
     {
         public IActionResult Index()
         {

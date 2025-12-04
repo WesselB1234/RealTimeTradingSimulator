@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using RealTimeStockSimulator.Models;
 using RealTimeStockSimulator.Services.Interfaces;
 
 namespace RealTimeStockSimulator.Controllers
@@ -8,17 +9,19 @@ namespace RealTimeStockSimulator.Controllers
     public class PortfolioController : Controller
     {
         private IOwnershipsService _ownershipsService;
+        private IUsersService _usersService;
 
-        public PortfolioController(IOwnershipsService ownershipsService)
+        public PortfolioController(IOwnershipsService ownershipsService, IUsersService usersService)
         {
             _ownershipsService = ownershipsService;
+            _usersService = usersService;
         }
         
         public IActionResult Index()
         {
-            Console.WriteLine(User.Identity.Name);
+            UserAccount loggedInUser = _usersService.GetUserFromClaimsPrinciple(User);
 
-            return View(_ownershipsService.GetOwnershipByUser(LoggedInUser));
+            return View(_ownershipsService.GetOwnershipByUser(loggedInUser));
         }
     }
 }

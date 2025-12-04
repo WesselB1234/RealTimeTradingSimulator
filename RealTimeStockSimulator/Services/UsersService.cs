@@ -4,6 +4,7 @@ using RealTimeStockSimulator.Repositories.Interfaces;
 using RealTimeStockSimulator.Services.Interfaces;
 using System.Security.Claims;
 using System.Security.Cryptography;
+using System.Security.Principal;
 using System.Text;
 
 namespace RealTimeStockSimulator.Services
@@ -69,12 +70,23 @@ namespace RealTimeStockSimulator.Services
                 {
                     new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
                     new Claim(ClaimTypes.Name, user.UserName),
-                    new Claim(ClaimTypes.Email, user.Email)
+                    new Claim(ClaimTypes.Email, user.Email),
+                    //new Claim(ClaimTypes.)
                 };
 
             ClaimsIdentity identity = new ClaimsIdentity(claims, IdentityConstants.ApplicationScheme);
 
             return new ClaimsPrincipal(identity);
+        }
+
+        public UserAccount GetUserFromClaimsPrinciple(ClaimsPrincipal claims)
+        {
+            return new UserAccount
+            {
+                UserId = int.Parse(claims.FindFirst(ClaimTypes.NameIdentifier).Value),
+                UserName = claims.FindFirst(ClaimTypes.Name).Value.ToString(),
+                Email = claims.FindFirst(ClaimTypes.Email).Value.ToString()
+            };
         }
     }
 }

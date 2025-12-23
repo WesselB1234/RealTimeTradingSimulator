@@ -11,7 +11,7 @@ namespace RealTimeStockSimulator.Services.Interfaces
         UserAccount? GetUserByLoginCredentials(string userName, string password);
         UserAccount? GetUserByUserId(int userId);
         int AddUser(UserAccount user);
-        void UpdateUser(UserAccount user);
+        void UpdateBalanceByUserId(int userId, decimal newBalance);
         ClaimsPrincipal GetClaimsPrincipleFromUser(UserAccount user);
         UserAccount GetUserFromClaimsPrinciple(ClaimsPrincipal claims);
     }

@@ -4,7 +4,6 @@ using RealTimeStockSimulator.Repositories.Interfaces;
 using RealTimeStockSimulator.Services.Interfaces;
 using System.Security.Claims;
 using System.Security.Cryptography;
-using System.Security.Principal;
 using System.Text;
 
 namespace RealTimeStockSimulator.Services
@@ -49,9 +48,9 @@ namespace RealTimeStockSimulator.Services
             return _usersRepository.GetUserByName(userName);
         }
 
-        public void UpdateUser(UserAccount user)
+        public void UpdateBalanceByUserId(int userId, decimal newBalance)
         {
-            _usersRepository.UpdateUser(user);
+            _usersRepository.UpdateBalanceByUserId(userId, newBalance);
         }
 
         public List<UserAccount> GetAllUsers()
@@ -71,7 +70,7 @@ namespace RealTimeStockSimulator.Services
                     new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
                     new Claim(ClaimTypes.Name, user.UserName),
                     new Claim(ClaimTypes.Email, user.Email),
-                    //new Claim(ClaimTypes.)
+                    new Claim("Money", user.Money.ToString()),
                 };
 
             ClaimsIdentity identity = new ClaimsIdentity(claims, IdentityConstants.ApplicationScheme);
@@ -85,7 +84,8 @@ namespace RealTimeStockSimulator.Services
             {
                 UserId = int.Parse(claims.FindFirst(ClaimTypes.NameIdentifier).Value),
                 UserName = claims.FindFirst(ClaimTypes.Name).Value.ToString(),
-                Email = claims.FindFirst(ClaimTypes.Email).Value.ToString()
+                Email = claims.FindFirst(ClaimTypes.Email).Value.ToString(),
+                Money = decimal.Parse(claims.FindFirst("Money").Value)
             };
         }
     }

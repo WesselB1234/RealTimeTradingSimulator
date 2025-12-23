@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RealTimeStockSimulator.Models;
+using RealTimeStockSimulator.Models.Enums;
 using RealTimeStockSimulator.Models.ViewModels;
 using RealTimeStockSimulator.Services.Interfaces;
 

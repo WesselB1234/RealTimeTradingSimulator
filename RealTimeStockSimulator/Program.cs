@@ -76,7 +76,7 @@ namespace RealTimeStockSimulator
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Authentication}/{action=Login}");
+                pattern: "{controller=Portfolio}/{action=Index}");
 
             app.MapHub<MarketHub>("/marketHub");
 

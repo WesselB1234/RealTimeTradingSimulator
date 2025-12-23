@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using RealTimeStockSimulator.Models;
@@ -100,7 +101,7 @@ namespace RealTimeStockSimulator.Controllers
             }
         }
 
-        public IActionResult ConfirmBuy(ConfirmBuySellViewModel confirmViewModel)
+        public async Task<IActionResult> ConfirmBuy(ConfirmBuySellViewModel confirmViewModel)
         {
             try
             {
@@ -113,8 +114,8 @@ namespace RealTimeStockSimulator.Controllers
                 decimal moneyAfterPurchase = _ownershipsService.BuyTradable(_loggedInUser, tradable, (int)confirmViewModel.Amount);
 
                 _loggedInUser.Money = moneyAfterPurchase;
-                //HttpContext.Session.SetObject("LoggedInUser", loggedInUser);
-                _usersService.UpdateUser(_loggedInUser);
+                await HttpContext.SignInAsync(_usersService.GetClaimsPrincipleFromUser(_loggedInUser));
+                _usersService.UpdateBalanceByUserId(_loggedInUser.UserId, moneyAfterPurchase);
 
                 TempData["ConfirmationMessage"] = "Buying successful.";
 
@@ -150,7 +151,7 @@ namespace RealTimeStockSimulator.Controllers
             }
         }
 
-        public IActionResult ConfirmSell(ConfirmBuySellViewModel confirmViewModel)
+        public async Task<IActionResult> ConfirmSell(ConfirmBuySellViewModel confirmViewModel)
         {
             try
             {
@@ -163,8 +164,8 @@ namespace RealTimeStockSimulator.Controllers
                 decimal moneyAfterSelling = _ownershipsService.SellTradable(_loggedInUser, tradable, (int)confirmViewModel.Amount);
 
                 _loggedInUser.Money = moneyAfterSelling;
-                //HttpContext.Session.SetObject("LoggedInUser", _loggedInUser);
-                _usersService.UpdateUser(_loggedInUser);
+                await HttpContext.SignInAsync(_usersService.GetClaimsPrincipleFromUser(_loggedInUser));
+                _usersService.UpdateBalanceByUserId(_loggedInUser.UserId, moneyAfterSelling);
 
                 TempData["ConfirmationMessage"] = "Selling successful.";
 

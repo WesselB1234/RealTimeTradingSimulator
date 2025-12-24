@@ -69,7 +69,7 @@ namespace RealTimeStockSimulator.Services
             return tradable;
         }
 
-        public Tradable GetTradableFromBuySellViewModel(BuySellViewModel confirmViewModel)
+        public Tradable GetTradableFromBuySellViewModel(ProcessBuySellViewModel confirmViewModel)
         {
             if (confirmViewModel.Symbol == null)
             {

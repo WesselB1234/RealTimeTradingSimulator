@@ -7,7 +7,7 @@ namespace RealTimeStockSimulator.Services.Interfaces
     {
         Ownership GetOwnershipByUser(UserAccount user);
         OwnershipTradable? GetOwnershipTradableByUserId(int userId, string symbol);
-        OwnershipTradable GetOwnershipTradableFromBuySellViewModel(BuySellViewModel confirmViewModel, int userId);
+        OwnershipTradable GetOwnershipTradableFromBuySellViewModel(ProcessBuySellViewModel confirmViewModel, int userId);
         void AddOwnershipTradableToUser(UserAccount user, OwnershipTradable tradable);
         void UpdateOwnershipTradable(UserAccount user, OwnershipTradable tradable);
         void RemoveOwnershipTradableFromUser(UserAccount user, OwnershipTradable tradable);

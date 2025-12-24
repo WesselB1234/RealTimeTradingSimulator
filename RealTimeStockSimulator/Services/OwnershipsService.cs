@@ -118,7 +118,7 @@ namespace RealTimeStockSimulator.Services
             return user.Money + (tradable.TradablePriceInfos.Price * amount);
         }
 
-        public OwnershipTradable GetOwnershipTradableFromBuySellViewModel(BuySellViewModel confirmViewModel, int userId)
+        public OwnershipTradable GetOwnershipTradableFromBuySellViewModel(ProcessBuySellViewModel confirmViewModel, int userId)
         {
             if (confirmViewModel.Symbol == null)
             {

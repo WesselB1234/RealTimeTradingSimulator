@@ -2,6 +2,7 @@
     @model Ownership
     @inject RealTimeStockSimulator.Models.Interfaces.IStringFormatter stringFormatter
     @using System.Text.Json
+    @using RealTimeStockSimulator.Extensions
 
     ViewData["title"] = $"{Model.User.UserName}'s Portfolio";
 }
@@ -13,7 +14,7 @@
         @Model.User.UserName's Portfolio
     </h1>
     <h2>
-        Total value: <span class="TotalOwnershipValue">$@stringFormatter.FormatDecimalPrice(@Model.TotalOwnershipValue)</span>
+        Total value: <span class="TotalOwnershipValue">$@stringFormatter.FormatDecimalPrice(@Model.Tradables.GetTotalOwnershipValue())</span>
     </h2>
 
     <partial name="_ErrorMessage" />

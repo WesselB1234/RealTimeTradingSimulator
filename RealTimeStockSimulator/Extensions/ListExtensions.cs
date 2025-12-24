@@ -1,18 +1,19 @@
-﻿using System.Text.Json;
+﻿using RealTimeStockSimulator.Models;
 
 namespace RealTimeStockSimulator.Extensions
 {
     public static class ListExtensions
     {
-        public static void SetObject<T>(this ISession session, string key, T value)
+        public static decimal GetTotalOwnershipValue(this List<OwnershipTradable> ownershipTradables)
         {
-            session.SetString(key, JsonSerializer.Serialize(value));
-        }
+            decimal total = 0;
 
-        public static T? GetObject<T>(this ISession session, string key)
-        {
-            string? value = session.GetString(key); 
-            return value == null ? default(T) : JsonSerializer.Deserialize<T>(value);
+            foreach (OwnershipTradable tradable in ownershipTradables)
+            {
+                total += tradable.TotalValue;
+            }
+
+            return total;
         }
     }
 }

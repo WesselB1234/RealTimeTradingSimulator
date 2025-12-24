@@ -1,4 +1,5 @@
 ﻿using RealTimeStockSimulator.Models;
+using RealTimeStockSimulator.Models.ViewModels;
 using RealTimeStockSimulator.Repositories.Interfaces;
 using RealTimeStockSimulator.Services.Interfaces;
 
@@ -65,6 +66,28 @@ namespace RealTimeStockSimulator.Services
                 tradable.TradablePriceInfos = _priceInfosService.GetPriceInfosBySymbol(tradable.Symbol);
             }
             
+            return tradable;
+        }
+
+        public Tradable GetTradableFromBuySellViewModel(ConfirmBuySellViewModel confirmViewModel)
+        {
+            if (confirmViewModel.Symbol == null)
+            {
+                throw new Exception("Symbol is empty.");
+            }
+
+            Tradable? tradable = GetTradableBySymbol(confirmViewModel.Symbol);
+
+            if (tradable == null)
+            {
+                throw new Exception("Symbol does not exist.");
+            }
+
+            if (tradable.TradablePriceInfos == null)
+            {
+                throw new Exception("Symbol does not have a price.");
+            }
+
             return tradable;
         }
     }

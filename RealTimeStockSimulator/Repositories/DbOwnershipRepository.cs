@@ -35,7 +35,7 @@ namespace RealTimeStockSimulator.Repositories
             return ownership;
         }
 
-        public OwnershipTradable? GetOwnershipTradableByUser(UserAccount user, string symbol)
+        public OwnershipTradable? GetOwnershipTradableByUserId(int userId, string symbol)
         {
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
@@ -44,7 +44,7 @@ namespace RealTimeStockSimulator.Repositories
                     "WHERE user_id = @UserId AND symbol = @Symbol;";
                 SqlCommand command = new SqlCommand(query, connection);
 
-                command.Parameters.AddWithValue("@UserId", user.UserId);
+                command.Parameters.AddWithValue("@UserId", userId);
                 command.Parameters.AddWithValue("@Symbol", symbol);
                 command.Connection.Open();
 

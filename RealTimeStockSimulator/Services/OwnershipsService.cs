@@ -1,6 +1,7 @@
 ﻿using RealTimeStockSimulator.Models;
 using RealTimeStockSimulator.Models.Enums;
 using RealTimeStockSimulator.Models.Interfaces;
+using RealTimeStockSimulator.Models.ViewModels;
 using RealTimeStockSimulator.Repositories.Interfaces;
 using RealTimeStockSimulator.Services.Interfaces;
 
@@ -33,9 +34,9 @@ namespace RealTimeStockSimulator.Services
             return ownership;
         }
 
-        public OwnershipTradable? GetOwnershipTradableByUser(UserAccount user, string symbol)
+        public OwnershipTradable? GetOwnershipTradableByUserId(int userId, string symbol)
         {
-            OwnershipTradable? tradable = _ownershipsRepository.GetOwnershipTradableByUser(user, symbol);
+            OwnershipTradable? tradable = _ownershipsRepository.GetOwnershipTradableByUserId(userId, symbol);
           
             if (tradable != null)
             {
@@ -76,7 +77,7 @@ namespace RealTimeStockSimulator.Services
                 throw new ArgumentException("You do not have enough money for this order.");
             }
 
-            OwnershipTradable? ownershipTradable = _ownershipsRepository.GetOwnershipTradableByUser(user, tradable.Symbol);
+            OwnershipTradable? ownershipTradable = _ownershipsRepository.GetOwnershipTradableByUserId(user.UserId, tradable.Symbol);
 
             if (ownershipTradable != null)
             {
@@ -95,7 +96,7 @@ namespace RealTimeStockSimulator.Services
 
         public decimal SellTradable(UserAccount user, OwnershipTradable tradable, int amount)
         {
-            OwnershipTradable? ownershipTradable = _ownershipsRepository.GetOwnershipTradableByUser(user, tradable.Symbol);
+            OwnershipTradable? ownershipTradable = _ownershipsRepository.GetOwnershipTradableByUserId(user.UserId, tradable.Symbol);
 
             if (amount > tradable.Amount)
             {
@@ -115,6 +116,28 @@ namespace RealTimeStockSimulator.Services
             LogOrderTransaction(user, tradable, MarketTransactionStatus.Sold, amount);
 
             return user.Money + (tradable.TradablePriceInfos.Price * amount);
+        }
+
+        public OwnershipTradable GetOwnershipTradableFromBuySellViewModel(ConfirmBuySellViewModel confirmViewModel, int userId)
+        {
+            if (confirmViewModel.Symbol == null)
+            {
+                throw new Exception("Symbol is empty.");
+            }
+
+            OwnershipTradable? tradable = GetOwnershipTradableByUserId(userId, confirmViewModel.Symbol);
+
+            if (tradable == null)
+            {
+                throw new Exception("Symbol does not exist or you do not own this symbol.");
+            }
+
+            if (tradable.TradablePriceInfos == null)
+            {
+                throw new Exception("Symbol does not have a price.");
+            }
+
+            return tradable;
         }
     }
 }

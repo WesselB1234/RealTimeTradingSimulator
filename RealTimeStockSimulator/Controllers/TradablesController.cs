@@ -38,57 +38,11 @@ namespace RealTimeStockSimulator.Controllers
             return View(tradables);
         }
 
-        private Tradable GetTradableFromBuySellViewModel(ConfirmBuySellViewModel confirmViewModel)
-        {
-            if (confirmViewModel.Symbol == null)
-            {
-                throw new Exception("Symbol is empty.");
-            }
-
-            Tradable? tradable = _tradablesService.GetTradableBySymbol(confirmViewModel.Symbol);
-
-            if (tradable == null)
-            {
-                throw new Exception("Symbol does not exist.");
-            }
-
-            if (tradable.TradablePriceInfos == null)
-            {
-                throw new Exception("Symbol does not have a price.");
-            }
-
-            return tradable;
-        }
-
-        private OwnershipTradable GetOwnershipTradableFromBuySellViewModel(ConfirmBuySellViewModel confirmViewModel)
-        {
-            UserAccount loggedInUser = _usersService.GetUserFromClaimsPrinciple(User);
-
-            if (confirmViewModel.Symbol == null)
-            {
-                throw new Exception("Symbol is empty.");
-            }
-
-            OwnershipTradable? tradable = _ownershipsService.GetOwnershipTradableByUser(loggedInUser, confirmViewModel.Symbol);
-
-            if (tradable == null)
-            {
-                throw new Exception("Symbol does not exist or you do not own this symbol.");
-            }
-
-            if (tradable.TradablePriceInfos == null)
-            {
-                throw new Exception("Symbol does not have a price.");
-            }
-
-            return tradable;
-        }
-
         public IActionResult Buy(ConfirmBuySellViewModel confirmViewModel)
         {
             try
             {
-                Tradable tradable = GetTradableFromBuySellViewModel(confirmViewModel);
+                Tradable tradable = _tradablesService.GetTradableFromBuySellViewModel(confirmViewModel);
                 BuyViewModel viewModel = new BuyViewModel(tradable, confirmViewModel.Amount);
 
                 return View(viewModel);
@@ -101,8 +55,10 @@ namespace RealTimeStockSimulator.Controllers
             }
         }
 
-        public async Task<IActionResult> ConfirmBuy(ConfirmBuySellViewModel confirmViewModel)
+        public async Task<IActionResult> ProcessBuy(ConfirmBuySellViewModel confirmViewModel)
         {
+            Tradable? tradable = null;
+
             try
             {
                 if (confirmViewModel.Amount == null || confirmViewModel.Amount < 1)
@@ -110,7 +66,7 @@ namespace RealTimeStockSimulator.Controllers
                     confirmViewModel.Amount = 1;
                 }
 
-                Tradable tradable = GetTradableFromBuySellViewModel(confirmViewModel);
+                tradable = _tradablesService.GetTradableFromBuySellViewModel(confirmViewModel);
                 decimal moneyAfterPurchase = _ownershipsService.BuyTradable(_loggedInUser, tradable, (int)confirmViewModel.Amount);
 
                 _loggedInUser.Money = moneyAfterPurchase;
@@ -125,7 +81,15 @@ namespace RealTimeStockSimulator.Controllers
             {
                 TempData["ErrorMessage"] = ex.Message;
 
-                return RedirectToAction("Buy", confirmViewModel);
+                if (tradable != null)
+                {
+                    BuyViewModel viewModel = new BuyViewModel(tradable, confirmViewModel.Amount);
+                    return View("Buy", viewModel);
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Portfolio");
+                }
             }
         }
 
@@ -138,7 +102,7 @@ namespace RealTimeStockSimulator.Controllers
                     confirmViewModel.Amount = 1;
                 }
 
-                OwnershipTradable? tradable = GetOwnershipTradableFromBuySellViewModel(confirmViewModel);
+                OwnershipTradable? tradable = _ownershipsService.GetOwnershipTradableFromBuySellViewModel(confirmViewModel, _loggedInUser.UserId);
                 SellViewModel viewModel = new SellViewModel(tradable, confirmViewModel.Amount);
 
                 return View(viewModel);
@@ -151,8 +115,10 @@ namespace RealTimeStockSimulator.Controllers
             }
         }
 
-        public async Task<IActionResult> ConfirmSell(ConfirmBuySellViewModel confirmViewModel)
+        public async Task<IActionResult> ProcessSell(ConfirmBuySellViewModel confirmViewModel)
         {
+            OwnershipTradable? tradable = null;
+
             try
             {
                 if (confirmViewModel.Amount == null || confirmViewModel.Amount < 1)
@@ -160,7 +126,7 @@ namespace RealTimeStockSimulator.Controllers
                     confirmViewModel.Amount = 1;
                 }
 
-                OwnershipTradable tradable = GetOwnershipTradableFromBuySellViewModel(confirmViewModel);
+                tradable = _ownershipsService.GetOwnershipTradableFromBuySellViewModel(confirmViewModel,_loggedInUser.UserId);
                 decimal moneyAfterSelling = _ownershipsService.SellTradable(_loggedInUser, tradable, (int)confirmViewModel.Amount);
 
                 _loggedInUser.Money = moneyAfterSelling;
@@ -175,7 +141,15 @@ namespace RealTimeStockSimulator.Controllers
             {
                 TempData["ErrorMessage"] = ex.Message;
 
-                return RedirectToAction("Sell", confirmViewModel);
+                if (tradable != null)
+                {
+                    SellViewModel viewModel = new SellViewModel(tradable, confirmViewModel.Amount);
+                    return View("Sell", viewModel);
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Portfolio");
+                }
             }
         }
     }

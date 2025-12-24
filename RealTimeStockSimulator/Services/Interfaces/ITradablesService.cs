@@ -1,4 +1,5 @@
 ﻿using RealTimeStockSimulator.Models;
+using RealTimeStockSimulator.Models.ViewModels;
 
 namespace RealTimeStockSimulator.Services.Interfaces
 {
@@ -6,6 +7,7 @@ namespace RealTimeStockSimulator.Services.Interfaces
     {
         List<Tradable> GetAllTradables();
         Task<List<Tradable>> GetAllTradablesWithApiDataAsync(CancellationToken cancellationToken);
+        Tradable GetTradableFromBuySellViewModel(ConfirmBuySellViewModel confirmViewModel);
         Tradable? GetTradableBySymbol(string symbol);
     }
 }

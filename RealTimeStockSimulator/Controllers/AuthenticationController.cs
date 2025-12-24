@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RealTimeStockSimulator.Models;
-using RealTimeStockSimulator.Models.Enums;
 using RealTimeStockSimulator.Models.ViewModels;
 using RealTimeStockSimulator.Services.Interfaces;
 
@@ -29,7 +28,7 @@ namespace RealTimeStockSimulator.Controllers
             return View(loginViewModel); 
         }
 
-        public async Task<IActionResult> LoginIntoAccount(LoginViewModel loginViewModel)
+        public async Task<IActionResult> ProcessLogin(LoginViewModel loginViewModel)
         {
             UserAccount? user = _usersService.GetUserByLoginCredentials(loginViewModel.UserName, loginViewModel.Password);
 
@@ -41,7 +40,7 @@ namespace RealTimeStockSimulator.Controllers
 
             TempData["ErrorMessage"] = "User does not exist or password is incorrect.";
 
-            return RedirectToAction("Login", loginViewModel);
+            return View("Login", loginViewModel);
         }
 
         public IActionResult Register(RegisterViewModel registerViewModel)
@@ -49,7 +48,7 @@ namespace RealTimeStockSimulator.Controllers
             return View(registerViewModel);
         }
 
-        public IActionResult RegisterNewAccount(RegisterViewModel registerViewModel)
+        public IActionResult ProcessRegister(RegisterViewModel registerViewModel)
         {
             try
             {
@@ -68,10 +67,10 @@ namespace RealTimeStockSimulator.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = ex.Message;
+                TempData["ErrorMessage"] = ex.Message; 
+                
+                return View("register", registerViewModel);
             }
-
-            return RedirectToAction("Register", registerViewModel);
         }
 
         [Authorize]        
@@ -80,7 +79,7 @@ namespace RealTimeStockSimulator.Controllers
             await HttpContext.SignOutAsync();
             TempData["ConfirmationMessage"] = "Successfully logged out.";
 
-            return RedirectToAction("Login");
+            return View("Login");
         }
     }
 }

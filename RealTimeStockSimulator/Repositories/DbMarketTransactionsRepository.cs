@@ -9,7 +9,7 @@ namespace RealTimeStockSimulator.Repositories
     {
         public DbMarketTransactionsRepository(IConfiguration configuration, IDataMapper dataMapper) : base(configuration, dataMapper) { }
 
-        public int AddTransaction(UserAccount user, MarketTransactionTradable transaction)
+        public int AddTransaction(int userId, MarketTransactionTradable transaction)
         {
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
@@ -18,7 +18,7 @@ namespace RealTimeStockSimulator.Repositories
                     "SELECT SCOPE_IDENTITY();";
                 SqlCommand command = new SqlCommand(query, connection);
 
-                command.Parameters.AddWithValue("@UserId", user.UserId);
+                command.Parameters.AddWithValue("@UserId", userId);
                 command.Parameters.AddWithValue("@Symbol", transaction.Tradable.Symbol);
                 command.Parameters.AddWithValue("@Price", transaction.Price);
                 command.Parameters.AddWithValue("@Status", transaction.Status.ToString());
@@ -37,26 +37,27 @@ namespace RealTimeStockSimulator.Repositories
             }
         }
 
-        public MarketTransactions GetTransactionsByUserPagnated(UserAccount user)
+        public List<MarketTransactionTradable> GetTransactionsByUserIdPagnated(int userId, int pageSize, int currentPage)
         {
-            MarketTransactions transactions = new MarketTransactions(user, new List<MarketTransactionTradable>());
+            List<MarketTransactionTradable> transactions = new List<MarketTransactionTradable>();
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
-                string query = "SELECT TOP(25) transaction_id, symbol, price, status, amount, date " +
+                string query = "SELECT TOP(@PageSize) transaction_id, symbol, price, status, amount, date " +
                    "FROM Transactions " +
                    "WHERE user_id = @UserId " +
                    "ORDER BY transaction_id DESC;";
                 SqlCommand command = new SqlCommand(query, connection);
 
-                command.Parameters.AddWithValue("@UserId", user.UserId);
+                command.Parameters.AddWithValue("@UserId", userId);
+                command.Parameters.AddWithValue("@PageSize", pageSize);
                 command.Connection.Open();
 
                 SqlDataReader reader = command.ExecuteReader();
 
                 while (reader.Read())
                 {
-                     transactions.Transactions.Add(_dataMapper.MapMarketTransactionTradable(reader));
+                     transactions.Add(_dataMapper.MapMarketTransactionTradable(reader));
                 }
             }
 

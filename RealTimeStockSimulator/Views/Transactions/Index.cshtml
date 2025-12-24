@@ -1,5 +1,5 @@
 ﻿@{
-    @model RealTimeStockSimulator.Models.MarketTransactions
+    @model List<RealTimeStockSimulator.Models.MarketTransactionTradable>
     @inject RealTimeStockSimulator.Models.Interfaces.IStringFormatter stringFormatter
 
     ViewData["title"] = "Transactions";
@@ -39,7 +39,7 @@
         </thead>
         <tbody>
             @{
-                foreach(MarketTransactionTradable transaction in Model.Transactions)
+                foreach(MarketTransactionTradable transaction in Model)
                 {
                     <tr>
                         <td>

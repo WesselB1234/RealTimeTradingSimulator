@@ -4,7 +4,7 @@ namespace RealTimeStockSimulator.Repositories.Interfaces
 {
     public interface IMarketTransactionsRepository
     {
-        MarketTransactions GetTransactionsByUserPagnated(UserAccount user);
-        int AddTransaction(UserAccount user, MarketTransactionTradable transaction);
+        List<MarketTransactionTradable> GetTransactionsByUserIdPagnated(int userId, int pageSize, int currentPage);
+        int AddTransaction(int userId, MarketTransactionTradable transaction);
     }
 }

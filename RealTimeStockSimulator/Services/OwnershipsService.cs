@@ -61,11 +61,11 @@ namespace RealTimeStockSimulator.Services
             _ownershipsRepository.RemoveOwnershipTradableFromUser(user, tradable);
         }
 
-        private void LogOrderTransaction(UserAccount user, Tradable tradable, MarketTransactionStatus status, int amount)
+        private void LogOrderTransaction(int userId, Tradable tradable, MarketTransactionStatus status, int amount)
         {
             MarketTransactionTradable marketTransactionTradable = new MarketTransactionTradable(tradable, tradable.TradablePriceInfos.Price, status, amount, DateTime.Now);
 
-            _marketTransactionsService.AddTransaction(user, marketTransactionTradable);
+            _marketTransactionsService.AddTransaction(userId, marketTransactionTradable);
         }
 
         public decimal BuyTradable(UserAccount user, Tradable tradable, int amount)
@@ -89,7 +89,7 @@ namespace RealTimeStockSimulator.Services
                 AddOwnershipTradableToUser(user, _mapper.MapOwnershipTradableByTradable(tradable, amount));
             }
 
-            LogOrderTransaction(user, tradable, MarketTransactionStatus.Bought, amount);
+            LogOrderTransaction(user.UserId, tradable, MarketTransactionStatus.Bought, amount);
 
             return moneyAfterPurchase;
         }
@@ -113,7 +113,7 @@ namespace RealTimeStockSimulator.Services
                 RemoveOwnershipTradableFromUser(user, tradable);
             }
 
-            LogOrderTransaction(user, tradable, MarketTransactionStatus.Sold, amount);
+            LogOrderTransaction(user.UserId, tradable, MarketTransactionStatus.Sold, amount);
 
             return user.Money + (tradable.TradablePriceInfos.Price * amount);
         }

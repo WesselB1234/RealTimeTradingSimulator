@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using RealTimeStockSimulator.Models;
-using RealTimeStockSimulator.Services;
 using RealTimeStockSimulator.Services.Interfaces;
 
 namespace RealTimeStockSimulator.Controllers
@@ -30,7 +29,7 @@ namespace RealTimeStockSimulator.Controllers
 
         public IActionResult Index()
         {
-            MarketTransactions transactions = _marketTransactionsService.GetTransactionsByUserPagnated(_loggedInUser);
+            List<MarketTransactionTradable> transactions = _marketTransactionsService.GetTransactionsByUserPagnated(_loggedInUser.UserId, 25, 1);
 
             return View(transactions);
         }

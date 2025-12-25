@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using RealTimeStockSimulator.Hubs;
 using RealTimeStockSimulator.Models;
+using RealTimeStockSimulator.Models.Enums;
 using RealTimeStockSimulator.Models.Interfaces;
 using RealTimeStockSimulator.Repositories;
 using RealTimeStockSimulator.Repositories.Interfaces;
@@ -21,12 +22,23 @@ namespace RealTimeStockSimulator
             builder.Services.AddControllersWithViews();
             builder.Services.AddSignalR();
 
+            Console.WriteLine(builder.Configuration.GetValue<bool>("AppModes:TestingMode"));
+
             builder.Services.AddSingleton<ITradablesRepository, DbTradablesRepository>();
             builder.Services.AddSingleton<IUsersRepository, DbUsersRepository>();
             builder.Services.AddSingleton<IOwnershipsRepository, DbOwnershipRepository>();
             builder.Services.AddSingleton<IMarketTransactionsRepository, DbMarketTransactionsRepository>();
-            //builder.Services.AddSingleton<ITradablePriceInfosRepository, CacheTradablePriceInfosRepository>();
-            builder.Services.AddSingleton<ITradablePriceInfosRepository, RedisTradablePriceInfosRepository>();
+
+            CachingMode cachingMode = builder.Configuration.GetValue<CachingMode>("AppModes:CachingMode");
+
+            if (cachingMode == CachingMode.Redis)
+            {
+                builder.Services.AddSingleton<ITradablePriceInfosRepository, RedisTradablePriceInfosRepository>();
+            }
+            else if (cachingMode == CachingMode.Default)
+            {
+                builder.Services.AddSingleton<ITradablePriceInfosRepository, CacheTradablePriceInfosRepository>();
+            }
 
             builder.Services.AddSingleton<ITradablesService, TradablesService>();
             builder.Services.AddSingleton<IUsersService, UsersService>();
@@ -37,11 +49,16 @@ namespace RealTimeStockSimulator
             builder.Services.AddSingleton<IStringFormatter, StringFormatter>();
             builder.Services.AddSingleton<IDataMapper, DataMapper>();
 
-            //builder.Services.AddHostedService<ApiCacheInitializer>();
-            //builder.Services.AddHostedService<MarketWebsocketRelay>();
-
-            builder.Services.AddHostedService<TestingCacheInitializer>();
-
+            if (builder.Configuration.GetValue<bool>("AppModes:TestingMode"))
+            {
+                builder.Services.AddHostedService<TestingCacheInitializer>();
+            }
+            else
+            {
+                builder.Services.AddHostedService<ApiCacheInitializer>();
+                builder.Services.AddHostedService<MarketWebsocketRelay>();
+            }
+                
             builder.Services.AddAuthentication(IdentityConstants.ApplicationScheme)
                .AddCookie(IdentityConstants.ApplicationScheme, options =>
                {

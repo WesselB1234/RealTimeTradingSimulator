@@ -1,44 +1,30 @@
-﻿
-using Microsoft.AspNetCore.SignalR;
-using RealTimeStockSimulator.Hubs;
-using RealTimeStockSimulator.Models;
-using RealTimeStockSimulator.Repositories.Interfaces;
-using System.Net.WebSockets;
-using System.Text;
-using System.Text.Json;
+﻿using RealTimeStockSimulator.Repositories.Interfaces;
+using RealTimeStockSimulator.Services.Interfaces;
 
 namespace RealTimeStockSimulator.Services.BackgroundServices
 {
     public class TestingMarketWebsocketRelay : BackgroundService
     {   
-        private IHubContext<MarketHub> _hubContext;
         private ITradablePriceInfosService _priceInfosService;
+        private IMarketWebsocketHandler _marketWebsocketHandler;
 
-        public TestingMarketWebsocketRelay(IHubContext<MarketHub> hubContext, ITradablePriceInfosService priceInfosService)
+        public TestingMarketWebsocketRelay(ITradablePriceInfosService priceInfosService, IMarketWebsocketHandler marketWebsocketHandler)
         {
-            _hubContext = hubContext;
             _priceInfosService = priceInfosService;
+            _marketWebsocketHandler = marketWebsocketHandler;
         }
 
-        private async Task HandleMarketWebSocketPayload(IncomingMarketWebsocketPayload marketPayload)
+        private void SubscribeToTradablesInCache()
         {
-            IncomingMarketWebsocketTradable responseTradable = marketPayload.Data[marketPayload.Data.Count - 1];
-            TradablePriceInfos? tradablePriceInfos = _priceInfosService.GetPriceInfosBySymbol(responseTradable.Symbol);
-
-            if (responseTradable.Price != null && tradablePriceInfos != null && tradablePriceInfos.Price != responseTradable.Price)
+            foreach (string key in _priceInfosService.GetAllKeys())
             {
-                tradablePriceInfos.Price = (decimal)responseTradable.Price;
-                TradableUpdatePayload tradableUpdatePayload = new TradableUpdatePayload(responseTradable.Symbol, tradablePriceInfos);
-
-                _priceInfosService.SetPriceInfosBySymbol(responseTradable.Symbol, tradablePriceInfos);
-
-                await _hubContext.Clients.All.SendAsync("ReceiveMarketData", JsonSerializer.Serialize(tradableUpdatePayload), CancellationToken.None);
+                Console.WriteLine(key);
             }
         }
 
         protected override async Task ExecuteAsync(CancellationToken cancellationToken)
         {
-            
+            SubscribeToTradablesInCache();
 
             await Task.CompletedTask;
         }

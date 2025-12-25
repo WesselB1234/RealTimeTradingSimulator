@@ -23,8 +23,6 @@ namespace RealTimeStockSimulator
             builder.Services.AddControllersWithViews();
             builder.Services.AddSignalR();
 
-            Console.WriteLine(builder.Configuration.GetValue<bool>("AppModes:TestingMode"));
-
             builder.Services.AddSingleton<ITradablesRepository, DbTradablesRepository>();
             builder.Services.AddSingleton<IUsersRepository, DbUsersRepository>();
             builder.Services.AddSingleton<IOwnershipsRepository, DbOwnershipRepository>();
@@ -54,6 +52,7 @@ namespace RealTimeStockSimulator
             if (builder.Configuration.GetValue<bool>("AppModes:TestingMode"))
             {
                 builder.Services.AddHostedService<TestingCacheInitializer>();
+                builder.Services.AddHostedService<TestingMarketWebsocketRelay>();
             }
             else
             {

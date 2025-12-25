@@ -1,12 +1,11 @@
 ﻿using Microsoft.Data.SqlClient;
 using RealTimeStockSimulator.Models.Enums;
-using RealTimeStockSimulator.Models.Interfaces;
 
-namespace RealTimeStockSimulator.Models.Static
+namespace RealTimeStockSimulator.Models.Helpers
 {
-    public class DataMapper : IDataMapper
+    public static class DataMapper
     {
-        public UserAccount MapUser(SqlDataReader reader)
+        public static UserAccount MapUser(SqlDataReader reader)
         {
             int userId = (int)reader["user_id"];
             string userName = (string)reader["username"];
@@ -17,14 +16,14 @@ namespace RealTimeStockSimulator.Models.Static
             return new UserAccount(userId, userName, email, password, money);
         }
 
-        public Tradable MapTradable(SqlDataReader reader)
+        public static Tradable MapTradable(SqlDataReader reader)
         {
             string symbol = (string)reader["symbol"];
 
             return new Tradable(symbol);
         }
 
-        public OwnershipTradable MapOwnershipTradable(SqlDataReader reader)
+        public static OwnershipTradable MapOwnershipTradable(SqlDataReader reader)
         {
             string symbol = (string)reader["symbol"];
             int amount = (int)reader["amount"];
@@ -32,7 +31,7 @@ namespace RealTimeStockSimulator.Models.Static
             return new OwnershipTradable(symbol, amount);
         }
 
-        public MarketTransactionTradable MapMarketTransactionTradable(SqlDataReader reader)
+        public static MarketTransactionTradable MapMarketTransactionTradable(SqlDataReader reader)
         {
             int transactionId = (int)reader["transaction_id"];
             Tradable tradable = MapTradable(reader);
@@ -44,7 +43,7 @@ namespace RealTimeStockSimulator.Models.Static
             return new MarketTransactionTradable(transactionId, tradable, price, status, amount, date);
         }
 
-        public OwnershipTradable MapOwnershipTradableByTradable(Tradable tradable, int amount)
+        public static OwnershipTradable MapOwnershipTradableByTradable(Tradable tradable, int amount)
         {
             return new OwnershipTradable(tradable.Symbol, amount);
         }

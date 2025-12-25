@@ -1,6 +1,6 @@
 ﻿@{
     @model List<Tradable>;
-    @inject RealTimeStockSimulator.Models.Interfaces.IStringFormatter stringFormatter
+    @using static RealTimeStockSimulator.Models.Helpers.StringFormatter
 
     ViewData["title"] = "Tradables";
 }
@@ -32,11 +32,11 @@
                     <td>
                         @tradable.Symbol
                     </td>
-                    <td data-price-symbol="@tradable.Symbol" data-price="@stringFormatter.FormatDecimalToJsDecimal(tradable.TradablePriceInfos.Price)">
+                    <td data-price-symbol="@tradable.Symbol" data-price="@FormatDecimalToJsDecimal(tradable.TradablePriceInfos.Price)">
                         @{
                             if (tradable.TradablePriceInfos != null)
                             {
-                                string priceLabel = $"${stringFormatter.FormatDecimalPrice(tradable.TradablePriceInfos.Price)}";
+                                string priceLabel = $"${FormatDecimalPrice(tradable.TradablePriceInfos.Price)}";
                                 @priceLabel
                             }
                         }

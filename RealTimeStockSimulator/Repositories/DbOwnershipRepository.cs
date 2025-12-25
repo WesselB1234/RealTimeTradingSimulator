@@ -1,13 +1,13 @@
 ﻿using Microsoft.Data.SqlClient;
 using RealTimeStockSimulator.Models;
-using RealTimeStockSimulator.Models.Interfaces;
+using RealTimeStockSimulator.Models.Helpers;
 using RealTimeStockSimulator.Repositories.Interfaces;
 
 namespace RealTimeStockSimulator.Repositories
 {
     public class DbOwnershipRepository : DbBaseRepository, IOwnershipsRepository
     {
-        public DbOwnershipRepository(IConfiguration configuration, IDataMapper dataMapper) : base(configuration, dataMapper) { }
+        public DbOwnershipRepository(IConfiguration configuration) : base(configuration) { }
 
         public List<OwnershipTradable> GetAllOwnershipTradablesByUserId(int userId)
         {
@@ -28,7 +28,7 @@ namespace RealTimeStockSimulator.Repositories
 
                 while (reader.Read())
                 {
-                    ownershipTradables.Add(_dataMapper.MapOwnershipTradable(reader));
+                    ownershipTradables.Add(DataMapper.MapOwnershipTradable(reader));
                 }
             }
 
@@ -52,7 +52,7 @@ namespace RealTimeStockSimulator.Repositories
 
                 if (reader.Read())
                 {
-                    return _dataMapper.MapOwnershipTradable(reader);
+                    return DataMapper.MapOwnershipTradable(reader);
                 }
             }
 

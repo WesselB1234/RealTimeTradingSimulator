@@ -1,6 +1,6 @@
 ﻿@{
     @model List<RealTimeStockSimulator.Models.MarketTransactionTradable>
-    @inject RealTimeStockSimulator.Models.Interfaces.IStringFormatter stringFormatter
+    @using static RealTimeStockSimulator.Models.Helpers.StringFormatter
 
     ViewData["title"] = "Transactions";
 }
@@ -49,10 +49,10 @@
                             @transaction.Tradable.Symbol
                         </td>
                         <td>
-                            $@stringFormatter.FormatDecimalPrice(transaction.Price)
+                            $@FormatDecimalPrice(transaction.Price)
                         </td>
                         <td>
-                            $@stringFormatter.FormatDecimalPrice(transaction.Price * transaction.Amount)
+                            $@FormatDecimalPrice(transaction.Price * transaction.Amount)
                         </td>
                         <td>
                             @transaction.Amount

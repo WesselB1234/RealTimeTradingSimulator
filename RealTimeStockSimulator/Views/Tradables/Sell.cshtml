@@ -1,6 +1,6 @@
 ﻿@{
     @model RealTimeStockSimulator.Models.ViewModels.SellViewModel
-    @inject RealTimeStockSimulator.Models.Interfaces.IStringFormatter stringFormatter
+    @using static RealTimeStockSimulator.Models.Helpers.StringFormatter
 
     ViewData["title"] = "Sell";
 
@@ -19,13 +19,13 @@
         Selling @Model.OwnershipTradable.Symbol
     </h1>
     <h3>
-        Value of @Model.OwnershipTradable.Symbol: <span data-price-symbol="@Model.OwnershipTradable.Symbol" data-price="@stringFormatter.FormatDecimalToJsDecimal((decimal)Model.OwnershipTradable.TradablePriceInfos.Price)">
-            $@stringFormatter.FormatDecimalPrice(Model.OwnershipTradable.TradablePriceInfos.Price)
+        Value of @Model.OwnershipTradable.Symbol: <span data-price-symbol="@Model.OwnershipTradable.Symbol" data-price="@FormatDecimalToJsDecimal((decimal)Model.OwnershipTradable.TradablePriceInfos.Price)">
+            $@FormatDecimalPrice(Model.OwnershipTradable.TradablePriceInfos.Price)
         </span>
     </h3>
     <h3>
-        Total rewards of order: <span id="totalValueLbl" data-amount-label-number="1" data-price-symbol="@Model.OwnershipTradable.Symbol" data-price="@stringFormatter.FormatDecimalToJsDecimal((decimal)Model.OwnershipTradable.TradablePriceInfos.Price)">
-            $@stringFormatter.FormatDecimalPrice(Model.OwnershipTradable.TradablePriceInfos.Price * amountValue)
+        Total rewards of order: <span id="totalValueLbl" data-amount-label-number="1" data-price-symbol="@Model.OwnershipTradable.Symbol" data-price="@FormatDecimalToJsDecimal((decimal)Model.OwnershipTradable.TradablePriceInfos.Price)">
+            $@FormatDecimalPrice(Model.OwnershipTradable.TradablePriceInfos.Price * amountValue)
         </span>
     </h3>
     <h3>

@@ -1,5 +1,5 @@
 ﻿@{
-    @inject RealTimeStockSimulator.Models.Interfaces.IStringFormatter stringFormatter
+    @using static RealTimeStockSimulator.Models.Helpers.StringFormatter
 }
 
 <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3 primary-background-color">
@@ -32,7 +32,7 @@
                         }
                     }
                     
-                    Money: $@stringFormatter.FormatDecimalPrice(money)
+                    Money: $@FormatDecimalPrice(money)
                 </span>
             </li>
             <li class="nav-item">

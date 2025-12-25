@@ -1,13 +1,13 @@
 ﻿using Microsoft.Data.SqlClient;
 using RealTimeStockSimulator.Models;
-using RealTimeStockSimulator.Models.Interfaces;
+using RealTimeStockSimulator.Models.Helpers;
 using RealTimeStockSimulator.Repositories.Interfaces;
 
 namespace RealTimeStockSimulator.Repositories
 {
     public class DbMarketTransactionsRepository : DbBaseRepository, IMarketTransactionsRepository
     {
-        public DbMarketTransactionsRepository(IConfiguration configuration, IDataMapper dataMapper) : base(configuration, dataMapper) { }
+        public DbMarketTransactionsRepository(IConfiguration configuration) : base(configuration) { }
 
         public int AddTransaction(int userId, MarketTransactionTradable transaction)
         {
@@ -57,7 +57,7 @@ namespace RealTimeStockSimulator.Repositories
 
                 while (reader.Read())
                 {
-                     transactions.Add(_dataMapper.MapMarketTransactionTradable(reader));
+                     transactions.Add(DataMapper.MapMarketTransactionTradable(reader));
                 }
             }
 

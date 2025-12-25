@@ -1,6 +1,6 @@
 ﻿@{
     @model RealTimeStockSimulator.Models.ViewModels.BuyViewModel
-    @inject RealTimeStockSimulator.Models.Interfaces.IStringFormatter stringFormatter
+    @using static RealTimeStockSimulator.Models.Helpers.StringFormatter
 
     ViewData["title"] = "Buy";
 
@@ -19,13 +19,13 @@
         Buying @Model.Tradable.Symbol
     </h1>
     <h3>
-        Value of @Model.Tradable.Symbol: <span data-price-symbol="@Model.Tradable.Symbol" data-price="@stringFormatter.FormatDecimalToJsDecimal((decimal)Model.Tradable.TradablePriceInfos.Price)">
-            $@stringFormatter.FormatDecimalPrice(Model.Tradable.TradablePriceInfos.Price)
+        Value of @Model.Tradable.Symbol: <span data-price-symbol="@Model.Tradable.Symbol" data-price="@FormatDecimalToJsDecimal((decimal)Model.Tradable.TradablePriceInfos.Price)">
+            $@FormatDecimalPrice(Model.Tradable.TradablePriceInfos.Price)
         </span>
     </h3>
     <h3>
-        Total cost of order: <span id="totalValueLbl" data-amount-label-number="1" data-price-symbol="@Model.Tradable.Symbol" data-price="@stringFormatter.FormatDecimalToJsDecimal((decimal)Model.Tradable.TradablePriceInfos.Price)">
-            $@stringFormatter.FormatDecimalPrice(Model.Tradable.TradablePriceInfos.Price * amountValue)
+        Total cost of order: <span id="totalValueLbl" data-amount-label-number="1" data-price-symbol="@Model.Tradable.Symbol" data-price="@FormatDecimalToJsDecimal((decimal)Model.Tradable.TradablePriceInfos.Price)">
+            $@FormatDecimalPrice(Model.Tradable.TradablePriceInfos.Price * amountValue)
         </span>
     </h3>
 

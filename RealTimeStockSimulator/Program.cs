@@ -1,8 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using RealTimeStockSimulator.Hubs;
 using RealTimeStockSimulator.Models.Enums;
-using RealTimeStockSimulator.Models.Interfaces;
-using RealTimeStockSimulator.Models.Static;
 using RealTimeStockSimulator.Repositories;
 using RealTimeStockSimulator.Repositories.Interfaces;
 using RealTimeStockSimulator.Services;
@@ -46,9 +44,6 @@ namespace RealTimeStockSimulator
             builder.Services.AddSingleton<ITradablePriceInfosService, TradablePriceInfosService>();
             builder.Services.AddSingleton<IMarketWebsocketHandler, MarketWebsocketHandler>();
 
-            builder.Services.AddSingleton<IStringFormatter, StringFormatter>();
-            builder.Services.AddSingleton<IDataMapper, DataMapper>();
-
             if (builder.Configuration.GetValue<bool>("AppModes:TestingMode"))
             {
                 builder.Services.AddHostedService<TestingCacheInitializer>();
@@ -67,13 +62,6 @@ namespace RealTimeStockSimulator
                    options.AccessDeniedPath = "/Authentication/AccessDeniedPath";
                });
 
-            builder.Services.AddSession(options =>
-            {
-                options.IdleTimeout = TimeSpan.FromMinutes(30);
-                options.Cookie.HttpOnly = true;
-                options.Cookie.IsEssential = true;
-            });
-
             builder.Services.AddAuthorization();
 
             WebApplication app = builder.Build();
@@ -90,7 +78,6 @@ namespace RealTimeStockSimulator
             app.UseStaticFiles();
 
             app.UseRouting();
-            app.UseSession();
 
             app.UseAuthorization();
 

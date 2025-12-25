@@ -1,16 +1,15 @@
-﻿using RealTimeStockSimulator.Models.Interfaces;
-using System.Globalization;
+﻿using System.Globalization;
 
-namespace RealTimeStockSimulator.Models.Static
+namespace RealTimeStockSimulator.Models.Helpers
 {
-    public class StringFormatter : IStringFormatter
+    public static class StringFormatter
     {
-        public string FormatDecimalPrice(decimal price)
+        public static string FormatDecimalPrice(decimal price)
         {
             return price.ToString("#,##0.00", new CultureInfo("en-US"));
         }
 
-        public string FormatDecimalToJsDecimal(decimal price)
+        public static string FormatDecimalToJsDecimal(decimal price)
         {
             return price.ToString(CultureInfo.InvariantCulture);
         }

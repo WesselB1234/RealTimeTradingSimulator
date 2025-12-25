@@ -1,6 +1,6 @@
 ﻿using RealTimeStockSimulator.Models;
 using RealTimeStockSimulator.Models.Enums;
-using RealTimeStockSimulator.Models.Interfaces;
+using RealTimeStockSimulator.Models.Helpers;
 using RealTimeStockSimulator.Models.ViewModels;
 using RealTimeStockSimulator.Repositories.Interfaces;
 using RealTimeStockSimulator.Services.Interfaces;
@@ -12,14 +12,12 @@ namespace RealTimeStockSimulator.Services
         private IOwnershipsRepository _ownershipsRepository;
         private IMarketTransactionsService _marketTransactionsService;
         private ITradablePriceInfosService _priceInfosService;
-        private IDataMapper _mapper;
 
-        public OwnershipsService(IOwnershipsRepository ownershipsRepository, IMarketTransactionsService marketTransactionsService, ITradablePriceInfosService priceInfosService, IDataMapper mapper)
+        public OwnershipsService(IOwnershipsRepository ownershipsRepository, IMarketTransactionsService marketTransactionsService, ITradablePriceInfosService priceInfosService)
         {
             _ownershipsRepository = ownershipsRepository;
             _marketTransactionsService = marketTransactionsService;
             _priceInfosService = priceInfosService;
-            _mapper = mapper;
         }
 
         public List<OwnershipTradable> GetAllOwnershipTradablesByUserId(int userId)
@@ -86,7 +84,7 @@ namespace RealTimeStockSimulator.Services
             }
             else
             {
-                AddOwnershipTradableToUserId(user.UserId, _mapper.MapOwnershipTradableByTradable(tradable, amount));
+                AddOwnershipTradableToUserId(user.UserId, DataMapper.MapOwnershipTradableByTradable(tradable, amount));
             }
 
             LogOrderTransaction(user.UserId, tradable, MarketTransactionStatus.Bought, amount);

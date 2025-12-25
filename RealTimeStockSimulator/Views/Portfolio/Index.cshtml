@@ -1,6 +1,6 @@
 ﻿@{
     @model List<RealTimeStockSimulator.Models.OwnershipTradable>
-    @inject RealTimeStockSimulator.Models.Interfaces.IStringFormatter stringFormatter
+    @using static RealTimeStockSimulator.Models.Helpers.StringFormatter
     @using System.Text.Json
     @using RealTimeStockSimulator.Extensions
 
@@ -14,7 +14,7 @@
         Portfolio
     </h1>
     <h2>
-        Total value: <span class="TotalOwnershipValue">$@stringFormatter.FormatDecimalPrice(Model.GetTotalOwnershipValue())</span>
+        Total value: <span class="TotalOwnershipValue">$@FormatDecimalPrice(Model.GetTotalOwnershipValue())</span>
     </h2>
 
     <partial name="_ErrorMessage" />
@@ -48,11 +48,11 @@
                         <td data-amount-label-number="1" data-amount-label-symbol="@tradable.Symbol" data-amount-label-value="@tradable.Amount">
                             @tradable.Amount
                         </td>
-                        <td data-price-symbol="@tradable.Symbol" data-price="@stringFormatter.FormatDecimalToJsDecimal(tradable.TradablePriceInfos.Price)" data-amount-label-number="1">
+                        <td data-price-symbol="@tradable.Symbol" data-price="@FormatDecimalToJsDecimal(tradable.TradablePriceInfos.Price)" data-amount-label-number="1">
                             @{    
                                 if (tradable.TradablePriceInfos != null)    
                                 {    
-                                    string priceLabel = $"${stringFormatter.FormatDecimalPrice(tradable.TotalValue)}";    
+                                    string priceLabel = $"${FormatDecimalPrice(tradable.TotalValue)}";    
                                     @priceLabel    
                                 }    
                             }    

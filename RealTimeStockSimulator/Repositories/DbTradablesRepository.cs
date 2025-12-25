@@ -1,13 +1,13 @@
 ﻿using RealTimeStockSimulator.Models;
 using RealTimeStockSimulator.Repositories.Interfaces;
 using Microsoft.Data.SqlClient;
-using RealTimeStockSimulator.Models.Interfaces;
+using RealTimeStockSimulator.Models.Helpers;
 
 namespace RealTimeStockSimulator.Repositories
 {
     public class DbTradablesRepository : DbBaseRepository, ITradablesRepository
     {
-        public DbTradablesRepository(IConfiguration configuration, IDataMapper dataMapper) : base(configuration, dataMapper) { }
+        public DbTradablesRepository(IConfiguration configuration) : base(configuration) { }
 
         public List<Tradable> GetAllTradables()
         {
@@ -24,7 +24,7 @@ namespace RealTimeStockSimulator.Repositories
 
                 while (reader.Read())
                 {
-                    Tradable tradable = _dataMapper.MapTradable(reader);
+                    Tradable tradable = DataMapper.MapTradable(reader);
                     tradables.Add(tradable);
                 }
             }
@@ -46,7 +46,7 @@ namespace RealTimeStockSimulator.Repositories
 
                 if (reader.Read())
                 {
-                    return _dataMapper.MapTradable(reader);
+                    return DataMapper.MapTradable(reader);
                 }
             }
 

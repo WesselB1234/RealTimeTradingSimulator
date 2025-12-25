@@ -1,13 +1,13 @@
 ﻿using Microsoft.Data.SqlClient;
 using RealTimeStockSimulator.Models;
-using RealTimeStockSimulator.Models.Interfaces;
+using RealTimeStockSimulator.Models.Helpers;
 using RealTimeStockSimulator.Repositories.Interfaces;
 
 namespace RealTimeStockSimulator.Repositories
 {
     public class DbUsersRepository : DbBaseRepository, IUsersRepository
     {
-        public DbUsersRepository(IConfiguration configuration, IDataMapper dataMapper) : base(configuration, dataMapper) {}
+        public DbUsersRepository(IConfiguration configuration) : base(configuration) {}
 
         public int AddUser(UserAccount user)
         {
@@ -51,7 +51,7 @@ namespace RealTimeStockSimulator.Repositories
 
                 if (reader.Read())
                 {
-                    return _dataMapper.MapUser(reader);
+                    return DataMapper.MapUser(reader);
                 }
             }
 
@@ -75,7 +75,7 @@ namespace RealTimeStockSimulator.Repositories
 
                 if (reader.Read())
                 {
-                    return _dataMapper.MapUser(reader);
+                    return DataMapper.MapUser(reader);
                 }
             }
 
@@ -113,7 +113,7 @@ namespace RealTimeStockSimulator.Repositories
 
                 while (reader.Read())
                 {
-                    users.Add(_dataMapper.MapUser(reader));
+                    users.Add(DataMapper.MapUser(reader));
                 }
             }
 
@@ -136,7 +136,7 @@ namespace RealTimeStockSimulator.Repositories
 
                 if (reader.Read())
                 {
-                    return _dataMapper.MapUser(reader);
+                    return DataMapper.MapUser(reader);
                 }
             }
 

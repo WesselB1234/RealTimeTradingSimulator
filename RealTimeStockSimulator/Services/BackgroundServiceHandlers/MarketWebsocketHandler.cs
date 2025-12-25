@@ -18,16 +18,15 @@ namespace RealTimeStockSimulator.Services.BackgroundServiceHandlers
             _priceInfosService = priceInfosService;
         }
 
-        public async Task HandleMarketWebSocketPayload(IncomingMarketWebsocketPayload marketPayload)
+        public async Task HandleMarketWebSocketPayload(IncomingMarketWebsocketTradable incomingTradable)
         {
-            IncomingMarketWebsocketTradable responseTradable = marketPayload.Data[marketPayload.Data.Count - 1];
-            TradablePriceInfos? tradablePriceInfos = _priceInfosService.GetPriceInfosBySymbol(responseTradable.Symbol);
+            TradablePriceInfos? tradablePriceInfos = _priceInfosService.GetPriceInfosBySymbol(incomingTradable.Symbol);
 
-            if (responseTradable.Price != null && tradablePriceInfos != null && tradablePriceInfos.Price != responseTradable.Price)
+            if (incomingTradable.Price != null && tradablePriceInfos != null && tradablePriceInfos.Price != incomingTradable.Price)
             {
-                tradablePriceInfos.Price = (decimal)responseTradable.Price;
-                TradableUpdatePayload tradableUpdatePayload = new TradableUpdatePayload(responseTradable.Symbol, tradablePriceInfos);
-                _priceInfosService.SetPriceInfosBySymbol(responseTradable.Symbol, tradablePriceInfos);
+                tradablePriceInfos.Price = (decimal)incomingTradable.Price;
+                TradableUpdatePayload tradableUpdatePayload = new TradableUpdatePayload(incomingTradable.Symbol, tradablePriceInfos);
+                _priceInfosService.SetPriceInfosBySymbol(incomingTradable.Symbol, tradablePriceInfos);
 
                 await _hubContext.Clients.All.SendAsync("ReceiveMarketData", JsonSerializer.Serialize(tradableUpdatePayload), CancellationToken.None);
             }

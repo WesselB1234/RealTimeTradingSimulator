@@ -1,5 +1,6 @@
 ﻿using RealTimeStockSimulator.Repositories.Interfaces;
 using RealTimeStockSimulator.Services.Interfaces;
+using System.Threading.Tasks;
 
 namespace RealTimeStockSimulator.Services.BackgroundServices
 {
@@ -7,6 +8,7 @@ namespace RealTimeStockSimulator.Services.BackgroundServices
     {   
         private ITradablePriceInfosService _priceInfosService;
         private IMarketWebsocketHandler _marketWebsocketHandler;
+        private static Random _random = new Random();
 
         public TestingMarketWebsocketRelay(ITradablePriceInfosService priceInfosService, IMarketWebsocketHandler marketWebsocketHandler)
         {
@@ -14,17 +16,24 @@ namespace RealTimeStockSimulator.Services.BackgroundServices
             _marketWebsocketHandler = marketWebsocketHandler;
         }
 
-        private void SubscribeToTradablesInCache()
+        private void SubscribeToTradablesInCache(CancellationToken cancellationToken)
         {
             foreach (string key in _priceInfosService.GetAllKeys())
             {
-                Console.WriteLine(key);
+                Task task = Task.Run(async () => 
+                { 
+                    while (!cancellationToken.IsCancellationRequested) 
+                    { 
+                        Console.WriteLine(key); 
+                        await Task.Delay(_random.Next(0,10000), cancellationToken);
+                    } 
+                }, cancellationToken);
             }
         }
 
         protected override async Task ExecuteAsync(CancellationToken cancellationToken)
         {
-            SubscribeToTradablesInCache();
+            SubscribeToTradablesInCache(cancellationToken);
 
             await Task.CompletedTask;
         }

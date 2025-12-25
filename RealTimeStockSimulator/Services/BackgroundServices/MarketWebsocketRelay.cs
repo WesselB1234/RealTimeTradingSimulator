@@ -63,7 +63,7 @@ namespace RealTimeStockSimulator.Services.BackgroundServices
 
                     if (marketPayload != null && marketPayload.Type == "trade")
                     {
-                        await _marketWebsocketHandler.HandleMarketWebSocketPayload(marketPayload);
+                        await _marketWebsocketHandler.HandleMarketWebSocketPayload(marketPayload.Data[marketPayload.Data.Count - 1]);
                     }
                 }
             }

@@ -23,6 +23,10 @@ namespace RealTimeStockSimulator.Services.HostedServices
                 {
                     _priceInfosService.SetPriceInfosBySymbol(tradable.Symbol, tradable.TradablePriceInfos);
                 }
+                else
+                {
+                    _priceInfosService.SetPriceInfosBySymbol(tradable.Symbol, new TradablePriceInfos(0));
+                }
             }
         }
 

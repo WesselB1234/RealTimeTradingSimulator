@@ -39,7 +39,7 @@ namespace RealTimeStockSimulator.Repositories
         {
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
-                string query = "SELECT user_id, username, email, password, money " +
+                string query = "SELECT user_id, username, email, money " +
                     "FROM Users " +
                     "WHERE username = @UserName";
                 SqlCommand command = new SqlCommand(query, connection);
@@ -62,7 +62,7 @@ namespace RealTimeStockSimulator.Repositories
         {
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
-                string query = "SELECT user_id, username, email, password, money " +
+                string query = "SELECT user_id, username, email, money " +
                     "FROM Users " +
                     "WHERE username = @UserName AND password = @Password";
                 SqlCommand command = new SqlCommand(query, connection);
@@ -105,7 +105,7 @@ namespace RealTimeStockSimulator.Repositories
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
-                string query = "SELECT user_id, username, email, password, money FROM Users;";
+                string query = "SELECT user_id, username, email, money FROM Users;";
                 SqlCommand command = new SqlCommand(query, connection);
 
                 command.Connection.Open();
@@ -124,7 +124,7 @@ namespace RealTimeStockSimulator.Repositories
         {
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
-                string query = "SELECT user_id, username, email, password, money " +
+                string query = "SELECT user_id, username, email, money " +
                     "FROM Users " +
                     "WHERE user_id = @UserId";
                 SqlCommand command = new SqlCommand(query, connection);

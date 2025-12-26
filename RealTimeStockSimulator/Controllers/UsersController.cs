@@ -29,7 +29,7 @@ namespace RealTimeStockSimulator.Controllers
 
         public IActionResult Index()
         {
-            return View(_usersService.GetAllUsers());
+            return View(_ownershipsService.GetOrderedOwnershipsPagnated(20, 1));
         }
 
         public IActionResult Portfolio(int userId)

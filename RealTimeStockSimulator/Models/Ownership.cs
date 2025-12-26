@@ -24,5 +24,7 @@
             User = user;
             Tradables = tradables;
         }
+
+        public Ownership() { }
     }
 }

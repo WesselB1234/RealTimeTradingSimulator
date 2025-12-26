@@ -6,7 +6,7 @@ namespace RealTimeStockSimulator.Services.Interfaces
     public interface IOwnershipsService
     {
         List<OwnershipTradable> GetAllOwnershipTradablesByUserId(int userId);
-        List<Ownership> GetOrderedOwnershipsPagnated(int userId, int pageSize, int currentPage);
+        List<Ownership> GetOrderedOwnershipsPagnated(int pageSize, int currentPage);
         OwnershipTradable? GetOwnershipTradableByUserId(int userId, string symbol);
         OwnershipTradable GetOwnershipTradableFromBuySellViewModel(ProcessBuySellViewModel confirmViewModel, int userId);
         void AddOwnershipTradableToUserId(int userId, OwnershipTradable tradable);

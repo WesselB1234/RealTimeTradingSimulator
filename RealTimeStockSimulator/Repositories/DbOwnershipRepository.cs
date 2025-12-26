@@ -110,9 +110,50 @@ namespace RealTimeStockSimulator.Repositories
             }
         }
 
-        public List<Ownership> GetOrderedOwnershipsPagnated(int userId, int pageSize, int currentPage)
+        public List<Ownership> GetOrderedOwnershipsPagnated(int pageSize, int currentPage)
         {
-            throw new NotImplementedException();
+            List<Ownership> ownerships = new List<Ownership>();
+
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                string query = "SELECT Users.user_id, username, email, [money], " +
+                    "symbol, amount " +
+                    "FROM Ownership " +
+                    "JOIN Users ON Ownership.user_id = Users.user_id;";
+
+                SqlCommand command = new SqlCommand(query, connection);
+
+                command.Connection.Open();
+                SqlDataReader reader = command.ExecuteReader();
+
+                Ownership? currentOwnership = new Ownership();
+                currentOwnership.Tradables = new List<OwnershipTradable>();
+
+                while (reader.Read())
+                {
+                    UserAccount user = DataMapper.MapUser(reader);
+
+                    if (currentOwnership.User == null)
+                    {
+                        currentOwnership.User = DataMapper.MapUser(reader);
+                    }
+
+                    if (currentOwnership.User.UserId != user.UserId)
+                    {
+                        ownerships.Add(currentOwnership);
+
+                        currentOwnership = new Ownership();
+                        currentOwnership.User = user;
+                        currentOwnership.Tradables = new List<OwnershipTradable>();
+                    }
+
+                    currentOwnership.Tradables.Add(DataMapper.MapOwnershipTradable(reader));
+                }
+
+                ownerships.Add(currentOwnership);
+            }
+
+            return ownerships;
         }
     }
 }

@@ -5,7 +5,7 @@ namespace RealTimeStockSimulator.Models.Helpers
 {
     public static class DataMapper
     {
-        public static UserAccount MapUser(SqlDataReader reader)
+        public static UserAccount MapUserWithPassword(SqlDataReader reader)
         {
             int userId = (int)reader["user_id"];
             string userName = (string)reader["username"];
@@ -14,6 +14,16 @@ namespace RealTimeStockSimulator.Models.Helpers
             decimal money = (decimal)reader["money"];
 
             return new UserAccount(userId, userName, email, password, money);
+        }
+
+        public static UserAccount MapUser(SqlDataReader reader)
+        {
+            int userId = (int)reader["user_id"];
+            string userName = (string)reader["username"];
+            string email = (string)reader["email"];
+            decimal money = (decimal)reader["money"];
+
+            return new UserAccount(userId, userName, email, money);
         }
 
         public static Tradable MapTradable(SqlDataReader reader)

@@ -32,7 +32,7 @@
         </thead>
         <tbody>
             @{
-                foreach (ConceptOwnership ownership in Model.Ownerships)
+                foreach (Ownership ownership in Model.Ownerships)
                 {
                     <tr>
                         <td>
@@ -42,7 +42,7 @@
                             @ownership.User.UserName
                         </td>
                         <td>
-                            $notimplemented
+                            $@FormatDecimalPrice(ownership.GetTotalValue(Model.TradablesDictionary))
                         </td>
                         <td>
                             <a href="/Users/Portfolio?UserId=@ownership.User.UserId">View portfolio</a>

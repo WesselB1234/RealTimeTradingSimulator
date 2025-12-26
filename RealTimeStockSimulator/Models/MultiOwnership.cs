@@ -2,9 +2,13 @@
 {
     public class MultiOwnership
     {
-        public Dictionary<string, Tradable> TradablesDictionary = new Dictionary<string, Tradable>();
-        public List<ConceptOwnership> Ownerships = new List<ConceptOwnership>();
+        public Dictionary<string, Tradable> TradablesDictionary;
+        public List<Ownership> Ownerships = new List<Ownership>();
 
-        public MultiOwnership() { }
+        public MultiOwnership() 
+        { 
+            TradablesDictionary = new Dictionary<string, Tradable>();
+            Ownerships = new List<Ownership>();
+        }
     }
 }

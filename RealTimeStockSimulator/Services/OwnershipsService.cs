@@ -148,9 +148,9 @@ namespace RealTimeStockSimulator.Services
                 tradable.TradablePriceInfos = _priceInfosService.GetPriceInfosBySymbol(tradable.Symbol);   
             }
 
-            return multiOwnership;
+            multiOwnership.Ownerships = multiOwnership.Ownerships.OrderByDescending(o => o.GetTotalValue(multiOwnership.TradablesDictionary)).ToList();
 
-            //return ownerships.OrderByDescending(o => o.Tradables.GetTotalOwnershipValue()).ToList();
+            return multiOwnership;
         }
     }
 }

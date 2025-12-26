@@ -110,9 +110,9 @@ namespace RealTimeStockSimulator.Repositories
             }
         }
 
-        public List<Ownership> GetOrderedOwnershipsPagnated(int pageSize, int currentPage)
+        public MultiOwnership GetValueOrderedMultiOwnershipsPagnated(int pageSize, int currentPage)
         {
-            List<Ownership> ownerships = new List<Ownership>();
+            MultiOwnership ownerships = new MultiOwnership();
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
@@ -128,7 +128,6 @@ namespace RealTimeStockSimulator.Repositories
                 SqlDataReader reader = command.ExecuteReader();
 
                 Ownership? currentOwnership = new Ownership();
-                currentOwnership.Tradables = new List<OwnershipTradable>();
 
                 while (reader.Read())
                 {
@@ -141,17 +140,24 @@ namespace RealTimeStockSimulator.Repositories
 
                     if (currentOwnership.User.UserId != user.UserId)
                     {
-                        ownerships.Add(currentOwnership);
+                        ownerships.Ownerships.Add(currentOwnership);
 
                         currentOwnership = new Ownership();
                         currentOwnership.User = user;
-                        currentOwnership.Tradables = new List<OwnershipTradable>();
                     }
 
-                    currentOwnership.Tradables.Add(DataMapper.MapOwnershipTradable(reader));
+                    string symbol = (string)reader["symbol"];
+                    int amount = (int)reader["amount"];
+
+                    if (ownerships.TradablesDictionary.ContainsKey(symbol) == false)
+                    {
+                        ownerships.TradablesDictionary[symbol] = DataMapper.MapTradable(reader);
+                    }
+
+                    currentOwnership.OwnedAmountOfSymbolDictionary[symbol] = amount;
                 }
 
-                ownerships.Add(currentOwnership);
+                ownerships.Ownerships.Add(currentOwnership);
             }
 
             return ownerships;

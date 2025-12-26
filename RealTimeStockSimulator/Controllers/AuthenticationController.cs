@@ -23,12 +23,12 @@ namespace RealTimeStockSimulator.Controllers
             return RedirectToAction("Login");
         }
 
-        public IActionResult Login(LoginViewModel loginViewModel)
+        public IActionResult Login(LoginVM loginViewModel)
         {
             return View(loginViewModel); 
         }
 
-        public async Task<IActionResult> ProcessLogin(LoginViewModel loginViewModel)
+        public async Task<IActionResult> ProcessLogin(LoginVM loginViewModel)
         {
             UserAccount? user = _usersService.GetUserByLoginCredentials(loginViewModel.UserName, loginViewModel.Password);
 
@@ -43,12 +43,12 @@ namespace RealTimeStockSimulator.Controllers
             return View("Login", loginViewModel);
         }
 
-        public IActionResult Register(RegisterViewModel registerViewModel)
+        public IActionResult Register(RegisterVM registerViewModel)
         {
             return View(registerViewModel);
         }
 
-        public IActionResult ProcessRegister(RegisterViewModel registerViewModel)
+        public IActionResult ProcessRegister(RegisterVM registerViewModel)
         {
             try
             {

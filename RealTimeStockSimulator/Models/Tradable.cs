@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace RealTimeStockSimulator.Models
+﻿namespace RealTimeStockSimulator.Models
 {
     public class Tradable
     {

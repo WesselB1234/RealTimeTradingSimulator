@@ -1,16 +1,14 @@
-﻿namespace RealTimeStockSimulator.Models
+﻿namespace RealTimeStockSimulator.Models.ViewModels
 {
-    public class Ownership
+    public class UserPortfolioVM
     {
         public UserAccount User;
         public List<OwnershipTradable> Tradables;
 
-        public Ownership(UserAccount user, List<OwnershipTradable> tradables)
+        public UserPortfolioVM(UserAccount user, List<OwnershipTradable> tradables)
         {
             User = user;
             Tradables = tradables;
         }
-
-        public Ownership() { }
     }
 }

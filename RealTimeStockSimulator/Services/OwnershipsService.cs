@@ -117,7 +117,7 @@ namespace RealTimeStockSimulator.Services
             return user.Money + (tradable.TradablePriceInfos.Price * amount);
         }
 
-        public OwnershipTradable GetOwnershipTradableFromBuySellViewModel(ProcessBuySellViewModel confirmViewModel, int userId)
+        public OwnershipTradable GetOwnershipTradableFromBuySellViewModel(ProcessBuySellVM confirmViewModel, int userId)
         {
             if (confirmViewModel.Symbol == null)
             {
@@ -139,19 +139,18 @@ namespace RealTimeStockSimulator.Services
             return tradable;
         }
 
-        public List<Ownership> GetOrderedOwnershipsPagnated(int pageSize, int currentPage)
+        public MultiOwnership GetValueOrderedMultiOwnershipsPagnated(int pageSize, int currentPage)
         {
-            List<Ownership> ownerships = _ownershipsRepository.GetOrderedOwnershipsPagnated(pageSize, currentPage);
+            MultiOwnership multiOwnership = _ownershipsRepository.GetValueOrderedMultiOwnershipsPagnated(pageSize, currentPage);
 
-            foreach (Ownership ownership in ownerships)
+            foreach (Tradable tradable in multiOwnership.TradablesDictionary.Values)
             {
-                foreach (OwnershipTradable tradable in ownership.Tradables)
-                {
-                    tradable.TradablePriceInfos = _priceInfosService.GetPriceInfosBySymbol(tradable.Symbol);
-                }
+                tradable.TradablePriceInfos = _priceInfosService.GetPriceInfosBySymbol(tradable.Symbol);   
             }
-            
-            return ownerships.OrderByDescending(o => o.Tradables.GetTotalOwnershipValue()).ToList();
+
+            return multiOwnership;
+
+            //return ownerships.OrderByDescending(o => o.Tradables.GetTotalOwnershipValue()).ToList();
         }
     }
 }

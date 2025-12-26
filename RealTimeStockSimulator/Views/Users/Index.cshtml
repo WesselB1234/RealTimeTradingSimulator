@@ -1,8 +1,8 @@
 ﻿@{
+    @model RealTimeStockSimulator.Models.MultiOwnership
     @using static RealTimeStockSimulator.Models.Helpers.StringFormatter
     @using System.Text.Json
     @using RealTimeStockSimulator.Extensions
-    @model List<RealTimeStockSimulator.Models.Ownership>
 
     ViewData["title"] = "Users";
 }
@@ -32,7 +32,7 @@
         </thead>
         <tbody>
             @{
-                foreach (Ownership ownership in Model)
+                foreach (ConceptOwnership ownership in Model.Ownerships)
                 {
                     <tr>
                         <td>
@@ -42,7 +42,7 @@
                             @ownership.User.UserName
                         </td>
                         <td>
-                            $@FormatDecimalPrice(ownership.Tradables.GetTotalOwnershipValue())
+                            $notimplemented
                         </td>
                         <td>
                             <a href="/Users/Portfolio?UserId=@ownership.User.UserId">View portfolio</a>

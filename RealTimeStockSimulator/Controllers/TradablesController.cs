@@ -38,12 +38,12 @@ namespace RealTimeStockSimulator.Controllers
             return View(tradables);
         }
 
-        public IActionResult Buy(ProcessBuySellViewModel confirmViewModel)
+        public IActionResult Buy(ProcessBuySellVM confirmViewModel)
         {
             try
             {
                 Tradable tradable = _tradablesService.GetTradableFromBuySellViewModel(confirmViewModel);
-                BuyViewModel viewModel = new BuyViewModel(tradable, confirmViewModel.Amount);
+                BuyVM viewModel = new BuyVM(tradable, confirmViewModel.Amount);
 
                 return View(viewModel);
             }
@@ -55,7 +55,7 @@ namespace RealTimeStockSimulator.Controllers
             }
         }
 
-        public async Task<IActionResult> ProcessBuy(ProcessBuySellViewModel confirmViewModel)
+        public async Task<IActionResult> ProcessBuy(ProcessBuySellVM confirmViewModel)
         {
             Tradable? tradable = null;
 
@@ -83,7 +83,7 @@ namespace RealTimeStockSimulator.Controllers
 
                 if (tradable != null)
                 {
-                    BuyViewModel viewModel = new BuyViewModel(tradable, confirmViewModel.Amount);
+                    BuyVM viewModel = new BuyVM(tradable, confirmViewModel.Amount);
                     return View("Buy", viewModel);
                 }
                 else
@@ -93,7 +93,7 @@ namespace RealTimeStockSimulator.Controllers
             }
         }
 
-        public IActionResult Sell(ProcessBuySellViewModel confirmViewModel)
+        public IActionResult Sell(ProcessBuySellVM confirmViewModel)
         {
             try
             {
@@ -103,7 +103,7 @@ namespace RealTimeStockSimulator.Controllers
                 }
 
                 OwnershipTradable? tradable = _ownershipsService.GetOwnershipTradableFromBuySellViewModel(confirmViewModel, _loggedInUser.UserId);
-                SellViewModel viewModel = new SellViewModel(tradable, confirmViewModel.Amount);
+                SellVM viewModel = new SellVM(tradable, confirmViewModel.Amount);
 
                 return View(viewModel);
             }
@@ -115,7 +115,7 @@ namespace RealTimeStockSimulator.Controllers
             }
         }
 
-        public async Task<IActionResult> ProcessSell(ProcessBuySellViewModel confirmViewModel)
+        public async Task<IActionResult> ProcessSell(ProcessBuySellVM confirmViewModel)
         {
             OwnershipTradable? tradable = null;
 
@@ -143,7 +143,7 @@ namespace RealTimeStockSimulator.Controllers
 
                 if (tradable != null)
                 {
-                    SellViewModel viewModel = new SellViewModel(tradable, confirmViewModel.Amount);
+                    SellVM viewModel = new SellVM(tradable, confirmViewModel.Amount);
                     return View("Sell", viewModel);
                 }
                 else

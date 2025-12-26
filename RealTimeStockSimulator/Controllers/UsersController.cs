@@ -3,6 +3,7 @@ using RealTimeStockSimulator.Services.Interfaces;
 using RealTimeStockSimulator.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Filters;
+using RealTimeStockSimulator.Models.ViewModels;
 
 namespace RealTimeStockSimulator.Controllers
 {
@@ -29,7 +30,7 @@ namespace RealTimeStockSimulator.Controllers
 
         public IActionResult Index()
         {
-            return View(_ownershipsService.GetOrderedOwnershipsPagnated(20, 1));
+            return View(_ownershipsService.GetValueOrderedMultiOwnershipsPagnated(20, 1));
         }
 
         public IActionResult Portfolio(int userId)
@@ -43,9 +44,9 @@ namespace RealTimeStockSimulator.Controllers
                 return RedirectToAction("Index", "Portfolio");
             }
 
-            Ownership ownership = new Ownership(user, _ownershipsService.GetAllOwnershipTradablesByUserId(user.UserId));
+            UserPortfolioVM viewModel = new UserPortfolioVM(user, _ownershipsService.GetAllOwnershipTradablesByUserId(user.UserId));
 
-            return View(ownership);
+            return View(viewModel);
         }
     }
 }

@@ -1,17 +1,17 @@
 ﻿namespace RealTimeStockSimulator.Models.ViewModels
 {
-    public class ProcessBuySellViewModel
+    public class ProcessBuySellVM
     {
         public string? Symbol { get; set; }
         public int? Amount { get; set; }
 
-        public ProcessBuySellViewModel(string symbol, int amount)
+        public ProcessBuySellVM(string symbol, int amount)
         {
             Symbol = symbol;
             Amount = amount;
         }
 
-        public ProcessBuySellViewModel()
+        public ProcessBuySellVM()
         {
 
         }

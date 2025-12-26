@@ -2,6 +2,36 @@
     return !isNaN(parseFloat(value)) && isFinite(value);
 }
 
+function setPriceLabelUpdateClass(priceLabel, isUp) {
+
+    priceLabel.classList.remove("down-price-update", "up-price-update");
+
+    // Recalculate styles
+    void priceLabel.offsetWidth;
+
+    if (isUp) {
+        priceLabel.classList.add("up-price-update");
+    }
+    else {
+        priceLabel.classList.add("down-price-update");
+    }
+}
+
+function setPriceLabelUpdatePrice(priceLabel, newPrice) {
+
+    const currentPrice = priceLabel.dataset.price;
+
+    if (newPrice > currentPrice) {
+        setPriceLabelUpdateClass(priceLabel, true);
+    }
+    else if (newPrice < currentPrice) {
+        setPriceLabelUpdateClass(priceLabel, false);
+    }
+
+    priceLabel.textContent = formatPrice(newPrice);
+    priceLabel.dataset.price = newPrice;
+}
+
 function updatePriceLabels(updatedSymbol, newPrice) {
 
     const priceLabels = document.querySelectorAll(
@@ -20,19 +50,7 @@ function updatePriceLabels(updatedSymbol, newPrice) {
             newPrice *= amount;
         }
 
-        let currentPrice = priceLabel.dataset.price;
-
-        if (newPrice > currentPrice) {
-            priceLabel.classList.remove("down-price-update");
-            priceLabel.classList.add("up-price-update");
-        }
-        else if (newPrice < currentPrice) {
-            priceLabel.classList.remove("up-price-update");
-            priceLabel.classList.add("down-price-update");
-        }
-
-        priceLabel.textContent = formatPrice(newPrice);
-        priceLabel.dataset.price = newPrice;
+        setPriceLabelUpdatePrice(priceLabel, newPrice);
     }
 }
 
@@ -53,7 +71,7 @@ function updateOwnershipLabels(updatedSymbol, newPrice) {
     const TotalOwnershipValueLabels = document.getElementsByClassName("TotalOwnershipValue");
 
     for (let totalOwnershipValueLabel of TotalOwnershipValueLabels) {
-        totalOwnershipValueLabel.textContent = formatPrice(totalPriceOfOwnership);
+        setPriceLabelUpdatePrice(totalOwnershipValueLabel, totalPriceOfOwnership);
     }
 }
 

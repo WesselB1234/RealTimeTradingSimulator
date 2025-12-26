@@ -25,11 +25,11 @@ footer{
     max-width: 480px;
 }
 
-up-price-update, td.up-price-update {
+up-price-update, td.up-price-update, span.up-price-update {
     animation: flash-green 1s ease-out;
 }
 
-down-price-update, td.down-price-update {
+down-price-update, td.down-price-update, span.down-price-update {
     animation: flash-red 1s ease-out;
 }
 

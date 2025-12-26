@@ -14,7 +14,7 @@
         Portfolio
     </h1>
     <h2>
-        Total value: <span class="TotalOwnershipValue">$@FormatDecimalPrice(Model.GetTotalOwnershipValue())</span>
+        Total value: <span data-price="@FormatDecimalToJsDecimal(Model.GetTotalOwnershipValue())" class="TotalOwnershipValue">$@FormatDecimalPrice(Model.GetTotalOwnershipValue())</span>
     </h2>
 
     <partial name="_ErrorMessage" />
@@ -70,7 +70,7 @@
 </main>
 
 <script>
-    var ownershipJson = @Html.Raw(JsonSerializer.Serialize(Model))
+    let ownershipJson = @Html.Raw(JsonSerializer.Serialize(Model))
 </script>
 
 <partial name="_Footer" />

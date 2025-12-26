@@ -18,7 +18,7 @@ namespace RealTimeStockSimulator.Services.BackgroundServices
 
         private decimal AddRandomnessToPrice(decimal currentPrice)
         {
-            double offsetPercentage = (double)_random.Next(-33, 33) / 10;
+            double offsetPercentage = (double)_random.Next(-33, 33) / 10; 
             currentPrice = currentPrice * (decimal)(1 + (offsetPercentage / 100));
 
             if (currentPrice < 1)

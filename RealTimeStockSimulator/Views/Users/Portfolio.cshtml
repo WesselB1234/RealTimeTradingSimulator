@@ -14,7 +14,7 @@
         @Model.User.UserName's Portfolio
     </h1>
     <h2>
-        Total value: <span class="TotalOwnershipValue">$@FormatDecimalPrice(@Model.Tradables.GetTotalOwnershipValue())</span>
+        Total value: <span data-price="@FormatDecimalToJsDecimal(Model.Tradables.GetTotalOwnershipValue())" class="TotalOwnershipValue">$@FormatDecimalPrice(@Model.Tradables.GetTotalOwnershipValue())</span>
     </h2>
 
     <partial name="_ErrorMessage" />
@@ -68,7 +68,7 @@
 </main>
 
 <script>
-    var ownershipJson = @Html.Raw(JsonSerializer.Serialize(Model.Tradables))
+    let ownershipJson = @Html.Raw(JsonSerializer.Serialize(Model.Tradables))
 </script>
 
 <partial name="_Footer" />

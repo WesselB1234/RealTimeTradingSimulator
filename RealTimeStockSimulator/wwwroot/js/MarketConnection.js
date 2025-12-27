@@ -77,15 +77,37 @@ function updateOwnershipLabels(updatedSymbol, newPrice) {
 
 function updateMultiOwnershipLabels(updatedSymbol, newPrice) {
 
-    console.log(multiOwnershipJson);
+    const ownerships = multiOwnershipJson.Ownerships;
+    const tradables = multiOwnershipJson.TradablesDictionary;
+
+    if (Object.hasOwn(tradables, updatedSymbol)) {
+        tradables[updatedSymbol].TradablePriceInfos.Price = newPrice;
+    }
+
+    ownerships.forEach((ownership) => {
+
+        const user = ownership.User;
+        let totalPriceOfOwnership = 0;
+
+        for (const [symbol, amount] of Object.entries(ownership.OwnedAmountOfSymbolDictionary)) {
+            const totalPrice = tradables[symbol].TradablePriceInfos.Price * amount;
+            totalPriceOfOwnership += totalPrice;
+        }
+
+        const TotalOwnershipValueLabels = document.getElementsByClassName(`TotalOwnershipValueOfUser-${user.UserId}`);
+
+        for (let totalOwnershipValueLabel of TotalOwnershipValueLabels) {
+            setPriceLabelUpdatePrice(totalOwnershipValueLabel, totalPriceOfOwnership);
+        }
+    })
 }
 
 function onMarketData(message) {
 
     const tradableUpdatePayload = JSON.parse(message);
-    const tradablePriceInfos = tradableUpdatePayload["TradablePriceInfos"];
-    const updatedSymbol = tradableUpdatePayload["Symbol"];
-    const newPrice = tradablePriceInfos["Price"];
+    const tradablePriceInfos = tradableUpdatePayload.TradablePriceInfos;
+    const updatedSymbol = tradableUpdatePayload.Symbol;
+    const newPrice = tradablePriceInfos.Price;
 
     updatePriceLabels(updatedSymbol, newPrice);
 

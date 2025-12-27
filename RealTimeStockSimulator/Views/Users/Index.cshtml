@@ -55,3 +55,8 @@
 </main>
 
 <partial name="_Footer" />
+
+<script>
+    let multiOwnershipJson = @Html.Raw(JsonSerializer.Serialize(Model, new JsonSerializerOptions { IncludeFields = true}));
+</script>
+<partial name="_MarketConnectionScripts" />

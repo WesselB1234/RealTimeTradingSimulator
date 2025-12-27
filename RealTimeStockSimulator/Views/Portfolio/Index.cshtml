@@ -69,9 +69,9 @@
     </table>
 </main>
 
-<script>
-    let ownershipJson = @Html.Raw(JsonSerializer.Serialize(Model))
-</script>
-
 <partial name="_Footer" />
+
+<script>
+    let ownershipJson = @Html.Raw(JsonSerializer.Serialize(Model));
+</script>
 <partial name="_MarketConnectionScripts" />

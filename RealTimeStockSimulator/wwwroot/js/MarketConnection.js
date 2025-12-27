@@ -75,6 +75,11 @@ function updateOwnershipLabels(updatedSymbol, newPrice) {
     }
 }
 
+function updateMultiOwnershipLabels(updatedSymbol, newPrice) {
+
+    console.log(multiOwnershipJson);
+}
+
 function onMarketData(message) {
 
     const tradableUpdatePayload = JSON.parse(message);
@@ -84,8 +89,11 @@ function onMarketData(message) {
 
     updatePriceLabels(updatedSymbol, newPrice);
 
-    if (ownershipJson !== null) {
+    if (typeof ownershipJson !== "undefined") {
         updateOwnershipLabels(updatedSymbol, newPrice);
+    }
+    else if (typeof multiOwnershipJson !== "undefined") {
+        updateMultiOwnershipLabels(updatedSymbol, newPrice);
     }
 }
 
@@ -96,7 +104,7 @@ function initMarketConnection() {
     CurrentConnection.start();
     CurrentConnection.on("ReceiveMarketData", onMarketData);
     window.addEventListener("beforeunload", () => {
-        CurrentSocket.close();
+        CurrentConnection.stop();
     });
 }
 

@@ -33,13 +33,7 @@
                         @tradable.Symbol
                     </td>
                     <td data-price-symbol="@tradable.Symbol" data-price="@FormatDecimalToJsDecimal(tradable.TradablePriceInfos.Price)">
-                        @{
-                            if (tradable.TradablePriceInfos != null)
-                            {
-                                string priceLabel = $"${FormatDecimalPrice(tradable.TradablePriceInfos.Price)}";
-                                @priceLabel
-                            }
-                        }
+                        $@FormatDecimalPrice(tradable.TradablePriceInfos.Price)
                     </td>
                     <td>
                         <a href="/Tradables/Buy?Symbol=@tradable.Symbol">Buy</a>

@@ -27,6 +27,9 @@
                     Symbol
                 </th>
                 <th>
+                    Value
+                </th>
+                <th>
                     Amount owned
                 </th>
                 <th>
@@ -45,17 +48,14 @@
                         <td>
                             @tradable.Symbol
                         </td>
+                        <td data-price-symbol="@tradable.Symbol" data-price="@FormatDecimalToJsDecimal(tradable.TradablePriceInfos.Price)">
+                            $@FormatDecimalPrice(tradable.TradablePriceInfos.Price)
+                        </td>
                         <td data-amount-label-number="1" data-amount-label-symbol="@tradable.Symbol" data-amount-label-value="@tradable.Amount">
                             @tradable.Amount
                         </td>
                         <td data-price-symbol="@tradable.Symbol" data-price="@FormatDecimalToJsDecimal(tradable.TradablePriceInfos.Price)" data-amount-label-number="1">
-                            @{
-                                if (tradable.TradablePriceInfos != null)
-                                {
-                                    string priceLabel = $"${FormatDecimalPrice(tradable.TotalValue)}";
-                                    @priceLabel
-                                }
-                            }
+                            $@FormatDecimalPrice(tradable.TotalValue)
                         </td>
                         <td>
                             <a href="/Tradables/Buy?Symbol=@tradable.Symbol">Buy</a>

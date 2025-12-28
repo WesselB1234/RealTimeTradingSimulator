@@ -4,17 +4,17 @@
     @using System.Text.Json
     @using RealTimeStockSimulator.Extensions
 
-    ViewData["title"] = "Users";
+    ViewData["title"] = "Leaderboard";
 }
 
 <partial name="_Navbar" />
 
 <main class="w-75 mx-auto">
     <h1>
-        Users
+        Top 10 valued user portfolios
     </h1>
-    <table class="table leaderboard-table">
-        <thead>
+    <table class="table leaderboard-table mt-4">
+        <thead class="table-dark">
             <tr>
                 <th>
                     Place
@@ -38,6 +38,7 @@
                 for (int i = 0; i < Model.Ownerships.Count; i++)    
                 {
                     Ownership ownership = Model.Ownerships[i];
+
                     <tr>
                         <td class="CurrentPlace">
                             #@(i + 1)
@@ -52,7 +53,7 @@
                             $@FormatDecimalPrice(ownership.GetTotalValue(Model.TradablesDictionary))
                         </td>
                         <td>
-                            <a href="/Users/Portfolio?UserId=@ownership.User.UserId">View portfolio</a>
+                            <a class="btn btn-primary" href="/Users/Portfolio?UserId=@ownership.User.UserId">View portfolio</a>
                         </td>
                     </tr>
                 }

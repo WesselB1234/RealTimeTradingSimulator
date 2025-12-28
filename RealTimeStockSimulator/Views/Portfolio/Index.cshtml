@@ -20,8 +20,8 @@
     <partial name="_ErrorMessage" />
     <partial name="_ConfirmMessage" />
 
-    <table class="table">
-        <thead>
+    <table class="table mt-4">
+        <thead class="table-dark">
             <tr>
                 <th>
                     Asset
@@ -50,7 +50,7 @@
                     <tr>
                         <td>
                             <img class="tradable-img" src="" alt="" />
-                            <span>testname</span>
+                            <span class="ml-1">testname</span>
                         </td>
                         <td> 
                             @tradable.Symbol    
@@ -65,9 +65,8 @@
                             $@FormatDecimalPrice(tradable.TotalValue)   
                         </td>    
                         <td>    
-                            <a href="/Tradables/Buy?Symbol=@tradable.Symbol">Buy</a>    
-                            |    
-                            <a href="/Tradables/Sell?Symbol=@tradable.Symbol">Sell</a>    
+                            <a class="btn btn-success" href="/Tradables/Buy?Symbol=@tradable.Symbol">Buy</a>
+                            <a class="btn btn-danger" href="/Tradables/Sell?Symbol=@tradable.Symbol">Sell</a>
                         </td>    
                     </tr>    
                 }  

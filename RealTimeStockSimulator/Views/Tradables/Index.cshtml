@@ -2,18 +2,21 @@
     @model List<Tradable>;
     @using static RealTimeStockSimulator.Models.Helpers.StringFormatter
 
-    ViewData["title"] = "Tradables";
+    ViewData["title"] = "Assets";
 }
 
 <partial name="_Navbar" />
 
 <main class="w-75 mx-auto">
     <h1>
-        Tradables
+        Assets
     </h1>
-    <table class="table">
-        <thead>
+    <table class="table mt-4">
+        <thead class="table-dark">
             <tr>
+                <th>
+                    Asset
+                </th>
                 <th>
                     Symbol
                 </th>
@@ -30,13 +33,17 @@
             {
                 <tr>
                     <td>
+                        <img class="tradable-img" src="" alt="Logo of name" />
+                        <span class="tradable-name">testname</span>
+                    </td>
+                    <td>
                         @tradable.Symbol
                     </td>
                     <td data-price-symbol="@tradable.Symbol" data-price="@FormatDecimalToJsDecimal(tradable.TradablePriceInfos.Price)">
                         $@FormatDecimalPrice(tradable.TradablePriceInfos.Price)
                     </td>
                     <td>
-                        <a href="/Tradables/Buy?Symbol=@tradable.Symbol">Buy</a>
+                        <a class="btn btn-success" href="/Tradables/Buy?Symbol=@tradable.Symbol">Buy</a>
                     </td>
                 </tr>
             }

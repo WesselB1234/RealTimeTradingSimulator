@@ -28,7 +28,7 @@ namespace RealTimeStockSimulator.Controllers
             base.OnActionExecuting(context);
         }
 
-        public IActionResult Index()
+        public IActionResult Leaderboard()
         {
             return View(_ownershipsService.GetValueOrderedMultiOwnershipsPagnated(20, 1));
         }
@@ -44,9 +44,7 @@ namespace RealTimeStockSimulator.Controllers
                 return RedirectToAction("Index", "Portfolio");
             }
 
-            UserPortfolioVM viewModel = new UserPortfolioVM(user, _ownershipsService.GetAllOwnershipTradablesByUserId(user.UserId));
-
-            return View(viewModel);
+            return View(new UserPortfolioVM(user, _ownershipsService.GetAllOwnershipTradablesByUserId(user.UserId)));
         }
     }
 }

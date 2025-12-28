@@ -16,7 +16,7 @@
 
 <main class="w-75 mx-auto">
     <h1>
-        Selling @Model.OwnershipTradable.Symbol
+        Sell @Model.OwnershipTradable.Symbol
     </h1>
     <h3>
         Value of @Model.OwnershipTradable.Symbol: <span data-price-symbol="@Model.OwnershipTradable.Symbol" data-price="@FormatDecimalToJsDecimal((decimal)Model.OwnershipTradable.TradablePriceInfos.Price)">
@@ -38,10 +38,10 @@
         <input type="hidden" name="symbol" value="@Model.OwnershipTradable.Symbol" />
         <div class="mb-2">
             <label class="form-label" for="amount">Amount:</label>
-            <input class="form-control" type="number" id="amount" name="amount" value="@amountValue"
-                   data-amount-label-number="1" data-amount-label-symbol="@Model.OwnershipTradable.Symbol" data-amount-label-value="@amountValue" required />
+            <input class="form-control" type="number" id="amount" name="amount" value="@amountValue" data-amount-label-number="1" data-amount-label-symbol="@Model.OwnershipTradable.Symbol" data-amount-label-value="@amountValue" 
+                placeholder="Enter a number" required />
         </div>
-        <input type="submit" class="btn mb-2 primary-background-color text-white" value="Sell amount" />
+        <input type="submit" class="btn btn-danger" value="Sell amount" />
     </form>
 </main>
 

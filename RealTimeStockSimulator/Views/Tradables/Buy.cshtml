@@ -16,7 +16,7 @@
 
 <main class="w-75 mx-auto">
     <h1>
-        Buying @Model.Tradable.Symbol
+        Buy @Model.Tradable.Symbol
     </h1>
     <h3>
         Value of @Model.Tradable.Symbol: <span data-price-symbol="@Model.Tradable.Symbol" data-price="@FormatDecimalToJsDecimal((decimal)Model.Tradable.TradablePriceInfos.Price)">
@@ -35,10 +35,10 @@
         <input type="hidden" name="symbol" value="@Model.Tradable.Symbol"/>
         <div class="mb-2">
             <label class="form-label" for="amount">Amount:</label>
-            <input class="form-control" type="number" id="amount" name="amount" value="@amountValue"
-                   data-amount-label-number="1" data-amount-label-symbol="@Model.Tradable.Symbol" data-amount-label-value="@amountValue" required />
+            <input class="form-control" type="number" id="amount" name="amount" value="@amountValue" data-amount-label-number="1" data-amount-label-symbol="@Model.Tradable.Symbol" data-amount-label-value="@amountValue"
+                placeholder="Enter a number" required />
         </div>
-        <input type="submit" class="btn mb-2 primary-background-color text-white" value="Buy amount" />
+        <input type="submit" class="btn btn-success mb-2" value="Buy amount" />
     </form>
 </main>
 

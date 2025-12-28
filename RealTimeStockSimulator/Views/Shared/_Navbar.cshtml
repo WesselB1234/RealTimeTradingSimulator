@@ -13,31 +13,22 @@
                 <a class="nav-link text-light" href="/Tradables/Index">Tradables</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-light" href="/Users/Index">Users</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-light" href="/Settings/Index">Settings</a>
+                <a class="nav-link text-light" href="/Users/Leaderboard">Leaderboard</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link text-light" href="/Transactions/Index">Transactions</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link text-light" href="/Settings/Index">Settings (Work in progress)</a>
+            </li>
             <li class="nav-item ms-lg-auto">
-                <span class="nav-link text-light">
-                    @{
-                        decimal money = 0;
-
-                        if (ViewBag.LoggedInUser != null)
-                        {
-                            money = ViewBag.LoggedInUser.Money;
-                        }
-                    }
-                    
-                    Money: $@FormatDecimalPrice(money)
+                <span class="nav-link text-light">               
+                    Balance: $@FormatDecimalPrice(ViewBag.LoggedInUser.Money)
                 </span>
             </li>
             <li class="nav-item">
                 <span class="nav-link text-light">
-                    Logged in as @ViewBag.LoggedInUser?.UserName
+                    Logged in as @ViewBag.LoggedInUser.UserName
                 </span>
             </li>
             <li class="nav-item">

@@ -13,7 +13,7 @@
     <h1>
         Users
     </h1>
-    <table class="table">
+    <table class="table leaderboard-table">
         <thead>
             <tr>
                 <th>
@@ -50,75 +50,6 @@
                     </tr>
                 }
             }
-        </tbody>
-    </table>
-    <style>
-        table {
-            width: 100%;
-            table-layout: fixed;
-            border-collapse: collapse;
-        }
-
-        /* Turn tbody into a flex container */
-        .flex-tbody {
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-        }
-
-        /* Make header and rows flex rows */
-        thead tr,
-        .flex-tbody tr {
-            display: flex;
-            width: 100%;
-        }
-
-        /* Column alignment */
-        thead th,
-        .flex-tbody td {
-            flex: 1 1 0;
-        }
-
-        /* Smooth reordering */
-        .flex-tbody tr {
-            transition: transform 0.3s ease;
-        }
-
-        /* Ordering */
-        .order-1 {
-            order: 1;
-        }
-
-        .order-2 {
-            order: 2;
-        }
-
-        .order-3 {
-            order: 3;
-        }
-
-        .order-4 {
-            order: 4;
-        }
-
-        .order-5 {
-            order: 5;
-        }
-
-
-    </style>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Symbol</th>
-                <th>Amount</th>
-            </tr>
-        </thead>
-
-        <tbody class="flex-tbody">
-            <tr class="order-1"><td>AAPL</td><td>10</td></tr>
-            <tr class="order-3"><td>TSLA</td><td>5</td></tr>
-            <tr class="order-2"><td>MSFT</td><td>12</td></tr>
         </tbody>
     </table>
 </main>

@@ -33,6 +33,25 @@ down-price-update, td.down-price-update, span.down-price-update {
     animation: flash-red 1s ease-out;
 }
 
+.leaderboard-table tbody {
+    display: flex;
+    flex-direction: column;
+}
+
+.leaderboard-table tr {
+    display: flex;
+}
+
+.leaderboard-table thead th,
+.leaderboard-table tbody td {
+    display: flex;
+    flex-grow: 1;
+}
+
+.leaderboard-table tbody tr {
+    transition: transform 0.3s ease;
+}
+
 @keyframes flash-green {
     0% {
         background-color: #00ff21;

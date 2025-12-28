@@ -44,8 +44,7 @@ down-price-update, td.down-price-update, span.down-price-update {
 
 .leaderboard-table thead th,
 .leaderboard-table tbody td {
-    display: flex;
-    flex-grow: 1;
+    flex: 1;
 }
 
 .leaderboard-table tbody tr {

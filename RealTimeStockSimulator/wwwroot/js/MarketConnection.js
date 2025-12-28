@@ -94,7 +94,7 @@ function updateMultiOwnershipLabels(updatedSymbol, newPrice) {
             totalPriceOfOwnership += totalPrice;
         }
 
-        const TotalOwnershipValueLabels = document.getElementsByClassName(`TotalOwnershipValueOfUser-${user.UserId}`);
+        const TotalOwnershipValueLabels = document.querySelectorAll(`.TotalOwnershipValue[data-user-id="${user.UserId}"]`);
 
         for (let totalOwnershipValueLabel of TotalOwnershipValueLabels) {
             setPriceLabelUpdatePrice(totalOwnershipValueLabel, totalPriceOfOwnership);

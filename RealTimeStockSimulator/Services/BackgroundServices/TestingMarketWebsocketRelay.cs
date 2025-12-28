@@ -18,15 +18,17 @@ namespace RealTimeStockSimulator.Services.BackgroundServices
 
         private decimal AddRandomnessToPrice(decimal currentPrice)
         {
-            double offsetPercentage = (double)_random.Next(-33, 33) / 10; 
-            currentPrice = currentPrice * (decimal)(1 + (offsetPercentage / 100));
+            //double offsetPercentage = (double)_random.Next(-33, 33) / 10; 
+            //currentPrice = currentPrice * (decimal)(1 + (offsetPercentage / 100));
 
-            if (currentPrice < 1)
-            {
-                currentPrice = 1;
-            }
+            //if (currentPrice < 1)
+            //{
+            //    currentPrice = 1;
+            //}
 
-            return currentPrice;
+            //return currentPrice;
+
+            return _random.Next(1, 1000000);
         }
 
         private void SubscribeToTradablesInCache(CancellationToken cancellationToken)
@@ -41,7 +43,7 @@ namespace RealTimeStockSimulator.Services.BackgroundServices
                         IncomingMarketWebsocketTradable incomingMarketWebsocketTradable = new IncomingMarketWebsocketTradable(symbol, AddRandomnessToPrice(currentPriceInfos.Price));
 
                         await _marketWebsocketHandler.HandleMarketWebSocketPayload(incomingMarketWebsocketTradable, cancellationToken);
-                        await Task.Delay(_random.Next(0, 10000), cancellationToken);
+                        await Task.Delay(4000);//Task.Delay(_random.Next(0, 10000), cancellationToken);
                     } 
                 }, cancellationToken);
             }

@@ -41,7 +41,7 @@
                         <td>
                             @ownership.User.UserName
                         </td>
-                        <td class="TotalOwnershipValueOfUser-@ownership.User.UserId">
+                        <td class="TotalOwnershipValue" data-user-id="@ownership.User.UserId" data-price="@FormatDecimalToJsDecimal(ownership.GetTotalValue(Model.TradablesDictionary))">
                             $@FormatDecimalPrice(ownership.GetTotalValue(Model.TradablesDictionary))
                         </td>
                         <td>

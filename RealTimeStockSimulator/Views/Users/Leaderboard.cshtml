@@ -3,8 +3,11 @@
     @using static RealTimeStockSimulator.Models.Helpers.StringFormatter
     @using System.Text.Json
     @using RealTimeStockSimulator.Extensions
+    @using static RealTimeStockSimulator.Models.Enums.NavEnabled;
 
     ViewData["title"] = "Leaderboard";
+    ViewBag.NavEnabled = Leaderboard;
+
 }
 
 <partial name="_Navbar" />

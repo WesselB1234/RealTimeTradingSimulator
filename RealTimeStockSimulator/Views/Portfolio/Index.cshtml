@@ -1,10 +1,12 @@
 ﻿@{
     @model List<RealTimeStockSimulator.Models.OwnershipTradable>
     @using static RealTimeStockSimulator.Models.Helpers.StringFormatter
+    @using static RealTimeStockSimulator.Models.Enums.NavEnabled;
     @using System.Text.Json
     @using RealTimeStockSimulator.Extensions
 
     ViewData["title"] = "Portfolio";
+    ViewBag.NavEnabled = Portfolio;
 }
 
 <partial name="_Navbar" />

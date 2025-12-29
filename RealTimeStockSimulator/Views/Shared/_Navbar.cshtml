@@ -1,5 +1,6 @@
 ﻿@{
     @using static RealTimeStockSimulator.Models.Helpers.StringFormatter
+    @using static RealTimeStockSimulator.Models.Enums.NavEnabled;
 }
 
 <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3 primary-background-color">
@@ -7,19 +8,19 @@
         <span class="navbar-brand text-light">RealTimeStockSimulator</span>
         <ul class="navbar-nav flex-grow-1">
             <li class="nav-item">
-                <a class="nav-link text-light" href="/Portfolio/Index">Portfolio</a>
+                <a class="nav-link text-light @(ViewBag.NavEnabled == Portfolio ? "nav-pill-enabled" : "")" href="/Portfolio/Index">Portfolio</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-light nav-pill-enabled" href="/Tradables/Index">Tradables</a>
+                <a class="nav-link text-light @(ViewBag.NavEnabled == Assets ? "nav-pill-enabled" : "")" href="/Tradables/Index">Tradables</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-light" href="/Users/Leaderboard">Leaderboard</a>
+                <a class="nav-link text-light @(ViewBag.NavEnabled == Leaderboard ? "nav-pill-enabled" : "")" href="/Users/Leaderboard">Leaderboard</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-light" href="/Transactions/Index">Transactions</a>
+                <a class="nav-link text-light @(ViewBag.NavEnabled == Transactions ? "nav-pill-enabled" : "")" href="/Transactions/Index">Transactions</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-light" href="/Settings/Index">Settings (Work in progress)</a>
+                <a class="nav-link text-light @(ViewBag.NavEnabled == Settings ? "nav-pill-enabled" : "")" href="/Settings/Index">Settings (Work in progress)</a>
             </li>
             <li class="nav-item ms-lg-auto">
                 <span class="nav-link text-light">               

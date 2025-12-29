@@ -1,8 +1,10 @@
 ﻿@{
     @model List<Tradable>;
     @using static RealTimeStockSimulator.Models.Helpers.StringFormatter
+    @using static RealTimeStockSimulator.Models.Enums.NavEnabled;
 
     ViewData["title"] = "Assets";
+    ViewBag.NavEnabled = Assets;
 }
 
 <partial name="_Navbar" />

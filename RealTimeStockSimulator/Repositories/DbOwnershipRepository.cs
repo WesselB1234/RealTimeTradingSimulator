@@ -130,11 +130,16 @@ namespace RealTimeStockSimulator.Repositories
                 command.Connection.Open();
                 SqlDataReader reader = command.ExecuteReader();
 
-                Ownership? currentOwnership = new Ownership();
+                Ownership? currentOwnership = null;
 
                 while (reader.Read())
                 {
                     UserAccount user = DataMapper.MapUser(reader);
+
+                    if (currentOwnership == null)
+                    {
+                        currentOwnership = new Ownership();
+                    }
 
                     if (currentOwnership.User == null)
                     {
@@ -160,7 +165,9 @@ namespace RealTimeStockSimulator.Repositories
                     currentOwnership.OwnedAmountOfSymbolDictionary[symbol] = amount;
                 }
 
-                ownerships.Ownerships.Add(currentOwnership);
+                if (currentOwnership != null) {
+                    ownerships.Ownerships.Add(currentOwnership);
+                }
             }
 
             return ownerships;

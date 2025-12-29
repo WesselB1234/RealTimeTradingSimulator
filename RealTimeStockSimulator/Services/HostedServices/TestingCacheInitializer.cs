@@ -20,7 +20,47 @@ namespace RealTimeStockSimulator.Services.HostedServices
         public async Task StartAsync(CancellationToken cancellationToken)
         {
             //Console.WriteLine(
-            //    _tradablesService.AddTradable(new Tradable("AMZN", "Amazon", ImageEncoder.GetBytesFromImagePath("C:\\Users\\stosi\\Desktop\\RealTimeTradingSimulator\\Rblx.jpg")))
+            //    _tradablesService.AddTradable(new Tradable("AAPL", "Apple", ImageEncoder.GetBytesFromImagePath("C:\\Users\\stosi\\Desktop\\RealTimeTradingSimulator\\AAPL.png")))
+            //);
+
+            //Console.WriteLine(
+            //    _tradablesService.AddTradable(new Tradable("BINANCE:BTCUSDT", "Bitcoin", ImageEncoder.GetBytesFromImagePath("C:\\Users\\stosi\\Desktop\\RealTimeTradingSimulator\\BTC.png")))
+            //);
+
+            //Console.WriteLine(
+            //    _tradablesService.AddTradable(new Tradable("BINANCE:DOGEUSDT", "Dogecoin", ImageEncoder.GetBytesFromImagePath("C:\\Users\\stosi\\Desktop\\RealTimeTradingSimulator\\DogeCoin.png")))
+            //);
+
+            //Console.WriteLine(
+            //    _tradablesService.AddTradable(new Tradable("BINANCE:ETHUSDT", "Ethereum", ImageEncoder.GetBytesFromImagePath("C:\\Users\\stosi\\Desktop\\RealTimeTradingSimulator\\Ethereum_Logo.png")))
+            //);
+
+            //Console.WriteLine(
+            //    _tradablesService.AddTradable(new Tradable("MCD", "McDonald's", ImageEncoder.GetBytesFromImagePath("C:\\Users\\stosi\\Desktop\\RealTimeTradingSimulator\\Mcdonalds.png")))
+            //);
+
+            //Console.WriteLine(
+            //    _tradablesService.AddTradable(new Tradable("MSFT", "Microsoft", ImageEncoder.GetBytesFromImagePath("C:\\Users\\stosi\\Desktop\\RealTimeTradingSimulator\\Microsoft_logo.png")))
+            //);
+
+            //Console.WriteLine(
+            //    _tradablesService.AddTradable(new Tradable("NKE", "Nike", ImageEncoder.GetBytesFromImagePath("C:\\Users\\stosi\\Desktop\\RealTimeTradingSimulator\\Nike.jpg")))
+            //);
+
+            //Console.WriteLine(
+            //    _tradablesService.AddTradable(new Tradable("NVDA", "Nvidia", ImageEncoder.GetBytesFromImagePath("C:\\Users\\stosi\\Desktop\\RealTimeTradingSimulator\\Nividia.png")))
+            //);
+
+            //Console.WriteLine(
+            //    _tradablesService.AddTradable(new Tradable("RBLX", "Roblox", ImageEncoder.GetBytesFromImagePath("C:\\Users\\stosi\\Desktop\\RealTimeTradingSimulator\\Rblx.jpg")))
+            //);
+
+            //Console.WriteLine(
+            //    _tradablesService.AddTradable(new Tradable("ASML", "ASML", ImageEncoder.GetBytesFromImagePath("C:\\Users\\stosi\\Desktop\\RealTimeTradingSimulator\\ASML.png")))
+            //);
+
+            //Console.WriteLine(
+            //    _tradablesService.AddTradable(new Tradable("TEST", null, null))
             //);
 
             foreach (Tradable tradable in _tradablesService.GetAllTradables())

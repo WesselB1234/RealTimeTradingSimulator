@@ -20,8 +20,8 @@ namespace RealTimeStockSimulator.Repositories
                 SqlCommand command = new SqlCommand(query, connection);
 
                 command.Parameters.AddWithValue("@Symbol", tradable.Symbol);
-                command.Parameters.AddWithValue("@Name", tradable.Name);
-                command.Parameters.Add("@Image", SqlDbType.VarBinary).Value = tradable.Image;
+                command.Parameters.AddWithValue("@Name", (tradable.Name == null ? DBNull.Value : tradable.Name));
+                command.Parameters.Add("@Image", SqlDbType.VarBinary).Value = (tradable.Image == null ? DBNull.Value : tradable.Image);
 
                 command.Connection.Open();
 

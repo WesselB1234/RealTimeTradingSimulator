@@ -84,7 +84,7 @@ table td {
 }
 
 .tradable-img {
-    object-fit: cover;
+    object-fit: contain;
     height: 40px;
     width: 40px;
     border-radius: 7px;

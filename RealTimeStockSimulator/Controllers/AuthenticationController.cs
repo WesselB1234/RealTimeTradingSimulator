@@ -16,9 +16,16 @@ namespace RealTimeStockSimulator.Controllers
             _usersService = usersService;
         }
 
-        public IActionResult AccessDeniedPath()
+        public IActionResult NotAuthorized()
         {
-            TempData["ErrorMessage"] = "You are not authorized to perform this action.";
+            TempData["ErrorMessage"] = "Your account is not authorized to perform this action.";
+
+            return RedirectToAction("Login");
+        }
+
+        public IActionResult NotLoggedIn()
+        {
+            TempData["ErrorMessage"] = "You must be logged in to perform this action.";
 
             return RedirectToAction("Login");
         }
@@ -77,6 +84,7 @@ namespace RealTimeStockSimulator.Controllers
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync();
+
             TempData["ConfirmationMessage"] = "Successfully logged out.";
 
             return View("Login");

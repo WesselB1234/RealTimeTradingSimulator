@@ -59,8 +59,8 @@ namespace RealTimeStockSimulator
             builder.Services.AddAuthentication(IdentityConstants.ApplicationScheme)
                .AddCookie(IdentityConstants.ApplicationScheme, options =>
                {
-                   options.LoginPath = "/Authentication/Login";
-                   options.AccessDeniedPath = "/Authentication/AccessDeniedPath";
+                   options.LoginPath = "/Authentication/NotLoggedIn";
+                   options.AccessDeniedPath = "/Authentication/NotAuthorized";
                });
 
             builder.Services.AddAuthorization();
@@ -80,6 +80,7 @@ namespace RealTimeStockSimulator
 
             app.UseRouting();
 
+            app.UseAuthentication(); 
             app.UseAuthorization();
 
             app.MapControllerRoute(

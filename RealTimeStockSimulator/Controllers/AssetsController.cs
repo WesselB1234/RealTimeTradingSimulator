@@ -8,13 +8,13 @@ using RealTimeStockSimulator.Services.Interfaces;
 namespace RealTimeStockSimulator.Controllers
 {
     [Authorize]
-    public class TradablesController : AuthenticatedUserController
+    public class AssetsController : AuthenticatedUserController
     {
         private ITradablesService _tradablesService;
         private IOwnershipsService _ownershipsService;
         private IUsersService _usersService;
 
-        public TradablesController(ITradablesService tradablesService, IOwnershipsService ownershipsService, IUsersService usersService): base(usersService)
+        public AssetsController(ITradablesService tradablesService, IOwnershipsService ownershipsService, IUsersService usersService): base(usersService)
         {
             _tradablesService = tradablesService;
             _ownershipsService = ownershipsService;

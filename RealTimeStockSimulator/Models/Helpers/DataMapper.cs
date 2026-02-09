@@ -38,7 +38,7 @@ namespace RealTimeStockSimulator.Models.Helpers
             }
         }
 
-        public static Tradable MapTradable(SqlDataReader reader)
+        public static Asset MapTradable(SqlDataReader reader)
         {
             string symbol = (string)reader["symbol"];
 
@@ -50,9 +50,9 @@ namespace RealTimeStockSimulator.Models.Helpers
                 ? null
                 : (string)reader["image_path"];
 
-            TradableType type = (TradableType)Enum.Parse(typeof(TradableType), (string)reader["type"]);
+            AssetType type = (AssetType)Enum.Parse(typeof(AssetType), (string)reader["type"]);
 
-            return new Tradable(symbol, name, imagePath, type);
+            return new Asset(symbol, name, imagePath, type);
         }
 
         public static OwnershipTradable MapOwnershipTradable(SqlDataReader reader)
@@ -65,7 +65,7 @@ namespace RealTimeStockSimulator.Models.Helpers
         public static MarketTransactionTradable MapMarketTransactionTradable(SqlDataReader reader)
         {
             int transactionId = (int)reader["transaction_id"];
-            Tradable tradable = MapTradable(reader);
+            Asset tradable = MapTradable(reader);
             decimal price = (decimal)reader["price"];
             MarketTransactionStatus status = (MarketTransactionStatus)Enum.Parse(typeof(MarketTransactionStatus), (string)reader["status"]);
             int amount = (int)reader["amount"];
@@ -74,7 +74,7 @@ namespace RealTimeStockSimulator.Models.Helpers
             return new MarketTransactionTradable(transactionId, tradable, price, status, amount, date);
         }
 
-        public static OwnershipTradable MapOwnershipTradableByTradable(Tradable tradable, int amount)
+        public static OwnershipTradable MapOwnershipTradableByTradable(Asset tradable, int amount)
         {
             return new OwnershipTradable(tradable.Symbol, tradable.Name, tradable.ImagePath, tradable.Type, amount);
         }

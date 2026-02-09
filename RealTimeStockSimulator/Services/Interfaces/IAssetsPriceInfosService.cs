@@ -2,7 +2,7 @@
 
 namespace RealTimeStockSimulator.Repositories.Interfaces
 {
-    public interface ITradablePriceInfosRepository
+    public interface IAssetsPriceInfosService
     {
         AssetPriceInfos? GetPriceInfosBySymbol(string symbol);
         List<string> GetAllKeys();

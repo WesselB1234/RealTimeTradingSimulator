@@ -5,13 +5,13 @@ namespace RealTimeStockSimulator.Models
     public class MarketTransactionTradable
     {
         public int? TransactionId { get; set; }
-        public Tradable Tradable { get; set; }
+        public Asset Tradable { get; set; }
         public decimal Price { get; set; }
         public MarketTransactionStatus Status { get; set; }
         public int Amount {  get; set; }
         public DateTime Date { get; set; }
 
-        public MarketTransactionTradable(int transactionId, Tradable tradable, decimal price, MarketTransactionStatus status, int amount, DateTime date)
+        public MarketTransactionTradable(int transactionId, Asset tradable, decimal price, MarketTransactionStatus status, int amount, DateTime date)
         {
             TransactionId = transactionId;
             Tradable = tradable;
@@ -21,7 +21,7 @@ namespace RealTimeStockSimulator.Models
             Date = date;
         }
 
-        public MarketTransactionTradable(Tradable tradable, decimal price, MarketTransactionStatus status, int amount, DateTime date)
+        public MarketTransactionTradable(Asset tradable, decimal price, MarketTransactionStatus status, int amount, DateTime date)
         {
             Tradable = tradable;
             Price = price;

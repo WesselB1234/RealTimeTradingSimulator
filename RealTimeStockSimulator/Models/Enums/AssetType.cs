@@ -1,6 +1,6 @@
 ﻿namespace RealTimeStockSimulator.Models.Enums
 {
-    public enum TradableType
+    public enum AssetType
     {
         Stock, Crypto, Other
     }

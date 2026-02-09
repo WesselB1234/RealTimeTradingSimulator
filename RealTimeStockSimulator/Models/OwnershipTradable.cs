@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace RealTimeStockSimulator.Models
 {
-    public class OwnershipTradable : Tradable
+    public class OwnershipTradable : Asset
     {
         [JsonInclude]
         public int Amount;
@@ -20,7 +20,7 @@ namespace RealTimeStockSimulator.Models
             }
         }
 
-        public OwnershipTradable(string symbol, string? name, string? imagePath, TradableType type, int amount) : base(symbol, name, imagePath, type)
+        public OwnershipTradable(string symbol, string? name, string? imagePath, AssetType type, int amount) : base(symbol, name, imagePath, type)
         {
             Amount = amount;
         }

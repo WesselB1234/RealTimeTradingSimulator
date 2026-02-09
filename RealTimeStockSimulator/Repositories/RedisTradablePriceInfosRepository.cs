@@ -39,11 +39,11 @@ namespace RealTimeStockSimulator.Repositories
             _redisTradablePriceInfosDb.Execute("FLUSHDB");
         }
 
-        public TradablePriceInfos? GetPriceInfosBySymbol(string symbol)
+        public AssetPriceInfos? GetPriceInfosBySymbol(string symbol)
         {
             if (_redisTradablePriceInfosDb.KeyExists(symbol))
             {
-                return JsonSerializer.Deserialize<TradablePriceInfos>(_redisTradablePriceInfosDb.StringGet(symbol).ToString());
+                return JsonSerializer.Deserialize<AssetPriceInfos>(_redisTradablePriceInfosDb.StringGet(symbol).ToString());
             }
 
             return null;
@@ -56,7 +56,7 @@ namespace RealTimeStockSimulator.Repositories
                          .ToList();
         }
 
-        public void SetPriceInfosBySymbol(string symbol, TradablePriceInfos priceInfos)
+        public void SetPriceInfosBySymbol(string symbol, AssetPriceInfos priceInfos)
         {
             _redisTradablePriceInfosDb.StringSet(symbol, JsonSerializer.Serialize(priceInfos));
         }

@@ -1,5 +1,5 @@
 ﻿@{
-    @model List<RealTimeStockSimulator.Models.Tradable>
+    @model List<RealTimeStockSimulator.Models.Asset>
     @using static RealTimeStockSimulator.Models.Helpers.StringFormatter
     @using static RealTimeStockSimulator.Models.Enums.NavEnabled
 
@@ -34,7 +34,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (Tradable tradable in Model)
+            @foreach (Asset tradable in Model)
             {
                 <tr>
                     <partial name="_TradableTdCosmetics" model=tradable />

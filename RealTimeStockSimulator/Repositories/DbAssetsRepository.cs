@@ -5,11 +5,11 @@ using RealTimeStockSimulator.Models.Helpers;
 
 namespace RealTimeStockSimulator.Repositories
 {
-    public class DbTradablesRepository : DbBaseRepository, ITradablesRepository
+    public class DbAssetsRepository : DbBaseRepository, IAssetsRepository
     {
-        public DbTradablesRepository(IConfiguration configuration) : base(configuration) { }
+        public DbAssetsRepository(IConfiguration configuration) : base(configuration) { }
 
-        public int AddTradable(Tradable tradable)
+        public int AddTradable(Asset tradable)
         {
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
@@ -28,9 +28,9 @@ namespace RealTimeStockSimulator.Repositories
             }
         }
 
-        public List<Tradable> GetAllTradables()
+        public List<Asset> GetAllTradables()
         {
-            List<Tradable> tradables = new List<Tradable>();
+            List<Asset> tradables = new List<Asset>();
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
@@ -43,7 +43,7 @@ namespace RealTimeStockSimulator.Repositories
 
                 while (reader.Read())
                 {
-                    Tradable tradable = DataMapper.MapTradable(reader);
+                    Asset tradable = DataMapper.MapTradable(reader);
                     tradables.Add(tradable);
                 }
             }
@@ -51,7 +51,7 @@ namespace RealTimeStockSimulator.Repositories
             return tradables;
         }
 
-        public Tradable? GetTradableBySymbol(string symbol)
+        public Asset? GetTradableBySymbol(string symbol)
         {
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {

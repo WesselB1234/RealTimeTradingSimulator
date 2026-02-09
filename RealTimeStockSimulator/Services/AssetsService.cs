@@ -5,29 +5,29 @@ using RealTimeStockSimulator.Services.Interfaces;
 
 namespace RealTimeStockSimulator.Services
 {
-    public class TradablesService : ITradablesService
+    public class AssetsService : IAssetsService
     {
         private string? _marketApiKey;
-        private ITradablePriceInfosService _priceInfosService;
-        ITradablesRepository _tradablesRepository;
+        private IAssetsPriceInfosService _priceInfosService;
+        IAssetsRepository _tradablesRepository;
 
-        public TradablesService(IConfiguration configuration, ITradablePriceInfosService priceInfosService, ITradablesRepository tradablesRepository)
+        public AssetsService(IConfiguration configuration, IAssetsPriceInfosService priceInfosService, IAssetsRepository tradablesRepository)
         {
             _marketApiKey = configuration.GetValue<string>("ApiKeyStrings:MarketApiKey");
             _priceInfosService = priceInfosService;
             _tradablesRepository = tradablesRepository;
         }
 
-        public int AddTradable(Tradable tradable)
+        public int AddTradable(Asset tradable)
         {
             return _tradablesRepository.AddTradable(tradable);
         }
 
-        public List<Tradable> GetAllTradables()
+        public List<Asset> GetAllTradables()
         {
-            List<Tradable> tradables = _tradablesRepository.GetAllTradables();
+            List<Asset> tradables = _tradablesRepository.GetAllTradables();
 
-            foreach(Tradable tradable in tradables)
+            foreach(Asset tradable in tradables)
             {
                 tradable.TradablePriceInfos = _priceInfosService.GetPriceInfosBySymbol(tradable.Symbol);
             }
@@ -35,18 +35,18 @@ namespace RealTimeStockSimulator.Services
             return tradables;
         }
 
-        public async Task<List<Tradable>> GetAllTradablesWithApiDataAsync(CancellationToken cancellationToken)
+        public async Task<List<Asset>> GetAllTradablesWithApiDataAsync(CancellationToken cancellationToken)
         {
-            List<Tradable> tradables = GetAllTradables();
+            List<Asset> tradables = GetAllTradables();
             HttpClient client = new HttpClient();
 
-            foreach (Tradable tradable in tradables) 
+            foreach (Asset tradable in tradables) 
             {
                 HttpResponseMessage response = await client.GetAsync($"https://finnhub.io/api/v1/quote?symbol={tradable.Symbol}&token={_marketApiKey}", cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {
-                    TradablePriceInfos? responseTradablePriceInfos = await response.Content.ReadFromJsonAsync<TradablePriceInfos>();
+                    AssetPriceInfos? responseTradablePriceInfos = await response.Content.ReadFromJsonAsync<AssetPriceInfos>();
 
                     if (responseTradablePriceInfos != null)
                     {
@@ -62,9 +62,9 @@ namespace RealTimeStockSimulator.Services
             return tradables;
         }
 
-        public Tradable? GetTradableBySymbol(string symbol)
+        public Asset? GetTradableBySymbol(string symbol)
         {
-            Tradable? tradable = _tradablesRepository.GetTradableBySymbol(symbol);
+            Asset? tradable = _tradablesRepository.GetTradableBySymbol(symbol);
 
             if (tradable != null)
             {
@@ -74,14 +74,14 @@ namespace RealTimeStockSimulator.Services
             return tradable;
         }
 
-        public Tradable GetTradableFromBuySellViewModel(ProcessBuySellVM confirmViewModel)
+        public Asset GetTradableFromBuySellViewModel(ProcessBuySellVM confirmViewModel)
         {
             if (confirmViewModel.Symbol == null)
             {
                 throw new Exception("Symbol is empty.");
             }
 
-            Tradable? tradable = GetTradableBySymbol(confirmViewModel.Symbol);
+            Asset? tradable = GetTradableBySymbol(confirmViewModel.Symbol);
 
             if (tradable == null)
             {

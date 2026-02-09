@@ -15,10 +15,10 @@ namespace RealTimeStockSimulator.Services.BackgroundServices
         };
 
         private string? _marketApiKey;
-        private ITradablePriceInfosService _priceInfosService;
+        private IAssetsPriceInfosService _priceInfosService;
         private IMarketWebsocketHandler _marketWebsocketHandler;
 
-        public MarketWebsocketRelay(IConfiguration configuration, ITradablePriceInfosService priceInfosService, IMarketWebsocketHandler marketWebsocketHandler)
+        public MarketWebsocketRelay(IConfiguration configuration, IAssetsPriceInfosService priceInfosService, IMarketWebsocketHandler marketWebsocketHandler)
         {
             _marketApiKey = configuration.GetValue<string>("ApiKeyStrings:MarketApiKey");
             _priceInfosService = priceInfosService;

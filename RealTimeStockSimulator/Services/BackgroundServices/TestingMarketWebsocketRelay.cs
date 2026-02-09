@@ -6,11 +6,11 @@ namespace RealTimeStockSimulator.Services.BackgroundServices
 {
     public class TestingMarketWebsocketRelay : BackgroundService
     {   
-        private ITradablePriceInfosService _priceInfosService;
+        private IAssetsPriceInfosService _priceInfosService;
         private IMarketWebsocketHandler _marketWebsocketHandler;
         private Random _random = new Random();
 
-        public TestingMarketWebsocketRelay(ITradablePriceInfosService priceInfosService, IMarketWebsocketHandler marketWebsocketHandler)
+        public TestingMarketWebsocketRelay(IAssetsPriceInfosService priceInfosService, IMarketWebsocketHandler marketWebsocketHandler)
         {
             _priceInfosService = priceInfosService;
             _marketWebsocketHandler = marketWebsocketHandler;
@@ -37,7 +37,7 @@ namespace RealTimeStockSimulator.Services.BackgroundServices
                 { 
                     while (!cancellationToken.IsCancellationRequested) 
                     { 
-                        TradablePriceInfos currentPriceInfos = _priceInfosService.GetPriceInfosBySymbol(symbol);
+                        AssetPriceInfos currentPriceInfos = _priceInfosService.GetPriceInfosBySymbol(symbol);
                         IncomingMarketWebsocketTradable incomingMarketWebsocketTradable = new IncomingMarketWebsocketTradable(symbol, AddRandomnessToPrice(currentPriceInfos.Price));
 
                         await _marketWebsocketHandler.HandleMarketWebSocketPayload(incomingMarketWebsocketTradable, cancellationToken);

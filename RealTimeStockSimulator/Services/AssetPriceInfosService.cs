@@ -3,16 +3,16 @@ using RealTimeStockSimulator.Repositories.Interfaces;
 
 namespace RealTimeStockSimulator.Services
 {
-    public class TradablePriceInfosService : ITradablePriceInfosService
+    public class AssetPriceInfosService : IAssetsPriceInfosService
     {
         private ITradablePriceInfosRepository _tradablePriceInfosRepository;
 
-        public TradablePriceInfosService(ITradablePriceInfosRepository tradablePriceInfosRepository)
+        public AssetPriceInfosService(ITradablePriceInfosRepository tradablePriceInfosRepository)
         {
             _tradablePriceInfosRepository = tradablePriceInfosRepository;
         }
 
-        public TradablePriceInfos? GetPriceInfosBySymbol(string symbol)
+        public AssetPriceInfos? GetPriceInfosBySymbol(string symbol)
         {
             return _tradablePriceInfosRepository.GetPriceInfosBySymbol(symbol);
         }
@@ -22,7 +22,7 @@ namespace RealTimeStockSimulator.Services
             return _tradablePriceInfosRepository.GetAllKeys();
         }
 
-        public void SetPriceInfosBySymbol(string symbol, TradablePriceInfos priceInfos)
+        public void SetPriceInfosBySymbol(string symbol, AssetPriceInfos priceInfos)
         {
             _tradablePriceInfosRepository.SetPriceInfosBySymbol(symbol, priceInfos);
         }

@@ -5,9 +5,9 @@ namespace RealTimeStockSimulator.Repositories
 {
     public class CacheTradablePriceInfosRepository : ITradablePriceInfosRepository
     {
-        private Dictionary<string, TradablePriceInfos> _tradablesPriceInfosDictionary = new Dictionary<string, TradablePriceInfos>();
+        private Dictionary<string, AssetPriceInfos> _tradablesPriceInfosDictionary = new Dictionary<string, AssetPriceInfos>();
 
-        public TradablePriceInfos? GetPriceInfosBySymbol(string symbol)
+        public AssetPriceInfos? GetPriceInfosBySymbol(string symbol)
         {
             if (_tradablesPriceInfosDictionary.ContainsKey(symbol))
             {
@@ -22,7 +22,7 @@ namespace RealTimeStockSimulator.Repositories
             return _tradablesPriceInfosDictionary.Keys.ToList();
         }
 
-        public void SetPriceInfosBySymbol(string symbol, TradablePriceInfos priceInfos)
+        public void SetPriceInfosBySymbol(string symbol, AssetPriceInfos priceInfos)
         {
             _tradablesPriceInfosDictionary[symbol] = priceInfos;
         }

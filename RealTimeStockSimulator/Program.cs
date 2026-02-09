@@ -22,7 +22,7 @@ namespace RealTimeStockSimulator
             builder.Services.AddControllersWithViews();
             builder.Services.AddSignalR();
 
-            builder.Services.AddSingleton<ITradablesRepository, DbTradablesRepository>();
+            builder.Services.AddSingleton<IAssetsRepository, DbAssetsRepository>();
             builder.Services.AddSingleton<IUsersRepository, DbUsersRepository>();
             builder.Services.AddSingleton<IOwnershipRepository, DbOwnershipRepository>();
             builder.Services.AddSingleton<IMarketTransactionsRepository, DbMarketTransactionsRepository>();
@@ -38,11 +38,11 @@ namespace RealTimeStockSimulator
                 builder.Services.AddSingleton<ITradablePriceInfosRepository, CacheTradablePriceInfosRepository>();
             }
 
-            builder.Services.AddSingleton<ITradablesService, TradablesService>();
+            builder.Services.AddSingleton<IAssetsService, AssetsService>();
             builder.Services.AddSingleton<IUsersService, UsersService>();
             builder.Services.AddSingleton<IOwnershipsService, OwnershipsService>();
             builder.Services.AddSingleton<IMarketTransactionsService, MarketTransactionsService>();
-            builder.Services.AddSingleton<ITradablePriceInfosService, TradablePriceInfosService>();
+            builder.Services.AddSingleton<IAssetsPriceInfosService, AssetPriceInfosService>();
             builder.Services.AddSingleton<IMarketWebsocketHandler, MarketWebsocketHandler>();
 
             if (builder.Configuration.GetValue<bool>("AppModes:TestingMode"))

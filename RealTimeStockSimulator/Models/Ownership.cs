@@ -10,7 +10,7 @@
             OwnedAmountOfSymbolDictionary = new Dictionary<string, int>();
         }
 
-        public decimal GetTotalValue(Dictionary<string, Tradable> tradablesDictionary)
+        public decimal GetTotalValue(Dictionary<string, Asset> tradablesDictionary)
         {
             decimal totalValue = 0;
 
@@ -21,7 +21,7 @@
 
                 if (tradablesDictionary.ContainsKey(symbol))
                 {
-                    Tradable tradable = tradablesDictionary[symbol];
+                    Asset tradable = tradablesDictionary[symbol];
 
                     if (tradable.TradablePriceInfos != null)
                     {

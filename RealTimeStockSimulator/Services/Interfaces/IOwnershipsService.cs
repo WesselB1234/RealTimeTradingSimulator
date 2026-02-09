@@ -12,7 +12,7 @@ namespace RealTimeStockSimulator.Services.Interfaces
         void AddOwnershipTradableToUserId(int userId, OwnershipTradable tradable);
         void UpdateOwnershipTradable(int userId, OwnershipTradable tradable);
         void RemoveOwnershipTradableFromUserId(int userId, OwnershipTradable tradable);
-        decimal BuyTradable(UserAccount user, Tradable tradable, int amount);
+        decimal BuyTradable(UserAccount user, Asset tradable, int amount);
         decimal SellTradable(UserAccount user, OwnershipTradable tradable, int amount);
     }
 }

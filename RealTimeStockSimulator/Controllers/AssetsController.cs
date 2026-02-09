@@ -10,11 +10,11 @@ namespace RealTimeStockSimulator.Controllers
     [Authorize]
     public class AssetsController : AuthenticatedUserController
     {
-        private ITradablesService _tradablesService;
+        private IAssetsService _tradablesService;
         private IOwnershipsService _ownershipsService;
         private IUsersService _usersService;
 
-        public AssetsController(ITradablesService tradablesService, IOwnershipsService ownershipsService, IUsersService usersService): base(usersService)
+        public AssetsController(IAssetsService tradablesService, IOwnershipsService ownershipsService, IUsersService usersService): base(usersService)
         {
             _tradablesService = tradablesService;
             _ownershipsService = ownershipsService;
@@ -23,7 +23,7 @@ namespace RealTimeStockSimulator.Controllers
 
         public IActionResult Index()
         {
-            List<Tradable> tradables = _tradablesService.GetAllTradables();
+            List<Asset> tradables = _tradablesService.GetAllTradables();
 
             return View(tradables);
         }
@@ -32,7 +32,7 @@ namespace RealTimeStockSimulator.Controllers
         {
             try
             {
-                Tradable tradable = _tradablesService.GetTradableFromBuySellViewModel(confirmViewModel);
+                Asset tradable = _tradablesService.GetTradableFromBuySellViewModel(confirmViewModel);
                 BuyVM viewModel = new BuyVM(tradable, confirmViewModel.Amount);
 
                 return View(viewModel);
@@ -47,7 +47,7 @@ namespace RealTimeStockSimulator.Controllers
 
         public async Task<IActionResult> ProcessBuy(ProcessBuySellVM confirmViewModel)
         {
-            Tradable? tradable = null;
+            Asset? tradable = null;
 
             try
             {

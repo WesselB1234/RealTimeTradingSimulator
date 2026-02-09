@@ -2,7 +2,7 @@
 
 namespace RealTimeStockSimulator.Models
 {
-    public class TradablePriceInfos
+    public class AssetPriceInfos
     {
         [JsonInclude]
         public decimal Price { get; set; }
@@ -19,12 +19,12 @@ namespace RealTimeStockSimulator.Models
             } 
         }
 
-        public TradablePriceInfos(decimal price)
+        public AssetPriceInfos(decimal price)
         {
             Price = price;
         }
 
-        public TradablePriceInfos()
+        public AssetPriceInfos()
         {
 
         }

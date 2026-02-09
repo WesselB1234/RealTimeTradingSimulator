@@ -1,11 +1,11 @@
 ﻿namespace RealTimeStockSimulator.Models
 {
-    public class TradableUpdatePayload
+    public class AssetUpdatePayload
     {
         public string Symbol { get; set; }
-        public TradablePriceInfos TradablePriceInfos { get; set; }
+        public AssetPriceInfos TradablePriceInfos { get; set; }
 
-        public TradableUpdatePayload(string symbol, TradablePriceInfos tradablePriceInfos)
+        public AssetUpdatePayload(string symbol, AssetPriceInfos tradablePriceInfos)
         {
             Symbol = symbol;
             TradablePriceInfos = tradablePriceInfos;

@@ -12,9 +12,9 @@ namespace RealTimeStockSimulator.Services
     {
         private IOwnershipRepository _ownershipsRepository;
         private IMarketTransactionsService _marketTransactionsService;
-        private ITradablePriceInfosService _priceInfosService;
+        private IAssetsPriceInfosService _priceInfosService;
 
-        public OwnershipsService(IOwnershipRepository ownershipsRepository, IMarketTransactionsService marketTransactionsService, ITradablePriceInfosService priceInfosService)
+        public OwnershipsService(IOwnershipRepository ownershipsRepository, IMarketTransactionsService marketTransactionsService, IAssetsPriceInfosService priceInfosService)
         {
             _ownershipsRepository = ownershipsRepository;
             _marketTransactionsService = marketTransactionsService;
@@ -60,14 +60,14 @@ namespace RealTimeStockSimulator.Services
             _ownershipsRepository.RemoveOwnershipTradableFromUserId(userId, tradable);
         }
 
-        private void LogOrderTransaction(int userId, Tradable tradable, MarketTransactionStatus status, int amount)
+        private void LogOrderTransaction(int userId, Asset tradable, MarketTransactionStatus status, int amount)
         {
             MarketTransactionTradable marketTransactionTradable = new MarketTransactionTradable(tradable, tradable.TradablePriceInfos.Price, status, amount, DateTime.Now);
 
             _marketTransactionsService.AddTransaction(userId, marketTransactionTradable);
         }
 
-        public decimal BuyTradable(UserAccount user, Tradable tradable, int amount)
+        public decimal BuyTradable(UserAccount user, Asset tradable, int amount)
         {
             decimal moneyAfterPurchase = user.Money - (tradable.TradablePriceInfos.Price * amount);
 
@@ -143,7 +143,7 @@ namespace RealTimeStockSimulator.Services
         {
             MultiOwnership multiOwnership = _ownershipsRepository.GetValueOrderedMultiOwnershipsPagnated(pageSize, currentPage);
 
-            foreach (Tradable tradable in multiOwnership.TradablesDictionary.Values)
+            foreach (Asset tradable in multiOwnership.TradablesDictionary.Values)
             {
                 tradable.TradablePriceInfos = _priceInfosService.GetPriceInfosBySymbol(tradable.Symbol);   
             }

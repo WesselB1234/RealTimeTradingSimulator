@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using RealTimeStockSimulator.Hubs;
 using RealTimeStockSimulator.Models.Enums;
-using RealTimeStockSimulator.Models.Helpers;
 using RealTimeStockSimulator.Repositories;
 using RealTimeStockSimulator.Repositories.Interfaces;
 using RealTimeStockSimulator.Services;

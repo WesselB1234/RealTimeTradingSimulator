@@ -5,10 +5,10 @@ namespace RealTimeStockSimulator.Services.Interfaces
 {
     public interface IAssetsService
     {
-        List<Asset> GetAllTradables();
-        int AddTradable(Asset tradable);
-        Task<List<Asset>> GetAllTradablesWithApiDataAsync(CancellationToken cancellationToken);
+        List<Asset> GetAllAssets();
+        int AddAsset(Asset asset);
+        Task<List<Asset>> GetAllAssersWithApiDataAsync(CancellationToken cancellationToken);
         Asset GetTradableFromBuySellViewModel(ProcessBuySellVM confirmViewModel);
-        Asset? GetTradableBySymbol(string symbol);
+        Asset? GetAssetBySymbol(string symbol);
     }
 }

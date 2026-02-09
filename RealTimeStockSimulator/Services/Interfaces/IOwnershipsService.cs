@@ -5,14 +5,14 @@ namespace RealTimeStockSimulator.Services.Interfaces
 {
     public interface IOwnershipsService
     {
-        List<OwnershipTradable> GetAllOwnershipTradablesByUserId(int userId);
+        List<OwnershipAsset> GetAllOwnershipTradablesByUserId(int userId);
         MultiOwnership GetValueOrderedMultiOwnershipsPagnated(int pageSize, int currentPage);
-        OwnershipTradable? GetOwnershipTradableByUserId(int userId, string symbol);
-        OwnershipTradable GetOwnershipTradableFromBuySellViewModel(ProcessBuySellVM confirmViewModel, int userId);
-        void AddOwnershipTradableToUserId(int userId, OwnershipTradable tradable);
-        void UpdateOwnershipTradable(int userId, OwnershipTradable tradable);
-        void RemoveOwnershipTradableFromUserId(int userId, OwnershipTradable tradable);
+        OwnershipAsset? GetOwnershipTradableByUserId(int userId, string symbol);
+        OwnershipAsset GetOwnershipTradableFromBuySellViewModel(ProcessBuySellVM confirmViewModel, int userId);
+        void AddOwnershipTradableToUserId(int userId, OwnershipAsset tradable);
+        void UpdateOwnershipTradable(int userId, OwnershipAsset tradable);
+        void RemoveOwnershipTradableFromUserId(int userId, OwnershipAsset tradable);
         decimal BuyTradable(UserAccount user, Asset tradable, int amount);
-        decimal SellTradable(UserAccount user, OwnershipTradable tradable, int amount);
+        decimal SellTradable(UserAccount user, OwnershipAsset tradable, int amount);
     }
 }

@@ -9,7 +9,7 @@ namespace RealTimeStockSimulator.Repositories
     {
         public DbMarketTransactionsRepository(IConfiguration configuration) : base(configuration) { }
 
-        public int AddTransaction(int userId, MarketTransactionTradable transaction)
+        public int AddTransaction(int userId, MarketTransactionAsset transaction)
         {
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
@@ -37,15 +37,15 @@ namespace RealTimeStockSimulator.Repositories
             }
         }
 
-        public List<MarketTransactionTradable> GetTransactionsByUserIdPagnated(int userId, int pageSize, int currentPage)
+        public List<MarketTransactionAsset> GetTransactionsByUserIdPagnated(int userId, int pageSize, int currentPage)
         {
-            List<MarketTransactionTradable> transactions = new List<MarketTransactionTradable>();
+            List<MarketTransactionAsset> transactions = new List<MarketTransactionAsset>();
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 string query = "SELECT TOP(@PageSize) transaction_id, Transactions.symbol, price, status, amount, date, type " +
                    "FROM Transactions " +
-                   "JOIN Tradables ON Transactions.symbol = Tradables.symbol " +
+                   "JOIN Assets ON Transactions.symbol = Tradables.symbol " +
                    "WHERE user_id = @UserId " +
                    "ORDER BY transaction_id DESC;";
                 SqlCommand command = new SqlCommand(query, connection);

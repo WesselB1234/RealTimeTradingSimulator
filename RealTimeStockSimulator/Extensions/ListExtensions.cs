@@ -4,11 +4,11 @@ namespace RealTimeStockSimulator.Extensions
 {
     public static class ListExtensions
     {
-        public static decimal GetTotalOwnershipValue(this List<OwnershipTradable> ownershipTradables)
+        public static decimal GetTotalOwnershipValue(this List<OwnershipAsset> ownershipTradables)
         {
             decimal total = 0;
 
-            foreach (OwnershipTradable tradable in ownershipTradables)
+            foreach (OwnershipAsset tradable in ownershipTradables)
             {
                 total += tradable.TotalValue;
             }

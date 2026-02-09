@@ -38,7 +38,7 @@ namespace RealTimeStockSimulator.Services.BackgroundServices
                     while (!cancellationToken.IsCancellationRequested) 
                     { 
                         AssetPriceInfos currentPriceInfos = _priceInfosService.GetPriceInfosBySymbol(symbol);
-                        IncomingMarketWebsocketTradable incomingMarketWebsocketTradable = new IncomingMarketWebsocketTradable(symbol, AddRandomnessToPrice(currentPriceInfos.Price));
+                        IncomingMarketWebsocketAsset incomingMarketWebsocketTradable = new IncomingMarketWebsocketAsset(symbol, AddRandomnessToPrice(currentPriceInfos.Price));
 
                         await _marketWebsocketHandler.HandleMarketWebSocketPayload(incomingMarketWebsocketTradable, cancellationToken);
                         await Task.Delay(_random.Next(0, 10000), cancellationToken);

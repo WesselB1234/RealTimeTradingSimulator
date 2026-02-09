@@ -5,9 +5,9 @@ namespace RealTimeStockSimulator.Services
 {
     public class AssetPriceInfosService : IAssetsPriceInfosService
     {
-        private ITradablePriceInfosRepository _tradablePriceInfosRepository;
+        private IAssetPriceInfosRepository _tradablePriceInfosRepository;
 
-        public AssetPriceInfosService(ITradablePriceInfosRepository tradablePriceInfosRepository)
+        public AssetPriceInfosService(IAssetPriceInfosRepository tradablePriceInfosRepository)
         {
             _tradablePriceInfosRepository = tradablePriceInfosRepository;
         }

@@ -6,13 +6,13 @@ using IServer = StackExchange.Redis.IServer;
 
 namespace RealTimeStockSimulator.Repositories
 {
-    public class RedisTradablePriceInfosRepository : ITradablePriceInfosRepository
+    public class RedisAssetPriceInfosRepository : IAssetPriceInfosRepository
     {
         private IConfiguration _configuration;
         private IDatabase _redisTradablePriceInfosDb;
         private IServer _redisTradablePriceInfosServer;
 
-        public RedisTradablePriceInfosRepository(IConfiguration configuration)
+        public RedisAssetPriceInfosRepository(IConfiguration configuration)
         {
             _configuration = configuration;
 

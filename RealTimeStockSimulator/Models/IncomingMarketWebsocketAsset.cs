@@ -2,19 +2,19 @@
 
 namespace RealTimeStockSimulator.Models
 {
-    public class IncomingMarketWebsocketTradable
+    public class IncomingMarketWebsocketAsset
     {
         [JsonPropertyName("s")]
         public string? Symbol { get; set; }
         [JsonPropertyName("p")]
         public decimal? Price { get; set; }
 
-        public IncomingMarketWebsocketTradable()
+        public IncomingMarketWebsocketAsset()
         {
 
         }
 
-        public IncomingMarketWebsocketTradable(string? symbol, decimal? price)
+        public IncomingMarketWebsocketAsset(string? symbol, decimal? price)
         {
             Symbol = symbol;
             Price = price;

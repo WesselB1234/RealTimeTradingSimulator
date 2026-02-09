@@ -13,7 +13,7 @@ namespace RealTimeStockSimulator.Repositories
         {
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
-                string query = "INSERT INTO Tradables(symbol, name, image_path, type) " +
+                string query = "INSERT INTO Assets(symbol, name, image_path, type) " +
                     $"VALUES (@Symbol, @Name, @ImagePath, @Type);";
                 SqlCommand command = new SqlCommand(query, connection);
 
@@ -34,7 +34,7 @@ namespace RealTimeStockSimulator.Repositories
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
-                string query = "SELECT symbol, name, image_path, type FROM Tradables";
+                string query = "SELECT symbol, name, image_path, type FROM Assets";
                 SqlCommand command = new SqlCommand(query, connection);
 
                 command.Connection.Open();
@@ -55,7 +55,7 @@ namespace RealTimeStockSimulator.Repositories
         {
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
-                string query = "SELECT symbol, name, image_path, type FROM Tradables WHERE symbol = @Symbol;";
+                string query = "SELECT symbol, name, image_path, type FROM Assets WHERE symbol = @Symbol;";
                 SqlCommand command = new SqlCommand(query, connection);
 
                 command.Parameters.AddWithValue("@Symbol", symbol);

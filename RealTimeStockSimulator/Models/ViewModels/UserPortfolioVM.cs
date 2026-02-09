@@ -3,9 +3,9 @@
     public class UserPortfolioVM
     {
         public UserAccount User;
-        public List<OwnershipTradable> Tradables;
+        public List<OwnershipAsset> Tradables;
 
-        public UserPortfolioVM(UserAccount user, List<OwnershipTradable> tradables)
+        public UserPortfolioVM(UserAccount user, List<OwnershipAsset> tradables)
         {
             User = user;
             Tradables = tradables;

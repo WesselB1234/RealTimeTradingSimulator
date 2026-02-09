@@ -1,5 +1,5 @@
 ﻿@{
-    @model List<RealTimeStockSimulator.Models.OwnershipTradable>
+    @model List<RealTimeStockSimulator.Models.OwnershipAsset>
     @using static RealTimeStockSimulator.Models.Helpers.StringFormatter
     @using static RealTimeStockSimulator.Models.Enums.NavEnabled;
     @using System.Text.Json
@@ -50,10 +50,10 @@
         </thead>
         <tbody>
             @{
-                foreach (OwnershipTradable tradable in Model)    
+                foreach (OwnershipAsset tradable in Model)    
                 {
                     <tr>
-                        <partial name="_TradableTdCosmetics" model=tradable />                        
+                        <partial name="_AssetTdCosmetics" model=tradable />                        
                         <td> 
                             @tradable.Symbol    
                         </td>

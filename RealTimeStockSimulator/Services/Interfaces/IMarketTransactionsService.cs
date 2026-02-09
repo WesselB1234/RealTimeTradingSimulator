@@ -4,7 +4,7 @@ namespace RealTimeStockSimulator.Services.Interfaces
 {
     public interface IMarketTransactionsService
     {
-        List<MarketTransactionTradable> GetTransactionsByUserPagnated(int userId, int pageSize, int currentPage);
-        int AddTransaction(int userId, MarketTransactionTradable transaction);
+        List<MarketTransactionAsset> GetTransactionsByUserPagnated(int userId, int pageSize, int currentPage);
+        int AddTransaction(int userId, MarketTransactionAsset transaction);
     }
 }

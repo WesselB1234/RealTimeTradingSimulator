@@ -4,6 +4,6 @@
 }
 
 <td>
-    <img class="tradable-img" src="@(Model.ImagePath != null ? $"/img/{Model.ImagePath}" : "/img/PlaceholderAsset.png")" alt="Logo of @Model.Symbol" />
+    <img class="asset-img" src="@(Model.ImagePath != null ? $"/img/{Model.ImagePath}" : "/img/PlaceholderAsset.png")" alt="Logo of @Model.Symbol" />
     <span class="ps-1">@(Model.Name != null ? Model.Name : "Unknown name")</span>
 </td>

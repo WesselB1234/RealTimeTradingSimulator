@@ -55,14 +55,14 @@ namespace RealTimeStockSimulator.Models.Helpers
             return new Asset(symbol, name, imagePath, type);
         }
 
-        public static OwnershipTradable MapOwnershipTradable(SqlDataReader reader)
+        public static OwnershipAsset MapOwnershipTradable(SqlDataReader reader)
         {
             int amount = (int)reader["amount"];
 
             return MapOwnershipTradableByTradable(MapTradable(reader), amount);
         }
 
-        public static MarketTransactionTradable MapMarketTransactionTradable(SqlDataReader reader)
+        public static MarketTransactionAsset MapMarketTransactionTradable(SqlDataReader reader)
         {
             int transactionId = (int)reader["transaction_id"];
             Asset tradable = MapTradable(reader);
@@ -71,12 +71,12 @@ namespace RealTimeStockSimulator.Models.Helpers
             int amount = (int)reader["amount"];
             DateTime date = (DateTime)reader["date"];
 
-            return new MarketTransactionTradable(transactionId, tradable, price, status, amount, date);
+            return new MarketTransactionAsset(transactionId, tradable, price, status, amount, date);
         }
 
-        public static OwnershipTradable MapOwnershipTradableByTradable(Asset tradable, int amount)
+        public static OwnershipAsset MapOwnershipTradableByTradable(Asset tradable, int amount)
         {
-            return new OwnershipTradable(tradable.Symbol, tradable.Name, tradable.ImagePath, tradable.Type, amount);
+            return new OwnershipAsset(tradable.Symbol, tradable.Name, tradable.ImagePath, tradable.Type, amount);
         }
     }
 }

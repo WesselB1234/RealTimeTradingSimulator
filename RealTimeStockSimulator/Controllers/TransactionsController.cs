@@ -17,7 +17,7 @@ namespace RealTimeStockSimulator.Controllers
 
         public IActionResult Index()
         {
-            List<MarketTransactionTradable> transactions = _marketTransactionsService.GetTransactionsByUserPagnated(LoggedInUser.UserId, 25, 1);
+            List<MarketTransactionAsset> transactions = _marketTransactionsService.GetTransactionsByUserPagnated(LoggedInUser.UserId, 25, 1);
 
             return View(transactions);
         }

@@ -21,11 +21,11 @@ namespace RealTimeStockSimulator.Services
             _priceInfosService = priceInfosService;
         }
 
-        public List<OwnershipTradable> GetAllOwnershipTradablesByUserId(int userId)
+        public List<OwnershipAsset> GetAllOwnershipTradablesByUserId(int userId)
         {
-            List<OwnershipTradable> ownershipTradables = _ownershipsRepository.GetAllOwnershipTradablesByUserId(userId);
+            List<OwnershipAsset> ownershipTradables = _ownershipsRepository.GetAllOwnershipTradablesByUserId(userId);
           
-            foreach (OwnershipTradable tradable in ownershipTradables)
+            foreach (OwnershipAsset tradable in ownershipTradables)
             {
                 tradable.TradablePriceInfos = _priceInfosService.GetPriceInfosBySymbol(tradable.Symbol);
             }
@@ -33,9 +33,9 @@ namespace RealTimeStockSimulator.Services
             return ownershipTradables;
         }
 
-        public OwnershipTradable? GetOwnershipTradableByUserId(int userId, string symbol)
+        public OwnershipAsset? GetOwnershipTradableByUserId(int userId, string symbol)
         {
-            OwnershipTradable? tradable = _ownershipsRepository.GetOwnershipTradableByUserId(userId, symbol);
+            OwnershipAsset? tradable = _ownershipsRepository.GetOwnershipTradableByUserId(userId, symbol);
           
             if (tradable != null)
             {
@@ -45,24 +45,24 @@ namespace RealTimeStockSimulator.Services
             return tradable;
         }
 
-        public void AddOwnershipTradableToUserId(int userId, OwnershipTradable tradable)
+        public void AddOwnershipTradableToUserId(int userId, OwnershipAsset tradable)
         {
             _ownershipsRepository.AddOwnershipTradableToUserId(userId, tradable);
         }
 
-        public void UpdateOwnershipTradable(int userId, OwnershipTradable tradable)
+        public void UpdateOwnershipTradable(int userId, OwnershipAsset tradable)
         {
             _ownershipsRepository.UpdateOwnershipTradable(userId, tradable);
         }
 
-        public void RemoveOwnershipTradableFromUserId(int userId, OwnershipTradable tradable)
+        public void RemoveOwnershipTradableFromUserId(int userId, OwnershipAsset tradable)
         {
             _ownershipsRepository.RemoveOwnershipTradableFromUserId(userId, tradable);
         }
 
         private void LogOrderTransaction(int userId, Asset tradable, MarketTransactionStatus status, int amount)
         {
-            MarketTransactionTradable marketTransactionTradable = new MarketTransactionTradable(tradable, tradable.TradablePriceInfos.Price, status, amount, DateTime.Now);
+            MarketTransactionAsset marketTransactionTradable = new MarketTransactionAsset(tradable, tradable.TradablePriceInfos.Price, status, amount, DateTime.Now);
 
             _marketTransactionsService.AddTransaction(userId, marketTransactionTradable);
         }
@@ -76,7 +76,7 @@ namespace RealTimeStockSimulator.Services
                 throw new ArgumentException("You do not have enough money for this order.");
             }
 
-            OwnershipTradable? ownershipTradable = _ownershipsRepository.GetOwnershipTradableByUserId(user.UserId, tradable.Symbol);
+            OwnershipAsset? ownershipTradable = _ownershipsRepository.GetOwnershipTradableByUserId(user.UserId, tradable.Symbol);
 
             if (ownershipTradable != null)
             {
@@ -93,9 +93,9 @@ namespace RealTimeStockSimulator.Services
             return moneyAfterPurchase;
         }
 
-        public decimal SellTradable(UserAccount user, OwnershipTradable tradable, int amount)
+        public decimal SellTradable(UserAccount user, OwnershipAsset tradable, int amount)
         {
-            OwnershipTradable? ownershipTradable = _ownershipsRepository.GetOwnershipTradableByUserId(user.UserId, tradable.Symbol);
+            OwnershipAsset? ownershipTradable = _ownershipsRepository.GetOwnershipTradableByUserId(user.UserId, tradable.Symbol);
 
             if (amount > tradable.Amount)
             {
@@ -117,14 +117,14 @@ namespace RealTimeStockSimulator.Services
             return user.Money + (tradable.TradablePriceInfos.Price * amount);
         }
 
-        public OwnershipTradable GetOwnershipTradableFromBuySellViewModel(ProcessBuySellVM confirmViewModel, int userId)
+        public OwnershipAsset GetOwnershipTradableFromBuySellViewModel(ProcessBuySellVM confirmViewModel, int userId)
         {
             if (confirmViewModel.Symbol == null)
             {
                 throw new Exception("Symbol is empty.");
             }
 
-            OwnershipTradable? tradable = GetOwnershipTradableByUserId(userId, confirmViewModel.Symbol);
+            OwnershipAsset? tradable = GetOwnershipTradableByUserId(userId, confirmViewModel.Symbol);
 
             if (tradable == null)
             {

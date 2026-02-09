@@ -18,7 +18,7 @@ namespace RealTimeStockSimulator.Services.BackgroundServiceHandlers
             _priceInfosService = priceInfosService;
         }
 
-        public async Task HandleMarketWebSocketPayload(IncomingMarketWebsocketTradable incomingTradable, CancellationToken cancellationToken)
+        public async Task HandleMarketWebSocketPayload(IncomingMarketWebsocketAsset incomingTradable, CancellationToken cancellationToken)
         {
             AssetPriceInfos? tradablePriceInfos = _priceInfosService.GetPriceInfosBySymbol(incomingTradable.Symbol);
 

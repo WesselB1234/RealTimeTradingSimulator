@@ -3,7 +3,7 @@ using RealTimeStockSimulator.Repositories.Interfaces;
 
 namespace RealTimeStockSimulator.Repositories
 {
-    public class CacheTradablePriceInfosRepository : ITradablePriceInfosRepository
+    public class CacheAssetPriceInfosRepository : IAssetPriceInfosRepository
     {
         private Dictionary<string, AssetPriceInfos> _tradablesPriceInfosDictionary = new Dictionary<string, AssetPriceInfos>();
 

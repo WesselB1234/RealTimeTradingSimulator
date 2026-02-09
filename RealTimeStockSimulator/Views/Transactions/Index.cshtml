@@ -1,5 +1,5 @@
 ﻿@{
-    @model List<RealTimeStockSimulator.Models.MarketTransactionTradable>
+    @model List<RealTimeStockSimulator.Models.MarketTransactionAsset>
     @using static RealTimeStockSimulator.Models.Helpers.StringFormatter
     @using static RealTimeStockSimulator.Models.Enums.NavEnabled;
 
@@ -44,7 +44,7 @@
         </thead>
         <tbody>
             @{
-                foreach(MarketTransactionTradable transaction in Model)
+                foreach(MarketTransactionAsset transaction in Model)
                 {
                     <tr>
                         <td>

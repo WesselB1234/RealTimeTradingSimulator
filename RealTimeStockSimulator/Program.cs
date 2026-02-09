@@ -31,11 +31,11 @@ namespace RealTimeStockSimulator
 
             if (cachingMode == CachingMode.Redis)
             {
-                builder.Services.AddSingleton<ITradablePriceInfosRepository, RedisTradablePriceInfosRepository>();
+                builder.Services.AddSingleton<IAssetPriceInfosRepository, RedisAssetPriceInfosRepository>();
             }
             else if (cachingMode == CachingMode.Default)
             {
-                builder.Services.AddSingleton<ITradablePriceInfosRepository, CacheTradablePriceInfosRepository>();
+                builder.Services.AddSingleton<IAssetPriceInfosRepository, CacheAssetPriceInfosRepository>();
             }
 
             builder.Services.AddSingleton<IAssetsService, AssetsService>();

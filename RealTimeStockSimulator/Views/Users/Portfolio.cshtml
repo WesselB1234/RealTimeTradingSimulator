@@ -48,10 +48,10 @@
         </thead>
         <tbody>
             @{
-                foreach (OwnershipTradable tradable in Model.Tradables)
+                foreach (OwnershipAsset tradable in Model.Tradables)
                 {
                     <tr>
-                        <partial name="_TradableTdCosmetics" model=tradable />
+                        <partial name="_AssetTdCosmetics" model=tradable />
                         <td>
                             @tradable.Symbol
                         </td>

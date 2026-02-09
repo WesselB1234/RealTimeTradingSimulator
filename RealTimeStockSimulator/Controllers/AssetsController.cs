@@ -92,7 +92,7 @@ namespace RealTimeStockSimulator.Controllers
                     confirmViewModel.Amount = 1;
                 }
 
-                OwnershipTradable? tradable = _ownershipsService.GetOwnershipTradableFromBuySellViewModel(confirmViewModel, LoggedInUser.UserId);
+                OwnershipAsset? tradable = _ownershipsService.GetOwnershipTradableFromBuySellViewModel(confirmViewModel, LoggedInUser.UserId);
                 SellVM viewModel = new SellVM(tradable, confirmViewModel.Amount);
 
                 return View(viewModel);
@@ -107,7 +107,7 @@ namespace RealTimeStockSimulator.Controllers
 
         public async Task<IActionResult> ProcessSell(ProcessBuySellVM confirmViewModel)
         {
-            OwnershipTradable? tradable = null;
+            OwnershipAsset? tradable = null;
 
             try
             {

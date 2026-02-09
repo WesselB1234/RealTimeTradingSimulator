@@ -9,15 +9,15 @@ namespace RealTimeStockSimulator.Repositories
     {
         public DbOwnershipRepository(IConfiguration configuration) : base(configuration) { }
 
-        public List<OwnershipTradable> GetAllOwnershipTradablesByUserId(int userId)
+        public List<OwnershipAsset> GetAllOwnershipTradablesByUserId(int userId)
         {
-            List<OwnershipTradable> ownershipTradables = new List<OwnershipTradable>();
+            List<OwnershipAsset> ownershipTradables = new List<OwnershipAsset>();
             
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 string query = "SELECT Ownership.symbol, name, image_path, amount, type " +
                     "FROM Ownership " +
-                    "JOIN Tradables ON Ownership.symbol = Tradables.symbol " +
+                    "JOIN Assets ON Ownership.symbol = Assets.symbol " +
                     "WHERE user_id = @UserId;";
 
                 SqlCommand command = new SqlCommand(query, connection);
@@ -36,13 +36,13 @@ namespace RealTimeStockSimulator.Repositories
             return ownershipTradables;
         }
 
-        public OwnershipTradable? GetOwnershipTradableByUserId(int userId, string symbol)
+        public OwnershipAsset? GetOwnershipTradableByUserId(int userId, string symbol)
         {
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 string query = "SELECT Ownership.symbol, amount, type " +
                      "FROM Ownership " +
-                     "JOIN Tradables ON Ownership.symbol = Tradables.symbol " +
+                     "JOIN Assets ON Ownership.symbol = Assets.symbol " +
                      "WHERE user_id = @UserId AND Ownership.symbol = @Symbol;";
 
                 SqlCommand command = new SqlCommand(query, connection);
@@ -62,7 +62,7 @@ namespace RealTimeStockSimulator.Repositories
             return null;
         }
 
-        public void AddOwnershipTradableToUserId(int userId, OwnershipTradable tradable)
+        public void AddOwnershipTradableToUserId(int userId, OwnershipAsset tradable)
         {
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
@@ -79,7 +79,7 @@ namespace RealTimeStockSimulator.Repositories
             }
         }
 
-        public void UpdateOwnershipTradable(int userId, OwnershipTradable tradable)
+        public void UpdateOwnershipTradable(int userId, OwnershipAsset tradable)
         {
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
@@ -97,7 +97,7 @@ namespace RealTimeStockSimulator.Repositories
             }
         }
 
-        public void RemoveOwnershipTradableFromUserId(int userId, OwnershipTradable tradable)
+        public void RemoveOwnershipTradableFromUserId(int userId, OwnershipAsset tradable)
         {
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
@@ -121,7 +121,7 @@ namespace RealTimeStockSimulator.Repositories
             {
                 string query = "SELECT Ownership.user_id, Ownership.symbol, username, email, [money], amount, type " +
                     "FROM Ownership " +
-                    "JOIN Tradables ON Tradables.symbol = Ownership.symbol " +
+                    "JOIN Assets ON Assets.symbol = Ownership.symbol " +
                     "JOIN Users ON Ownership.user_id = Users.user_id " +
                     "ORDER BY Ownership.user_id;";
 

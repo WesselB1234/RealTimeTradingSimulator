@@ -1,2 +1,2 @@
 # RealTimeTradingSimulator
-A simulator that allows people to buy and sell various stocks and crypto with dummy cash.
+A trading simulator that allows users to buy and sell various stocks and crypto with dummy cash.

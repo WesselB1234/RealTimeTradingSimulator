@@ -17,7 +17,7 @@ namespace RealTimeStockSimulator.Services.BackgroundServiceHandlers
             _hubContext = hubContext;
             _priceInfosService = priceInfosService;
         }
-
+        
         public async Task HandleMarketWebSocketPayload(IncomingMarketWebsocketAsset incomingAsset, CancellationToken cancellationToken)
         {
             AssetPriceInfos? assetPriceInfos = _priceInfosService.GetPriceInfosBySymbol(incomingAsset.Symbol);
@@ -27,6 +27,8 @@ namespace RealTimeStockSimulator.Services.BackgroundServiceHandlers
                 assetPriceInfos.Price = (decimal)incomingAsset.Price;
                 AssetUpdatePayload assetUpdatePayload = new AssetUpdatePayload(incomingAsset.Symbol, assetPriceInfos);
                 _priceInfosService.SetPriceInfosBySymbol(incomingAsset.Symbol, assetPriceInfos);
+
+                Console.WriteLine(JsonSerializer.Serialize(assetUpdatePayload));
 
                 await _hubContext.Clients.All.SendAsync("ReceiveMarketData", JsonSerializer.Serialize(assetUpdatePayload), cancellationToken);
             }

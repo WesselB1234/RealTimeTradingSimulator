@@ -7,7 +7,7 @@ using RealTimeStockSimulator.Services.Interfaces;
 
 namespace RealTimeStockSimulator.Services
 {
-    public class OwnershipsService : IOwnershipRepository
+    public class OwnershipsService : IOwnershipsService
     {
         private IOwnershipRepository _ownershipsRepository;
         private IMarketTransactionsService _marketTransactionsService;

@@ -62,10 +62,10 @@ function updateOwnershipLabels(updatedSymbol, newPrice) {
     ownershipJson.forEach((entry) => {
 
         if (updatedSymbol === entry.Symbol) {
-            entry.TradablePriceInfos.Price = newPrice;
+            entry.AssetPriceInfos.Price = newPrice;
         }
 
-        const totalPrice = entry.TradablePriceInfos.Price * entry.Amount;
+        const totalPrice = entry.AssetPriceInfos.Price * entry.Amount;
         totalPriceOfOwnership += totalPrice;
     })
 
@@ -79,10 +79,10 @@ function updateOwnershipLabels(updatedSymbol, newPrice) {
 function updateMultiOwnershipLabels(updatedSymbol, newPrice) {
 
     const ownerships = multiOwnershipJson.Ownerships;
-    const tradables = multiOwnershipJson.TradablesDictionary;
+    const assets = multiOwnershipJson.AssetsDictionary;
 
-    if (Object.hasOwn(tradables, updatedSymbol)) {
-        tradables[updatedSymbol].TradablePriceInfos.Price = newPrice;
+    if (Object.hasOwn(assets, updatedSymbol)) {
+        assets[updatedSymbol].AssetPriceInfos.Price = newPrice;
     }
 
     ownerships.forEach((ownership) => {
@@ -91,7 +91,7 @@ function updateMultiOwnershipLabels(updatedSymbol, newPrice) {
         let totalPriceOfOwnership = 0;
 
         for (const [symbol, amount] of Object.entries(ownership.OwnedAmountOfSymbolDictionary)) {
-            const totalPrice = tradables[symbol].TradablePriceInfos.Price * amount;
+            const totalPrice = assets[symbol].AssetPriceInfos.Price * amount;
             totalPriceOfOwnership += totalPrice;
         }
 
@@ -109,10 +109,10 @@ function updateMultiOwnershipLabels(updatedSymbol, newPrice) {
 
 function onMarketData(message) {
 
-    const tradableUpdatePayload = JSON.parse(message);
-    const tradablePriceInfos = tradableUpdatePayload.TradablePriceInfos;
-    const updatedSymbol = tradableUpdatePayload.Symbol;
-    const newPrice = tradablePriceInfos.Price;
+    const assetUpdatePayload = JSON.parse(message);
+    const assetPriceInfos = assetUpdatePayload.AssetPriceInfos;
+    const updatedSymbol = assetUpdatePayload.Symbol;
+    const newPrice = assetPriceInfos.Price;
 
     updatePriceLabels(updatedSymbol, newPrice);
 

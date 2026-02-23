@@ -11,9 +11,9 @@ namespace RealTimeStockSimulator.Models
         {
             get
             {
-                if (TradablePriceInfos != null)
+                if (AssetPriceInfos != null)
                 {
-                    return TradablePriceInfos.Price * Amount;
+                    return AssetPriceInfos.Price * Amount;
                 }
 
                 return 0;

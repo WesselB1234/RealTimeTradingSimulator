@@ -52,8 +52,8 @@
                         <td>
                             @ownership.User.UserName
                         </td>
-                        <td class="TotalOwnershipValue" data-user-id="@ownership.User.UserId" data-price="@FormatDecimalToJsDecimal(ownership.GetTotalValue(Model.TradablesDictionary))">
-                            $@FormatDecimalPrice(ownership.GetTotalValue(Model.TradablesDictionary))
+                        <td class="TotalOwnershipValue" data-user-id="@ownership.User.UserId" data-price="@FormatDecimalToJsDecimal(ownership.GetTotalValue(Model.AssetsDictionary))">
+                            $@FormatDecimalPrice(ownership.GetTotalValue(Model.AssetsDictionary))
                         </td>
                         <td>
                             <a class="btn btn-primary" href="/Users/Portfolio?UserId=@ownership.User.UserId">View portfolio</a>

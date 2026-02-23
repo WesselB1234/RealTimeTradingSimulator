@@ -25,7 +25,7 @@ namespace RealTimeStockSimulator.Services.BackgroundServices
             _marketWebsocketHandler = marketWebsocketHandler;
         }
 
-        private async Task SubscribeToTradablesInCache(ClientWebSocket client)
+        private async Task SubscribeToAssetsInCache(ClientWebSocket client)
         {
             foreach (string key in _priceInfosService.GetAllKeys())
             {
@@ -45,7 +45,7 @@ namespace RealTimeStockSimulator.Services.BackgroundServices
                 Uri uri = new Uri($"wss://ws.finnhub.io?token={_marketApiKey}");
 
                 await client.ConnectAsync(uri, CancellationToken.None);
-                await SubscribeToTradablesInCache(client);
+                await SubscribeToAssetsInCache(client);
 
                 byte[] buffer = new byte[4096];
  

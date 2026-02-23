@@ -16,7 +16,7 @@ namespace RealTimeStockSimulator.Controllers
 
         public IActionResult Index()
         {
-            return View(_ownershipsService.GetAllOwnershipTradablesByUserId(LoggedInUser.UserId));
+            return View(_ownershipsService.GetAllOwnershipAssetsByUserId(LoggedInUser.UserId));
         }
     }
 }

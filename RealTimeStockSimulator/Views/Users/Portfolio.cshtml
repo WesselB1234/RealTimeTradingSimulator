@@ -14,7 +14,7 @@
         @Model.User.UserName's Portfolio
     </h1>
     <h2>
-        Total value: <span data-price="@FormatDecimalToJsDecimal(Model.Tradables.GetTotalOwnershipValue())" class="TotalOwnershipValue">$@FormatDecimalPrice(@Model.Tradables.GetTotalOwnershipValue())</span>
+        Total value: <span data-price="@FormatDecimalToJsDecimal(Model.OwnershipAssets.GetTotalOwnershipValue())" class="TotalOwnershipValue">$@FormatDecimalPrice(@Model.OwnershipAssets.GetTotalOwnershipValue())</span>
     </h2>
 
     <partial name="_ErrorMessage" />
@@ -48,27 +48,27 @@
         </thead>
         <tbody>
             @{
-                foreach (OwnershipAsset tradable in Model.Tradables)
+                foreach (OwnershipAsset ownershipAsset in Model.OwnershipAssets)
                 {
                     <tr>
-                        <partial name="_AssetTdCosmetics" model=tradable />
+                        <partial name="_AssetTdCosmetics" model=ownershipAsset />
                         <td>
-                            @tradable.Symbol
-                        </td>
-                        <td>
-                            @tradable.Type
-                        </td>
-                        <td data-price-symbol="@tradable.Symbol" data-price="@FormatDecimalToJsDecimal(tradable.TradablePriceInfos.Price)">
-                            $@FormatDecimalPrice(tradable.TradablePriceInfos.Price)
-                        </td>
-                        <td data-amount-label-number="1" data-amount-label-symbol="@tradable.Symbol" data-amount-label-value="@tradable.Amount">
-                            @tradable.Amount
-                        </td>
-                        <td data-price-symbol="@tradable.Symbol" data-price="@FormatDecimalToJsDecimal(tradable.TradablePriceInfos.Price)" data-amount-label-number="1">
-                            $@FormatDecimalPrice(tradable.TotalValue)
+                            @ownershipAsset.Symbol
                         </td>
                         <td>
-                            <a class="btn primary-custom-btn" href="/Assets/Buy?Symbol=@tradable.Symbol">Buy</a>
+                            @ownershipAsset.Type
+                        </td>
+                        <td data-price-symbol="@ownershipAsset.Symbol" data-price="@FormatDecimalToJsDecimal(ownershipAsset.AssetPriceInfos.Price)">
+                            $@FormatDecimalPrice(ownershipAsset.AssetPriceInfos.Price)
+                        </td>
+                        <td data-amount-label-number="1" data-amount-label-symbol="@ownershipAsset.Symbol" data-amount-label-value="@ownershipAsset.Amount">
+                            @ownershipAsset.Amount
+                        </td>
+                        <td data-price-symbol="@ownershipAsset.Symbol" data-price="@FormatDecimalToJsDecimal(ownershipAsset.AssetPriceInfos.Price)" data-amount-label-number="1">
+                            $@FormatDecimalPrice(ownershipAsset.TotalValue)
+                        </td>
+                        <td>
+                            <a class="btn primary-custom-btn" href="/Assets/Buy?Symbol=@ownershipAsset.Symbol">Buy</a>
                         </td>
                     </tr>
                 }
@@ -80,6 +80,6 @@
 <partial name="_Footer" />
 
 <script>
-    let ownershipJson = @Html.Raw(JsonSerializer.Serialize(Model.Tradables));
+    let ownershipJson = @Html.Raw(JsonSerializer.Serialize(Model.OwnershipAssets));
 </script>
 <partial name="_MarketConnectionScripts" />

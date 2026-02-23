@@ -2,12 +2,12 @@
 {
     public class SellVM
     {
-        public OwnershipAsset OwnershipTradable { get; set; }
+        public OwnershipAsset OwnershipAsset { get; set; }
         public int? Amount { get; set; }
 
-        public SellVM(OwnershipAsset ownershipTradable, int? amount)
+        public SellVM(OwnershipAsset ownershipAsset, int? amount)
         {
-            OwnershipTradable = ownershipTradable;
+            OwnershipAsset = ownershipAsset;
             Amount = amount;
         }
     }

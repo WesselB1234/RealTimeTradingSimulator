@@ -10,30 +10,30 @@ namespace RealTimeStockSimulator.Controllers
     [Authorize]
     public class AssetsController : AuthenticatedUserController
     {
-        private IAssetsService _tradablesService;
+        private IAssetsService _assetsService;
         private IOwnershipsService _ownershipsService;
         private IUsersService _usersService;
 
-        public AssetsController(IAssetsService tradablesService, IOwnershipsService ownershipsService, IUsersService usersService): base(usersService)
+        public AssetsController(IAssetsService assetsService, IOwnershipsService ownershipsService, IUsersService usersService): base(usersService)
         {
-            _tradablesService = tradablesService;
+            _assetsService = assetsService;
             _ownershipsService = ownershipsService;
             _usersService = usersService;
         }
 
         public IActionResult Index()
         {
-            List<Asset> tradables = _tradablesService.GetAllTradables();
+            List<Asset> assets = _assetsService.GetAllAssets();
 
-            return View(tradables);
+            return View(assets);
         }
 
         public IActionResult Buy(ProcessBuySellVM confirmViewModel)
         {
             try
             {
-                Asset tradable = _tradablesService.GetTradableFromBuySellViewModel(confirmViewModel);
-                BuyVM viewModel = new BuyVM(tradable, confirmViewModel.Amount);
+                Asset assets = _assetsService.GetAssetFromBuySellViewModel(confirmViewModel);
+                BuyVM viewModel = new BuyVM(assets, confirmViewModel.Amount);
 
                 return View(viewModel);
             }
@@ -47,7 +47,7 @@ namespace RealTimeStockSimulator.Controllers
 
         public async Task<IActionResult> ProcessBuy(ProcessBuySellVM confirmViewModel)
         {
-            Asset? tradable = null;
+            Asset? asset = null;
 
             try
             {
@@ -56,8 +56,8 @@ namespace RealTimeStockSimulator.Controllers
                     confirmViewModel.Amount = 1;
                 }
 
-                tradable = _tradablesService.GetTradableFromBuySellViewModel(confirmViewModel);
-                decimal moneyAfterPurchase = _ownershipsService.BuyTradable(LoggedInUser, tradable, (int)confirmViewModel.Amount);
+                asset = _assetsService.GetAssetFromBuySellViewModel(confirmViewModel);
+                decimal moneyAfterPurchase = _ownershipsService.BuyAsset(LoggedInUser, asset, (int)confirmViewModel.Amount);
 
                 LoggedInUser.Money = moneyAfterPurchase;
                 await HttpContext.SignInAsync(_usersService.GetClaimsPrincipleFromUser(LoggedInUser));
@@ -71,9 +71,9 @@ namespace RealTimeStockSimulator.Controllers
             {
                 TempData["ErrorMessage"] = ex.Message;
 
-                if (tradable != null)
+                if (asset != null)
                 {
-                    BuyVM viewModel = new BuyVM(tradable, confirmViewModel.Amount);
+                    BuyVM viewModel = new BuyVM(asset, confirmViewModel.Amount);
                     return View("Buy", viewModel);
                 }
                 else
@@ -92,8 +92,8 @@ namespace RealTimeStockSimulator.Controllers
                     confirmViewModel.Amount = 1;
                 }
 
-                OwnershipAsset? tradable = _ownershipsService.GetOwnershipTradableFromBuySellViewModel(confirmViewModel, LoggedInUser.UserId);
-                SellVM viewModel = new SellVM(tradable, confirmViewModel.Amount);
+                OwnershipAsset? ownershipAsset = _ownershipsService.GetOwnershipAssetFromBuySellViewModel(confirmViewModel, LoggedInUser.UserId);
+                SellVM viewModel = new SellVM(ownershipAsset, confirmViewModel.Amount);
 
                 return View(viewModel);
             }
@@ -107,7 +107,7 @@ namespace RealTimeStockSimulator.Controllers
 
         public async Task<IActionResult> ProcessSell(ProcessBuySellVM confirmViewModel)
         {
-            OwnershipAsset? tradable = null;
+            OwnershipAsset? ownershipAsset = null;
 
             try
             {
@@ -116,8 +116,8 @@ namespace RealTimeStockSimulator.Controllers
                     confirmViewModel.Amount = 1;
                 }
 
-                tradable = _ownershipsService.GetOwnershipTradableFromBuySellViewModel(confirmViewModel,LoggedInUser.UserId);
-                decimal moneyAfterSelling = _ownershipsService.SellTradable(LoggedInUser, tradable, (int)confirmViewModel.Amount);
+                ownershipAsset = _ownershipsService.GetOwnershipAssetFromBuySellViewModel(confirmViewModel,LoggedInUser.UserId);
+                decimal moneyAfterSelling = _ownershipsService.SellAsset(LoggedInUser, ownershipAsset, (int)confirmViewModel.Amount);
 
                 LoggedInUser.Money = moneyAfterSelling;
                 await HttpContext.SignInAsync(_usersService.GetClaimsPrincipleFromUser(LoggedInUser));
@@ -131,9 +131,9 @@ namespace RealTimeStockSimulator.Controllers
             {
                 TempData["ErrorMessage"] = ex.Message;
 
-                if (tradable != null)
+                if (ownershipAsset != null)
                 {
-                    SellVM viewModel = new SellVM(tradable, confirmViewModel.Amount);
+                    SellVM viewModel = new SellVM(ownershipAsset, confirmViewModel.Amount);
                     return View("Sell", viewModel);
                 }
                 else

@@ -50,28 +50,28 @@
         </thead>
         <tbody>
             @{
-                foreach (OwnershipAsset tradable in Model)    
+                foreach (OwnershipAsset asset in Model)    
                 {
                     <tr>
-                        <partial name="_AssetTdCosmetics" model=tradable />                        
-                        <td> 
-                            @tradable.Symbol    
+                        <partial name="_AssetTdCosmetics" model=asset />
+                        <td>
+                            @asset.Symbol
                         </td>
                         <td>
-                            @tradable.Type
+                            @asset.Type
                         </td>
-                        <td data-price-symbol="@tradable.Symbol" data-price="@FormatDecimalToJsDecimal(tradable.TradablePriceInfos.Price)">
-                            $@FormatDecimalPrice(tradable.TradablePriceInfos.Price)
+                        <td data-price-symbol="@asset.Symbol" data-price="@FormatDecimalToJsDecimal(asset.AssetPriceInfos.Price)">
+                            $@FormatDecimalPrice(asset.AssetPriceInfos.Price)
                         </td>
-                        <td data-amount-label-number="1" data-amount-label-symbol="@tradable.Symbol" data-amount-label-value="@tradable.Amount">
-                            @tradable.Amount
+                        <td data-amount-label-number="1" data-amount-label-symbol="@asset.Symbol" data-amount-label-value="@asset.Amount">
+                            @asset.Amount
                         </td>
-                        <td data-price-symbol="@tradable.Symbol" data-price="@FormatDecimalToJsDecimal(tradable.TradablePriceInfos.Price)" data-amount-label-number="1">
-                            $@FormatDecimalPrice(tradable.TotalValue)   
+                        <td data-price-symbol="@asset.Symbol" data-price="@FormatDecimalToJsDecimal(asset.AssetPriceInfos.Price)" data-amount-label-number="1">
+                            $@FormatDecimalPrice(asset.TotalValue)
                         </td>    
                         <td>
-                            <a class="btn primary-custom-btn" href="/Assets/Buy?Symbol=@tradable.Symbol">Buy</a>
-                            <a class="btn btn-danger" href="/Assets/Sell?Symbol=@tradable.Symbol">Sell</a>
+                            <a class="btn primary-custom-btn" href="/Assets/Buy?Symbol=@asset.Symbol">Buy</a>
+                            <a class="btn btn-danger" href="/Assets/Sell?Symbol=@asset.Symbol">Sell</a>
                         </td>    
                     </tr>    
                 }  

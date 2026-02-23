@@ -16,29 +16,29 @@
 
 <main class="w-75 mx-auto">
     <h1>
-        Sell @Model.OwnershipTradable.Symbol
+        Sell @Model.OwnershipAsset.Symbol
     </h1>
     <h3>
-        Value of @Model.OwnershipTradable.Symbol: <span data-price-symbol="@Model.OwnershipTradable.Symbol" data-price="@FormatDecimalToJsDecimal((decimal)Model.OwnershipTradable.TradablePriceInfos.Price)">
-            $@FormatDecimalPrice(Model.OwnershipTradable.TradablePriceInfos.Price)
+        Value of @Model.OwnershipAsset.Symbol: <span data-price-symbol="@Model.OwnershipAsset.Symbol" data-price="@FormatDecimalToJsDecimal((decimal)Model.OwnershipAsset.AssetPriceInfos.Price)">
+            $@FormatDecimalPrice(Model.OwnershipAsset.AssetPriceInfos.Price)
         </span>
     </h3>
     <h3>
-        Total rewards of order: <span id="totalValueLbl" data-amount-label-number="1" data-price-symbol="@Model.OwnershipTradable.Symbol" data-price="@FormatDecimalToJsDecimal((decimal)Model.OwnershipTradable.TradablePriceInfos.Price)">
-            $@FormatDecimalPrice(Model.OwnershipTradable.TradablePriceInfos.Price * amountValue)
+        Total rewards of order: <span id="totalValueLbl" data-amount-label-number="1" data-price-symbol="@Model.OwnershipAsset.Symbol" data-price="@FormatDecimalToJsDecimal((decimal)Model.OwnershipAsset.AssetPriceInfos.Price)">
+            $@FormatDecimalPrice(Model.OwnershipAsset.AssetPriceInfos.Price * amountValue)
         </span>
     </h3>
     <h3>
-        Amount owned of @Model.OwnershipTradable.Symbol: <span>@Model.OwnershipTradable.Amount</span>
+        Amount owned of @Model.OwnershipAsset.Symbol: <span>@Model.OwnershipAsset.Amount</span>
     </h3>
 
     <partial name="_ErrorMessage" />
 
     <form action="/Assets/ProcessSell" method="post">
-        <input type="hidden" name="symbol" value="@Model.OwnershipTradable.Symbol" />
+        <input type="hidden" name="symbol" value="@Model.OwnershipAsset.Symbol" />
         <div class="mb-2">
             <label class="form-label" for="amount">Amount:</label>
-            <input class="form-control" type="number" id="amount" name="amount" value="@amountValue" data-amount-label-number="1" data-amount-label-symbol="@Model.OwnershipTradable.Symbol" data-amount-label-value="@amountValue" 
+            <input class="form-control" type="number" id="amount" name="amount" value="@amountValue" data-amount-label-number="1" data-amount-label-symbol="@Model.OwnershipAsset.Symbol" data-amount-label-value="@amountValue" 
                 placeholder="Enter a number" required />
         </div>
         <input type="submit" class="btn btn-danger mt-2" value="Sell amount" />

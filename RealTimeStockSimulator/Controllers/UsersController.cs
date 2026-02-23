@@ -34,7 +34,7 @@ namespace RealTimeStockSimulator.Controllers
                 return RedirectToAction("Index", "Portfolio");
             }
 
-            return View(new UserPortfolioVM(user, _ownershipsService.GetAllOwnershipTradablesByUserId(user.UserId)));
+            return View(new UserPortfolioVM(user, _ownershipsService.GetAllOwnershipAssetsByUserId(user.UserId)));
         }
     }
 }

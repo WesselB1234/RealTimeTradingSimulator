@@ -34,21 +34,21 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (Asset tradable in Model)
+            @foreach (Asset asset in Model)
             {
                 <tr>
-                    <partial name="_AssetTdCosmetics" model=tradable />
+                    <partial name="_AssetTdCosmetics" model=asset />
                     <td>
-                        @tradable.Symbol
+                        @asset.Symbol
                     </td>
                     <td>
-                        @tradable.Type
+                        @asset.Type
                     </td>
-                    <td data-price-symbol="@tradable.Symbol" data-price="@FormatDecimalToJsDecimal(tradable.TradablePriceInfos.Price)">
-                        $@FormatDecimalPrice(tradable.TradablePriceInfos.Price)
+                    <td data-price-symbol="@asset.Symbol" data-price="@FormatDecimalToJsDecimal(asset.AssetPriceInfos.Price)">
+                        $@FormatDecimalPrice(asset.AssetPriceInfos.Price)
                     </td>
                     <td>
-                        <a class="btn primary-custom-btn" href="/Assets/Buy?Symbol=@tradable.Symbol">Buy</a>
+                        <a class="btn primary-custom-btn" href="/Assets/Buy?Symbol=@asset.Symbol">Buy</a>
                     </td>
                 </tr>
             }

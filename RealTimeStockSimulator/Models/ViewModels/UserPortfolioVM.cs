@@ -3,12 +3,12 @@
     public class UserPortfolioVM
     {
         public UserAccount User;
-        public List<OwnershipAsset> Tradables;
+        public List<OwnershipAsset> OwnershipAssets;
 
-        public UserPortfolioVM(UserAccount user, List<OwnershipAsset> tradables)
+        public UserPortfolioVM(UserAccount user, List<OwnershipAsset> ownershipAssets)
         {
             User = user;
-            Tradables = tradables;
+            OwnershipAssets = ownershipAssets;
         }
     }
 }

@@ -16,26 +16,26 @@
 
 <main class="w-75 mx-auto">
     <h1>
-        Buy @Model.Tradable.Symbol
+        Buy @Model.Asset.Symbol
     </h1>
     <h3>
-        Value of @Model.Tradable.Symbol: <span data-price-symbol="@Model.Tradable.Symbol" data-price="@FormatDecimalToJsDecimal((decimal)Model.Tradable.TradablePriceInfos.Price)">
-            $@FormatDecimalPrice(Model.Tradable.TradablePriceInfos.Price)
+        Value of @Model.Asset.Symbol: <span data-price-symbol="@Model.Asset.Symbol" data-price="@FormatDecimalToJsDecimal((decimal)Model.Asset.AssetPriceInfos.Price)">
+            $@FormatDecimalPrice(Model.Asset.AssetPriceInfos.Price)
         </span>
     </h3>
     <h3>
-        Total cost of order: <span id="totalValueLbl" data-amount-label-number="1" data-price-symbol="@Model.Tradable.Symbol" data-price="@FormatDecimalToJsDecimal((decimal)Model.Tradable.TradablePriceInfos.Price)">
-            $@FormatDecimalPrice(Model.Tradable.TradablePriceInfos.Price * amountValue)
+        Total cost of order: <span id="totalValueLbl" data-amount-label-number="1" data-price-symbol="@Model.Asset.Symbol" data-price="@FormatDecimalToJsDecimal((decimal)Model.Asset.AssetPriceInfos.Price)">
+            $@FormatDecimalPrice(Model.Asset.AssetPriceInfos.Price * amountValue)
         </span>
     </h3>
 
     <partial name="_ErrorMessage" />
 
     <form action="/Assets/ProcessBuy" method="post">
-        <input type="hidden" name="symbol" value="@Model.Tradable.Symbol"/>
+        <input type="hidden" name="symbol" value="@Model.Asset.Symbol" />
         <div class="mb-2">
             <label class="form-label" for="amount">Amount:</label>
-            <input class="form-control" type="number" id="amount" name="amount" value="@amountValue" data-amount-label-number="1" data-amount-label-symbol="@Model.Tradable.Symbol" data-amount-label-value="@amountValue"
+            <input class="form-control" type="number" id="amount" name="amount" value="@amountValue" data-amount-label-number="1" data-amount-label-symbol="@Model.Asset.Symbol" data-amount-label-value="@amountValue"
                 placeholder="Enter a number" required />
         </div>
         <input type="submit" class="btn primary-custom-btn mt-2" value="Buy amount" />

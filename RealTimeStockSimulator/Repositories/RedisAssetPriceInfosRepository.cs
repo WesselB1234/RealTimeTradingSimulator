@@ -9,41 +9,41 @@ namespace RealTimeStockSimulator.Repositories
     public class RedisAssetPriceInfosRepository : IAssetPriceInfosRepository
     {
         private IConfiguration _configuration;
-        private IDatabase _redisTradablePriceInfosDb;
-        private IServer _redisTradablePriceInfosServer;
+        private IDatabase _redisAssetPriceInfosDb;
+        private IServer _redisAssetPriceInfosServer;
 
         public RedisAssetPriceInfosRepository(IConfiguration configuration)
         {
             _configuration = configuration;
 
-            InitRedisTradablePriceInfoDbConnection();
+            InitRedisAssetPriceInfoDbConnection();
         }
 
-        private void InitRedisTradablePriceInfoDbConnection()
+        private void InitRedisAssetPriceInfoDbConnection()
         {
             ConnectionMultiplexer muxer = ConnectionMultiplexer.Connect(
                 new ConfigurationOptions
                 {
                     EndPoints = {
                         {
-                            _configuration.GetValue<string>("RedisConnectionStrings:RedisTradablePriceInfosDb:EndPointUrl"),
-                            _configuration.GetValue<int>("RedisConnectionStrings:RedisTradablePriceInfosDb:EndPointPort")
+                            _configuration.GetValue<string>("RedisConnectionStrings:RedisAssetPriceInfosDb:EndPointUrl"),
+                            _configuration.GetValue<int>("RedisConnectionStrings:RedisAssetPriceInfosDb:EndPointPort")
                         }
                     },
-                    User = _configuration.GetValue<string>("RedisConnectionStrings:RedisTradablePriceInfosDb:User"),
-                    Password = _configuration.GetValue<string>("RedisConnectionStrings:RedisTradablePriceInfosDb:Password")
+                    User = _configuration.GetValue<string>("RedisConnectionStrings:RedisAssetPriceInfosDb:User"),
+                    Password = _configuration.GetValue<string>("RedisConnectionStrings:RedisAssetPriceInfosDb:Password")
                 });
 
-            _redisTradablePriceInfosDb = muxer.GetDatabase();
-            _redisTradablePriceInfosServer = muxer.GetServer(muxer.GetEndPoints().First());
-            _redisTradablePriceInfosDb.Execute("FLUSHDB");
+            _redisAssetPriceInfosDb = muxer.GetDatabase();
+            _redisAssetPriceInfosServer = muxer.GetServer(muxer.GetEndPoints().First());
+            _redisAssetPriceInfosDb.Execute("FLUSHDB");
         }
 
         public AssetPriceInfos? GetPriceInfosBySymbol(string symbol)
         {
-            if (_redisTradablePriceInfosDb.KeyExists(symbol))
+            if (_redisAssetPriceInfosDb.KeyExists(symbol))
             {
-                return JsonSerializer.Deserialize<AssetPriceInfos>(_redisTradablePriceInfosDb.StringGet(symbol).ToString());
+                return JsonSerializer.Deserialize<AssetPriceInfos>(_redisAssetPriceInfosDb.StringGet(symbol).ToString());
             }
 
             return null;
@@ -51,14 +51,12 @@ namespace RealTimeStockSimulator.Repositories
 
         public List<string> GetAllKeys()
         {
-            return _redisTradablePriceInfosServer.Keys(pattern: "*")
-                         .Select(k => (string)k)
-                         .ToList();
+            return _redisAssetPriceInfosServer.Keys(pattern: "*").Select(k => (string)k).ToList();
         }
 
         public void SetPriceInfosBySymbol(string symbol, AssetPriceInfos priceInfos)
         {
-            _redisTradablePriceInfosDb.StringSet(symbol, JsonSerializer.Serialize(priceInfos));
+            _redisAssetPriceInfosDb.StringSet(symbol, JsonSerializer.Serialize(priceInfos));
         }
     }
 }

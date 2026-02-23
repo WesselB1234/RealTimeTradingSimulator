@@ -7,25 +7,25 @@ namespace RealTimeStockSimulator.Services.HostedServices
     public class ApiCacheInitializer : IHostedService
     {
         private IAssetsPriceInfosService _priceInfosService;
-        private IAssetsService _tradablesService;
+        private IAssetsService _assetsService;
 
-        public ApiCacheInitializer(IAssetsPriceInfosService priceInfosService, IAssetsService tradablesService)
+        public ApiCacheInitializer(IAssetsPriceInfosService priceInfosService, IAssetsService assetsService)
         {
             _priceInfosService = priceInfosService;
-            _tradablesService = tradablesService;
+            _assetsService = assetsService;
         } 
 
         public async Task StartAsync(CancellationToken cancellationToken)
         {
-            foreach (Asset tradable in await _tradablesService.GetAllTradablesWithApiDataAsync(cancellationToken))
+            foreach (Asset asset in await _assetsService.GetAllAssetsWithApiDataAsync(cancellationToken))
             {
-                if (tradable.TradablePriceInfos != null)
+                if (asset.AssetPriceInfos != null)
                 {
-                    _priceInfosService.SetPriceInfosBySymbol(tradable.Symbol, tradable.TradablePriceInfos);
+                    _priceInfosService.SetPriceInfosBySymbol(asset.Symbol, asset.AssetPriceInfos);
                 }
                 else
                 {
-                    _priceInfosService.SetPriceInfosBySymbol(tradable.Symbol, new AssetPriceInfos(0));
+                    _priceInfosService.SetPriceInfosBySymbol(asset.Symbol, new AssetPriceInfos(0));
                 }
             }
         }

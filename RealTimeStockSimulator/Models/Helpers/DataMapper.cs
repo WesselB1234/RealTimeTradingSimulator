@@ -38,7 +38,7 @@ namespace RealTimeStockSimulator.Models.Helpers
             }
         }
 
-        public static Asset MapTradable(SqlDataReader reader)
+        public static Asset MapAsset(SqlDataReader reader)
         {
             string symbol = (string)reader["symbol"];
 
@@ -55,28 +55,28 @@ namespace RealTimeStockSimulator.Models.Helpers
             return new Asset(symbol, name, imagePath, type);
         }
 
-        public static OwnershipAsset MapOwnershipTradable(SqlDataReader reader)
+        public static OwnershipAsset MapOwnershipAsset(SqlDataReader reader)
         {
             int amount = (int)reader["amount"];
 
-            return MapOwnershipTradableByTradable(MapTradable(reader), amount);
+            return MapOwnershipAssetByAsset(MapAsset(reader), amount);
         }
 
-        public static MarketTransactionAsset MapMarketTransactionTradable(SqlDataReader reader)
+        public static MarketTransactionAsset MapMarketTransactionAsset(SqlDataReader reader)
         {
             int transactionId = (int)reader["transaction_id"];
-            Asset tradable = MapTradable(reader);
+            Asset asset = MapAsset(reader);
             decimal price = (decimal)reader["price"];
             MarketTransactionStatus status = (MarketTransactionStatus)Enum.Parse(typeof(MarketTransactionStatus), (string)reader["status"]);
             int amount = (int)reader["amount"];
             DateTime date = (DateTime)reader["date"];
 
-            return new MarketTransactionAsset(transactionId, tradable, price, status, amount, date);
+            return new MarketTransactionAsset(transactionId, asset, price, status, amount, date);
         }
 
-        public static OwnershipAsset MapOwnershipTradableByTradable(Asset tradable, int amount)
+        public static OwnershipAsset MapOwnershipAssetByAsset(Asset asset, int amount)
         {
-            return new OwnershipAsset(tradable.Symbol, tradable.Name, tradable.ImagePath, tradable.Type, amount);
+            return new OwnershipAsset(asset.Symbol, asset.Name, asset.ImagePath, asset.Type, amount);
         }
     }
 }

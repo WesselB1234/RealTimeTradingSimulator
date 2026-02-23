@@ -10,7 +10,7 @@
             OwnedAmountOfSymbolDictionary = new Dictionary<string, int>();
         }
 
-        public decimal GetTotalValue(Dictionary<string, Asset> tradablesDictionary)
+        public decimal GetTotalValue(Dictionary<string, Asset> assetsDictionary)
         {
             decimal totalValue = 0;
 
@@ -19,13 +19,13 @@
                 string symbol = kvp.Key;
                 int amount = kvp.Value;
 
-                if (tradablesDictionary.ContainsKey(symbol))
+                if (assetsDictionary.ContainsKey(symbol))
                 {
-                    Asset tradable = tradablesDictionary[symbol];
+                    Asset asset = assetsDictionary[symbol];
 
-                    if (tradable.TradablePriceInfos != null)
+                    if (asset.AssetPriceInfos != null)
                     {
-                        totalValue += (tradable.TradablePriceInfos.Price * amount);
+                        totalValue += (asset.AssetPriceInfos.Price * amount);
                     }
                 }
             }

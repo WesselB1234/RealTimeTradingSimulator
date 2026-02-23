@@ -9,7 +9,7 @@ namespace RealTimeStockSimulator.Repositories
     {
         public DbAssetsRepository(IConfiguration configuration) : base(configuration) { }
 
-        public int AddTradable(Asset tradable)
+        public int AddAsset(Asset asset)
         {
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
@@ -17,10 +17,10 @@ namespace RealTimeStockSimulator.Repositories
                     $"VALUES (@Symbol, @Name, @ImagePath, @Type);";
                 SqlCommand command = new SqlCommand(query, connection);
 
-                command.Parameters.AddWithValue("@Symbol", tradable.Symbol);
-                command.Parameters.AddWithValue("@Name", (tradable.Name == null ? DBNull.Value : tradable.Name));
-                command.Parameters.AddWithValue("@ImagePath", (tradable.ImagePath == null ? DBNull.Value : tradable.ImagePath));
-                command.Parameters.AddWithValue("@Type", tradable.Type.ToString());
+                command.Parameters.AddWithValue("@Symbol", asset.Symbol);
+                command.Parameters.AddWithValue("@Name", (asset.Name == null ? DBNull.Value : asset.Name));
+                command.Parameters.AddWithValue("@ImagePath", (asset.ImagePath == null ? DBNull.Value : asset.ImagePath));
+                command.Parameters.AddWithValue("@Type", asset.Type.ToString());
 
                 command.Connection.Open();
 
@@ -28,9 +28,9 @@ namespace RealTimeStockSimulator.Repositories
             }
         }
 
-        public List<Asset> GetAllTradables()
+        public List<Asset> GetAllAssets()
         {
-            List<Asset> tradables = new List<Asset>();
+            List<Asset> assets = new List<Asset>();
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
@@ -43,15 +43,15 @@ namespace RealTimeStockSimulator.Repositories
 
                 while (reader.Read())
                 {
-                    Asset tradable = DataMapper.MapTradable(reader);
-                    tradables.Add(tradable);
+                    Asset asset = DataMapper.MapAsset(reader);
+                    assets.Add(asset);
                 }
             }
 
-            return tradables;
+            return assets;
         }
 
-        public Asset? GetTradableBySymbol(string symbol)
+        public Asset? GetAssetBySymbol(string symbol)
         {
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
@@ -65,7 +65,7 @@ namespace RealTimeStockSimulator.Repositories
 
                 if (reader.Read())
                 {
-                    return DataMapper.MapTradable(reader);
+                    return DataMapper.MapAsset(reader);
                 }
             }
 

@@ -8,7 +8,7 @@ namespace RealTimeStockSimulator.Models
         public string? Name { get; set; }
         public string? ImagePath { get; set; }
         public AssetType Type { get; set; }
-        public AssetPriceInfos? TradablePriceInfos { get; set; }
+        public AssetPriceInfos? AssetPriceInfos { get; set; }
 
         public Asset(string symbol, string? name, string? imagePath, AssetType type)
         {

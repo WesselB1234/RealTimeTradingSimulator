@@ -3,12 +3,12 @@
     public class AssetUpdatePayload
     {
         public string Symbol { get; set; }
-        public AssetPriceInfos TradablePriceInfos { get; set; }
+        public AssetPriceInfos AssetPriceInfos { get; set; }
 
-        public AssetUpdatePayload(string symbol, AssetPriceInfos tradablePriceInfos)
+        public AssetUpdatePayload(string symbol, AssetPriceInfos assetPriceInfos)
         {
             Symbol = symbol;
-            TradablePriceInfos = tradablePriceInfos;
+            AssetPriceInfos = assetPriceInfos;
         }
     }
 }

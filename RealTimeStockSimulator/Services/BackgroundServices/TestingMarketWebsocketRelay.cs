@@ -29,7 +29,7 @@ namespace RealTimeStockSimulator.Services.BackgroundServices
             return currentPrice;
         }
 
-        private void SubscribeToTradablesInCache(CancellationToken cancellationToken)
+        private void SubscribeToAssetsInCache(CancellationToken cancellationToken)
         {
             foreach (string symbol in _priceInfosService.GetAllKeys())
             {
@@ -38,9 +38,9 @@ namespace RealTimeStockSimulator.Services.BackgroundServices
                     while (!cancellationToken.IsCancellationRequested) 
                     { 
                         AssetPriceInfos currentPriceInfos = _priceInfosService.GetPriceInfosBySymbol(symbol);
-                        IncomingMarketWebsocketAsset incomingMarketWebsocketTradable = new IncomingMarketWebsocketAsset(symbol, AddRandomnessToPrice(currentPriceInfos.Price));
+                        IncomingMarketWebsocketAsset incomingMarketWebsocketAsset = new IncomingMarketWebsocketAsset(symbol, AddRandomnessToPrice(currentPriceInfos.Price));
 
-                        await _marketWebsocketHandler.HandleMarketWebSocketPayload(incomingMarketWebsocketTradable, cancellationToken);
+                        await _marketWebsocketHandler.HandleMarketWebSocketPayload(incomingMarketWebsocketAsset, cancellationToken);
                         await Task.Delay(_random.Next(0, 10000), cancellationToken);
                     } 
                 }, cancellationToken);
@@ -49,7 +49,7 @@ namespace RealTimeStockSimulator.Services.BackgroundServices
 
         protected override async Task ExecuteAsync(CancellationToken cancellationToken)
         {
-            SubscribeToTradablesInCache(cancellationToken);
+            SubscribeToAssetsInCache(cancellationToken);
 
             await Task.CompletedTask;
         }

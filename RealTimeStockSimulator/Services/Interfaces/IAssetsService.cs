@@ -7,8 +7,8 @@ namespace RealTimeStockSimulator.Services.Interfaces
     {
         List<Asset> GetAllAssets();
         int AddAsset(Asset asset);
-        Task<List<Asset>> GetAllAssersWithApiDataAsync(CancellationToken cancellationToken);
-        Asset GetTradableFromBuySellViewModel(ProcessBuySellVM confirmViewModel);
+        Task<List<Asset>> GetAllAssetsWithApiDataAsync(CancellationToken cancellationToken);
+        Asset GetAssetFromBuySellViewModel(ProcessBuySellVM confirmViewModel);
         Asset? GetAssetBySymbol(string symbol);
     }
 }

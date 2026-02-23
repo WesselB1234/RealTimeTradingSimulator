@@ -9,9 +9,9 @@ namespace RealTimeStockSimulator.Repositories
     {
         public DbOwnershipRepository(IConfiguration configuration) : base(configuration) { }
 
-        public List<OwnershipAsset> GetAllOwnershipTradablesByUserId(int userId)
+        public List<OwnershipAsset> GetAllOwnershipAssetsByUserId(int userId)
         {
-            List<OwnershipAsset> ownershipTradables = new List<OwnershipAsset>();
+            List<OwnershipAsset> ownershipAssets = new List<OwnershipAsset>();
             
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
@@ -29,14 +29,14 @@ namespace RealTimeStockSimulator.Repositories
 
                 while (reader.Read())
                 {
-                    ownershipTradables.Add(DataMapper.MapOwnershipTradable(reader));
+                    ownershipAssets.Add(DataMapper.MapOwnershipAsset(reader));
                 }
             }
 
-            return ownershipTradables;
+            return ownershipAssets;
         }
 
-        public OwnershipAsset? GetOwnershipTradableByUserId(int userId, string symbol)
+        public OwnershipAsset? GetOwnershipAssetByUserId(int userId, string symbol)
         {
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
@@ -55,14 +55,14 @@ namespace RealTimeStockSimulator.Repositories
 
                 if (reader.Read())
                 {
-                    return DataMapper.MapOwnershipTradable(reader);
+                    return DataMapper.MapOwnershipAsset(reader);
                 }
             }
 
             return null;
         }
 
-        public void AddOwnershipTradableToUserId(int userId, OwnershipAsset tradable)
+        public void AddOwnershipAssetToUserId(int userId, OwnershipAsset asset)
         {
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
@@ -71,15 +71,15 @@ namespace RealTimeStockSimulator.Repositories
                 SqlCommand command = new SqlCommand(query, connection);
 
                 command.Parameters.AddWithValue("@UserId", userId);
-                command.Parameters.AddWithValue("@Symbol", tradable.Symbol);
-                command.Parameters.AddWithValue("@Amount", tradable.Amount);
+                command.Parameters.AddWithValue("@Symbol", asset.Symbol);
+                command.Parameters.AddWithValue("@Amount", asset.Amount);
                 command.Connection.Open();
 
                 command.ExecuteScalar();
             }
         }
 
-        public void UpdateOwnershipTradable(int userId, OwnershipAsset tradable)
+        public void UpdateOwnershipAsset(int userId, OwnershipAsset asset)
         {
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
@@ -89,15 +89,15 @@ namespace RealTimeStockSimulator.Repositories
                 SqlCommand command = new SqlCommand(query, connection);
 
                 command.Parameters.AddWithValue("@UserId", userId);
-                command.Parameters.AddWithValue("@Symbol", tradable.Symbol);
-                command.Parameters.AddWithValue("@Amount", tradable.Amount);
+                command.Parameters.AddWithValue("@Symbol", asset.Symbol);
+                command.Parameters.AddWithValue("@Amount", asset.Amount);
                 command.Connection.Open();
 
                 command.ExecuteScalar();
             }
         }
 
-        public void RemoveOwnershipTradableFromUserId(int userId, OwnershipAsset tradable)
+        public void RemoveOwnershipAssetFromUserId(int userId, OwnershipAsset asset)
         {
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
@@ -106,7 +106,7 @@ namespace RealTimeStockSimulator.Repositories
                 SqlCommand command = new SqlCommand(query, connection);
 
                 command.Parameters.AddWithValue("@UserId", userId);
-                command.Parameters.AddWithValue("@Symbol", tradable.Symbol);
+                command.Parameters.AddWithValue("@Symbol", asset.Symbol);
                 command.Connection.Open();
 
                 command.ExecuteScalar();
@@ -157,9 +157,9 @@ namespace RealTimeStockSimulator.Repositories
                     string symbol = (string)reader["symbol"];
                     int amount = (int)reader["amount"];
 
-                    if (ownerships.TradablesDictionary.ContainsKey(symbol) == false)
+                    if (ownerships.AssetsDictionary.ContainsKey(symbol) == false)
                     {
-                        ownerships.TradablesDictionary[symbol] = DataMapper.MapTradable(reader);
+                        ownerships.AssetsDictionary[symbol] = DataMapper.MapAsset(reader);
                     }
 
                     currentOwnership.OwnedAmountOfSymbolDictionary[symbol] = amount;

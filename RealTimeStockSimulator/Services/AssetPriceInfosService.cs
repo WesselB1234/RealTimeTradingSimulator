@@ -5,26 +5,26 @@ namespace RealTimeStockSimulator.Services
 {
     public class AssetPriceInfosService : IAssetsPriceInfosService
     {
-        private IAssetPriceInfosRepository _tradablePriceInfosRepository;
+        private IAssetPriceInfosRepository _assetPriceInfosRepository;
 
-        public AssetPriceInfosService(IAssetPriceInfosRepository tradablePriceInfosRepository)
+        public AssetPriceInfosService(IAssetPriceInfosRepository assetPriceInfosRepository)
         {
-            _tradablePriceInfosRepository = tradablePriceInfosRepository;
+            _assetPriceInfosRepository = assetPriceInfosRepository;
         }
 
         public AssetPriceInfos? GetPriceInfosBySymbol(string symbol)
         {
-            return _tradablePriceInfosRepository.GetPriceInfosBySymbol(symbol);
+            return _assetPriceInfosRepository.GetPriceInfosBySymbol(symbol);
         }
 
         public List<string> GetAllKeys()
         {
-            return _tradablePriceInfosRepository.GetAllKeys();
+            return _assetPriceInfosRepository.GetAllKeys();
         }
 
         public void SetPriceInfosBySymbol(string symbol, AssetPriceInfos priceInfos)
         {
-            _tradablePriceInfosRepository.SetPriceInfosBySymbol(symbol, priceInfos);
+            _assetPriceInfosRepository.SetPriceInfosBySymbol(symbol, priceInfos);
         }
     }
 }

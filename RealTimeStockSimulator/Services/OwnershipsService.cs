@@ -1,5 +1,4 @@
-﻿using RealTimeStockSimulator.Extensions;
-using RealTimeStockSimulator.Models;
+﻿using RealTimeStockSimulator.Models;
 using RealTimeStockSimulator.Models.Enums;
 using RealTimeStockSimulator.Models.Helpers;
 using RealTimeStockSimulator.Models.ViewModels;
@@ -8,7 +7,7 @@ using RealTimeStockSimulator.Services.Interfaces;
 
 namespace RealTimeStockSimulator.Services
 {
-    public class OwnershipsService : IOwnershipsService
+    public class OwnershipsService : IOwnershipRepository
     {
         private IOwnershipRepository _ownershipsRepository;
         private IMarketTransactionsService _marketTransactionsService;
@@ -21,134 +20,132 @@ namespace RealTimeStockSimulator.Services
             _priceInfosService = priceInfosService;
         }
 
-        public List<OwnershipAsset> GetAllOwnershipTradablesByUserId(int userId)
+        public List<OwnershipAsset> GetAllOwnershipAssetsByUserId(int userId)
         {
-            List<OwnershipAsset> ownershipTradables = _ownershipsRepository.GetAllOwnershipTradablesByUserId(userId);
+            List<OwnershipAsset> ownershipAssets = _ownershipsRepository.GetAllOwnershipAssetsByUserId(userId);
           
-            foreach (OwnershipAsset tradable in ownershipTradables)
+            foreach (OwnershipAsset ownershipAsset in ownershipAssets)
             {
-                tradable.TradablePriceInfos = _priceInfosService.GetPriceInfosBySymbol(tradable.Symbol);
+                ownershipAsset.AssetPriceInfos = _priceInfosService.GetPriceInfosBySymbol(ownershipAsset.Symbol);
             }
 
-            return ownershipTradables;
+            return ownershipAssets;
         }
 
-        public OwnershipAsset? GetOwnershipTradableByUserId(int userId, string symbol)
+        public OwnershipAsset? GetOwnershipAssetByUserId(int userId, string symbol)
         {
-            OwnershipAsset? tradable = _ownershipsRepository.GetOwnershipTradableByUserId(userId, symbol);
+            OwnershipAsset? ownershipAssets = _ownershipsRepository.GetOwnershipAssetByUserId(userId, symbol);
           
-            if (tradable != null)
+            if (ownershipAssets != null)
             {
-                tradable.TradablePriceInfos = _priceInfosService.GetPriceInfosBySymbol(symbol);
+                ownershipAssets.AssetPriceInfos = _priceInfosService.GetPriceInfosBySymbol(symbol);
             }
 
-            return tradable;
+            return ownershipAssets;
         }
 
-        public void AddOwnershipTradableToUserId(int userId, OwnershipAsset tradable)
+        public void AddOwnershipAssetToUserId(int userId, OwnershipAsset ownershipAssets)
         {
-            _ownershipsRepository.AddOwnershipTradableToUserId(userId, tradable);
+            _ownershipsRepository.AddOwnershipAssetToUserId(userId, ownershipAssets);
         }
 
-        public void UpdateOwnershipTradable(int userId, OwnershipAsset tradable)
+        public void UpdateOwnershipAsset(int userId, OwnershipAsset ownershipAssets)
         {
-            _ownershipsRepository.UpdateOwnershipTradable(userId, tradable);
+            _ownershipsRepository.UpdateOwnershipAsset(userId, ownershipAssets);
         }
 
-        public void RemoveOwnershipTradableFromUserId(int userId, OwnershipAsset tradable)
+        public void RemoveOwnershipAssetFromUserId(int userId, OwnershipAsset ownershipAssets)
         {
-            _ownershipsRepository.RemoveOwnershipTradableFromUserId(userId, tradable);
+            _ownershipsRepository.RemoveOwnershipAssetFromUserId(userId, ownershipAssets);
         }
 
-        private void LogOrderTransaction(int userId, Asset tradable, MarketTransactionStatus status, int amount)
+        private void LogOrderTransaction(int userId, Asset asset, MarketTransactionStatus status, int amount)
         {
-            MarketTransactionAsset marketTransactionTradable = new MarketTransactionAsset(tradable, tradable.TradablePriceInfos.Price, status, amount, DateTime.Now);
+            MarketTransactionAsset marketTransactionAsset = new MarketTransactionAsset(asset, asset.AssetPriceInfos.Price, status, amount, DateTime.Now);
 
-            _marketTransactionsService.AddTransaction(userId, marketTransactionTradable);
+            _marketTransactionsService.AddTransaction(userId, marketTransactionAsset);
         }
 
-        public decimal BuyTradable(UserAccount user, Asset tradable, int amount)
+        public decimal BuyAsset(UserAccount user, Asset asset, int amount)
         {
-            decimal moneyAfterPurchase = user.Money - (tradable.TradablePriceInfos.Price * amount);
+            decimal moneyAfterPurchase = user.Money - (asset.AssetPriceInfos.Price * amount);
 
             if (moneyAfterPurchase < 0)
             {
                 throw new ArgumentException("You do not have enough money for this order.");
             }
 
-            OwnershipAsset? ownershipTradable = _ownershipsRepository.GetOwnershipTradableByUserId(user.UserId, tradable.Symbol);
+            OwnershipAsset? ownershipAsset = _ownershipsRepository.GetOwnershipAssetByUserId(user.UserId, asset.Symbol);
 
-            if (ownershipTradable != null)
+            if (ownershipAsset != null)
             {
-                ownershipTradable.Amount += amount;
-                UpdateOwnershipTradable(user.UserId, ownershipTradable);
+                ownershipAsset.Amount += amount;
+                UpdateOwnershipAsset(user.UserId, ownershipAsset);
             }
             else
             {
-                AddOwnershipTradableToUserId(user.UserId, DataMapper.MapOwnershipTradableByTradable(tradable, amount));
+                AddOwnershipAssetToUserId(user.UserId, DataMapper.MapOwnershipAssetByAsset(asset, amount));
             }
 
-            LogOrderTransaction(user.UserId, tradable, MarketTransactionStatus.Bought, amount);
+            LogOrderTransaction(user.UserId, asset, MarketTransactionStatus.Bought, amount);
 
             return moneyAfterPurchase;
         }
 
-        public decimal SellTradable(UserAccount user, OwnershipAsset tradable, int amount)
+        public decimal SellAsset(UserAccount user, OwnershipAsset ownershipAsset, int amount)
         {
-            OwnershipAsset? ownershipTradable = _ownershipsRepository.GetOwnershipTradableByUserId(user.UserId, tradable.Symbol);
-
-            if (amount > tradable.Amount)
+            if (amount > ownershipAsset.Amount)
             {
                 throw new ArgumentException("You do not own this amount.");
             }
 
-            if (ownershipTradable != null && ownershipTradable.Amount - amount >= 1)
+            if (ownershipAsset.Amount - amount >= 1)
             {
-                ownershipTradable.Amount -= amount;
-                UpdateOwnershipTradable(user.UserId, ownershipTradable);
+                ownershipAsset.Amount -= amount;
+                UpdateOwnershipAsset(user.UserId, ownershipAsset);
             }
             else
             {
-                RemoveOwnershipTradableFromUserId(user.UserId, tradable);
+                RemoveOwnershipAssetFromUserId(user.UserId, ownershipAsset);
             }
 
-            LogOrderTransaction(user.UserId, tradable, MarketTransactionStatus.Sold, amount);
+            LogOrderTransaction(user.UserId, ownershipAsset, MarketTransactionStatus.Sold, amount);
 
-            return user.Money + (tradable.TradablePriceInfos.Price * amount);
+            return user.Money + (ownershipAsset.AssetPriceInfos.Price * amount);
         }
 
-        public OwnershipAsset GetOwnershipTradableFromBuySellViewModel(ProcessBuySellVM confirmViewModel, int userId)
+        public OwnershipAsset GetOwnershipAssetFromBuySellViewModel(ProcessBuySellVM confirmViewModel, int userId)
         {
             if (confirmViewModel.Symbol == null)
             {
                 throw new Exception("Symbol is empty.");
             }
 
-            OwnershipAsset? tradable = GetOwnershipTradableByUserId(userId, confirmViewModel.Symbol);
+            OwnershipAsset? asset = GetOwnershipAssetByUserId(userId, confirmViewModel.Symbol);
 
-            if (tradable == null)
+            if (asset == null)
             {
-                throw new Exception("Symbol does not exist or you do not own this symbol.");
+                throw new Exception("Asset does not exist or you do not own this asset.");
             }
 
-            if (tradable.TradablePriceInfos == null)
+            if (asset.AssetPriceInfos == null)
             {
-                throw new Exception("Symbol does not have a price.");
+                throw new Exception("Asset does not have a price.");
             }
 
-            return tradable;
+            return asset;
         }
 
         public MultiOwnership GetValueOrderedMultiOwnershipsPagnated(int pageSize, int currentPage)
         {
             MultiOwnership multiOwnership = _ownershipsRepository.GetValueOrderedMultiOwnershipsPagnated(pageSize, currentPage);
 
-            foreach (Asset tradable in multiOwnership.TradablesDictionary.Values)
+            foreach (Asset asset in multiOwnership.AssetsDictionary.Values)
             {
-                tradable.TradablePriceInfos = _priceInfosService.GetPriceInfosBySymbol(tradable.Symbol);   
+                asset.AssetPriceInfos = _priceInfosService.GetPriceInfosBySymbol(asset.Symbol);   
             }
 
-            multiOwnership.Ownerships = multiOwnership.Ownerships.OrderByDescending(o => o.GetTotalValue(multiOwnership.TradablesDictionary)).ToList();
+            multiOwnership.Ownerships = multiOwnership.Ownerships.OrderByDescending(o => o.GetTotalValue(multiOwnership.AssetsDictionary)).ToList();
 
             return multiOwnership;
         }

@@ -19,7 +19,7 @@ namespace RealTimeStockSimulator.Repositories
                 SqlCommand command = new SqlCommand(query, connection);
 
                 command.Parameters.AddWithValue("@UserId", userId);
-                command.Parameters.AddWithValue("@Symbol", transaction.Tradable.Symbol);
+                command.Parameters.AddWithValue("@Symbol", transaction.Asset.Symbol);
                 command.Parameters.AddWithValue("@Price", transaction.Price);
                 command.Parameters.AddWithValue("@Status", transaction.Status.ToString());
                 command.Parameters.AddWithValue("@Amount", transaction.Amount);
@@ -45,7 +45,7 @@ namespace RealTimeStockSimulator.Repositories
             {
                 string query = "SELECT TOP(@PageSize) transaction_id, Transactions.symbol, price, status, amount, date, type " +
                    "FROM Transactions " +
-                   "JOIN Assets ON Transactions.symbol = Tradables.symbol " +
+                   "JOIN Assets ON Transactions.symbol = Assets.symbol " +
                    "WHERE user_id = @UserId " +
                    "ORDER BY transaction_id DESC;";
                 SqlCommand command = new SqlCommand(query, connection);
@@ -58,7 +58,7 @@ namespace RealTimeStockSimulator.Repositories
 
                 while (reader.Read())
                 {
-                     transactions.Add(DataMapper.MapMarketTransactionTradable(reader));
+                     transactions.Add(DataMapper.MapMarketTransactionAsset(reader));
                 }
             }
 

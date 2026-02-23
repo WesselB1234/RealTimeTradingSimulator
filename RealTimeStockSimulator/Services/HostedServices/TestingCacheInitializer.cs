@@ -8,13 +8,13 @@ namespace RealTimeStockSimulator.Services.HostedServices
     public class TestingCacheInitializer : IHostedService
     {
         private IAssetsPriceInfosService _priceInfosService;
-        private IAssetsService _tradablesService;
+        private IAssetsService _assetsService;
         private Random _random = new Random();
 
-        public TestingCacheInitializer(IAssetsPriceInfosService priceInfosService, IAssetsService tradablesService)
+        public TestingCacheInitializer(IAssetsPriceInfosService priceInfosService, IAssetsService assetsService)
         {
             _priceInfosService = priceInfosService;
-            _tradablesService = tradablesService;
+            _assetsService = assetsService;
         } 
 
         public async Task StartAsync(CancellationToken cancellationToken)
@@ -63,7 +63,7 @@ namespace RealTimeStockSimulator.Services.HostedServices
             //    _tradablesService.AddTradable(new Tradable("TEST", null, null))
             //);
 
-            foreach (Asset tradable in _tradablesService.GetAllTradables())
+            foreach (Asset tradable in _assetsService.GetAllAssets())
             {
                 _priceInfosService.SetPriceInfosBySymbol(tradable.Symbol, new AssetPriceInfos(_random.Next(1,10000)));
             }

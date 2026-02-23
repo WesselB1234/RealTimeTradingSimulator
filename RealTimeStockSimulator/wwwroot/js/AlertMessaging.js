@@ -1,5 +1,5 @@
-﻿function displayErrorAlert(messageStr) {
-
+﻿function displayErrorAlert(messageStr)
+{
     const errorAlert = document.getElementById("errorAlert");
 
     if (errorAlert === null) {
@@ -16,11 +16,12 @@
     errorMessageHolder.innerText = messageStr;
 }
 
-function displaySuccessAlert(messageStr) {
-
+function displaySuccessAlert(messageStr)
+{
     const successAlert = document.getElementById("successAlert");
 
-    if (successAlert === null) {
+    if (successAlert === null)
+    {
         throw new Error("Success alert container doesn't exist yet.");
     }
 

@@ -1,4 +1,5 @@
-﻿function sortOwnershipList(ownershipList) {
+﻿function sortOwnershipList(ownershipList)
+{
     return ownershipList.sort((a, b) => b.price - a.price);
 }
 

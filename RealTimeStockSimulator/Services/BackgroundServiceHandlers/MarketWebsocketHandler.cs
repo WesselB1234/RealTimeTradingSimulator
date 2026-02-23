@@ -28,8 +28,6 @@ namespace RealTimeStockSimulator.Services.BackgroundServiceHandlers
                 AssetUpdatePayload assetUpdatePayload = new AssetUpdatePayload(incomingAsset.Symbol, assetPriceInfos);
                 _priceInfosService.SetPriceInfosBySymbol(incomingAsset.Symbol, assetPriceInfos);
 
-                Console.WriteLine(JsonSerializer.Serialize(assetUpdatePayload));
-
                 await _hubContext.Clients.All.SendAsync("ReceiveMarketData", JsonSerializer.Serialize(assetUpdatePayload), cancellationToken);
             }
         }

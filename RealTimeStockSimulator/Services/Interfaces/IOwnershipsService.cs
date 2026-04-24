@@ -8,7 +8,7 @@ namespace RealTimeStockSimulator.Services.Interfaces
         List<OwnershipAsset> GetAllOwnershipAssetsByUserId(int userId);
         MultiOwnership GetValueOrderedMultiOwnershipsPagnated(int pageSize, int currentPage);
         OwnershipAsset? GetOwnershipAssetByUserId(int userId, string symbol);
-        OwnershipAsset GetOwnershipAssetFromBuySellViewModel(ProcessBuySellVM confirmViewModel, int userId);
+        OwnershipAsset GetOwnershipAssetFromSymbolAndUserIdOrThrow(string symbol, int userId);
         void AddOwnershipAssetToUserId(int userId, OwnershipAsset asset);
         void UpdateOwnershipAsset(int userId, OwnershipAsset asset);
         void RemoveOwnershipAssetFromUserId(int userId, OwnershipAsset asset);

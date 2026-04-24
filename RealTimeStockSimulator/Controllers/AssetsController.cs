@@ -8,6 +8,7 @@ using RealTimeStockSimulator.Services.Interfaces;
 namespace RealTimeStockSimulator.Controllers
 {
     [Authorize]
+    [Route("Assets")]
     public class AssetsController : AuthenticatedUserController
     {
         private IAssetsService _assetsService;
@@ -21,6 +22,7 @@ namespace RealTimeStockSimulator.Controllers
             _usersService = usersService;
         }
 
+        [HttpGet]
         public IActionResult Index()
         {
             List<Asset> assets = _assetsService.GetAllAssets();
@@ -28,23 +30,27 @@ namespace RealTimeStockSimulator.Controllers
             return View(assets);
         }
 
-        public IActionResult Buy(ProcessBuySellVM confirmViewModel)
+        [HttpGet("Buy/{symbol}")]
+        public string Buy(string symbol)//(ProcessBuySellVM confirmViewModel)
         {
-            try
-            {
-                Asset assets = _assetsService.GetAssetFromBuySellViewModel(confirmViewModel);
-                BuyVM viewModel = new BuyVM(assets, confirmViewModel.Amount);
+            return symbol;
 
-                return View(viewModel);
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = ex.Message;
+            //try
+            //{
+            //    Asset assets = _assetsService.GetAssetFromBuySellViewModel(confirmViewModel);
+            //    BuyVM viewModel = new BuyVM(assets, confirmViewModel.Amount);
 
-                return RedirectToAction("Index", "Portfolio");
-            }
+            //    return View(viewModel);
+            //}
+            //catch (Exception ex)
+            //{
+            //    TempData["ErrorMessage"] = ex.Message;
+
+            //    return RedirectToAction("Index", "Portfolio");
+            //}
         }
 
+        [HttpPost]
         public async Task<IActionResult> ProcessBuy(ProcessBuySellVM confirmViewModel)
         {
             Asset? asset = null;
@@ -83,28 +89,32 @@ namespace RealTimeStockSimulator.Controllers
             }
         }
 
-        public IActionResult Sell(ProcessBuySellVM confirmViewModel)
+        [HttpGet("Sell/{symbol}")]
+        public string Sell(string symbol)//(ProcessBuySellVM confirmViewModel)
         {
-            try
-            {
-                if (confirmViewModel.Amount == null || confirmViewModel.Amount < 1)
-                {
-                    confirmViewModel.Amount = 1;
-                }
+            return symbol;
 
-                OwnershipAsset? ownershipAsset = _ownershipsService.GetOwnershipAssetFromBuySellViewModel(confirmViewModel, LoggedInUser.UserId);
-                SellVM viewModel = new SellVM(ownershipAsset, confirmViewModel.Amount);
+            //try
+            //{
+            //    if (confirmViewModel.Amount == null || confirmViewModel.Amount < 1)
+            //    {
+            //        confirmViewModel.Amount = 1;
+            //    }
 
-                return View(viewModel);
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = ex.Message;
+            //    OwnershipAsset? ownershipAsset = _ownershipsService.GetOwnershipAssetFromBuySellViewModel(confirmViewModel, LoggedInUser.UserId);
+            //    SellVM viewModel = new SellVM(ownershipAsset, confirmViewModel.Amount);
 
-                return RedirectToAction("Index", "Portfolio");
-            }
+            //    return View(viewModel);
+            //}
+            //catch (Exception ex)
+            //{
+            //    TempData["ErrorMessage"] = ex.Message;
+
+            //    return RedirectToAction("Index", "Portfolio");
+            //}
         }
 
+        [HttpPost]
         public async Task<IActionResult> ProcessSell(ProcessBuySellVM confirmViewModel)
         {
             OwnershipAsset? ownershipAsset = null;
@@ -116,7 +126,7 @@ namespace RealTimeStockSimulator.Controllers
                     confirmViewModel.Amount = 1;
                 }
 
-                ownershipAsset = _ownershipsService.GetOwnershipAssetFromBuySellViewModel(confirmViewModel,LoggedInUser.UserId);
+                ownershipAsset = _ownershipsService.GetOwnershipAssetFromBuySellViewModel(confirmViewModel, LoggedInUser.UserId);
                 decimal moneyAfterSelling = _ownershipsService.SellAsset(LoggedInUser, ownershipAsset, (int)confirmViewModel.Amount);
 
                 LoggedInUser.Money = moneyAfterSelling;

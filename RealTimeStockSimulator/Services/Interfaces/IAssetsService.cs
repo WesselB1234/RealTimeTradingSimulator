@@ -1,5 +1,4 @@
 ﻿using RealTimeStockSimulator.Models;
-using RealTimeStockSimulator.Models.ViewModels;
 
 namespace RealTimeStockSimulator.Services.Interfaces
 {
@@ -8,7 +7,7 @@ namespace RealTimeStockSimulator.Services.Interfaces
         List<Asset> GetAllAssets();
         int AddAsset(Asset asset);
         Task<List<Asset>> GetAllAssetsWithApiDataAsync(CancellationToken cancellationToken);
-        Asset GetAssetFromBuySellViewModel(ProcessBuySellVM confirmViewModel);
+        Asset GetAssetBySymbolOrThrow(string symbol);
         Asset? GetAssetBySymbol(string symbol);
     }
 }

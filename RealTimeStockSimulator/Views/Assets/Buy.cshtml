@@ -31,8 +31,7 @@
 
     <partial name="_ErrorMessage" />
 
-    <form action="/Assets/ProcessBuy" method="post">
-        <input type="hidden" name="symbol" value="@Model.Asset.Symbol" />
+    <form action="/Assets/ProcessBuy/@Model.Asset.Symbol" method="post">
         <div class="mb-2">
             <label class="form-label" for="amount">Amount:</label>
             <input class="form-control" type="number" id="amount" name="amount" value="@amountValue" data-amount-label-number="1" data-amount-label-symbol="@Model.Asset.Symbol" data-amount-label-value="@amountValue"

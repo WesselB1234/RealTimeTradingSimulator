@@ -31,28 +31,26 @@ namespace RealTimeStockSimulator.Controllers
         }
 
         [HttpGet("Buy/{symbol}")]
-        public string Buy(string symbol)//(ProcessBuySellVM confirmViewModel)
+        public IActionResult Buy(string symbol)
         {
-            return symbol;
+            try
+            {
+                Asset asset = _assetsService.GetAssetBySymbolOrThrow(symbol);
+                BuyVM viewModel = new BuyVM(asset, 1);
 
-            //try
-            //{
-            //    Asset assets = _assetsService.GetAssetFromBuySellViewModel(confirmViewModel);
-            //    BuyVM viewModel = new BuyVM(assets, confirmViewModel.Amount);
+                return View(viewModel);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = ex.Message;
 
-            //    return View(viewModel);
-            //}
-            //catch (Exception ex)
-            //{
-            //    TempData["ErrorMessage"] = ex.Message;
-
-            //    return RedirectToAction("Index", "Portfolio");
-            //}
+                return RedirectToAction("Index", "Portfolio");
+            }
         }
 
-        [HttpPost]
-        public async Task<IActionResult> ProcessBuy(ProcessBuySellVM confirmViewModel)
-        {
+        [HttpPost("ProcessBuy/{symbol}")]
+        public async Task<IActionResult> ProcessBuy(string symbol, ProcessBuySellVM confirmViewModel)
+        {   
             Asset? asset = null;
 
             try
@@ -62,7 +60,7 @@ namespace RealTimeStockSimulator.Controllers
                     confirmViewModel.Amount = 1;
                 }
 
-                asset = _assetsService.GetAssetFromBuySellViewModel(confirmViewModel);
+                asset = _assetsService.GetAssetBySymbolOrThrow(symbol);
                 decimal moneyAfterPurchase = _ownershipsService.BuyAsset(LoggedInUser, asset, (int)confirmViewModel.Amount);
 
                 LoggedInUser.Money = moneyAfterPurchase;
@@ -75,6 +73,8 @@ namespace RealTimeStockSimulator.Controllers
             }
             catch (Exception ex)
             {
+                confirmViewModel.Symbol = symbol; 
+
                 TempData["ErrorMessage"] = ex.Message;
 
                 if (asset != null)

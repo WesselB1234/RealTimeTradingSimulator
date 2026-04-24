@@ -74,14 +74,9 @@ namespace RealTimeStockSimulator.Services
             return asset;
         }
 
-        public Asset GetAssetFromBuySellViewModel(ProcessBuySellVM confirmViewModel)
+        public Asset GetAssetBySymbolOrThrow(string symbol)
         {
-            if (confirmViewModel.Symbol == null)
-            {
-                throw new Exception("Symbol is empty.");
-            }
-
-            Asset? asset = GetAssetBySymbol(confirmViewModel.Symbol);
+            Asset? asset = GetAssetBySymbol(symbol);
 
             if (asset == null)
             {

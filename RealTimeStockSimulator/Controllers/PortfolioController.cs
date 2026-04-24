@@ -4,6 +4,8 @@ using RealTimeStockSimulator.Services.Interfaces;
 
 namespace RealTimeStockSimulator.Controllers
 {
+    [Route("Portfolio")]
+    [Route("")]
     [Authorize]
     public class PortfolioController : AuthenticatedUserController
     {
@@ -14,6 +16,7 @@ namespace RealTimeStockSimulator.Controllers
             _ownershipsService = ownershipsService;
         }
 
+        [HttpGet]
         public IActionResult Index()
         {
             return View(_ownershipsService.GetAllOwnershipAssetsByUserId(LoggedInUser.UserId));

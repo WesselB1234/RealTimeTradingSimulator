@@ -7,8 +7,8 @@ using RealTimeStockSimulator.Services.Interfaces;
 
 namespace RealTimeStockSimulator.Controllers
 {
-    [Authorize]
     [Route("Assets")]
+    [Authorize]
     public class AssetsController : AuthenticatedUserController
     {
         private IAssetsService _assetsService;

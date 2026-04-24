@@ -8,19 +8,19 @@
         <span class="navbar-brand text-light">Real-Time Trading Simulator</span>
         <ul class="navbar-nav flex-grow-1">
             <li class="nav-item">
-                <a class="nav-link nav-hover text-light @(ViewBag.NavEnabled == Portfolio ? "nav-pill-enabled" : "")" href="/Portfolio/Index">Portfolio</a>
+                <a class="nav-link nav-hover text-light @(ViewBag.NavEnabled == Portfolio ? "nav-pill-enabled" : "")" href="/Portfolio/">Portfolio</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link nav-hover text-light @(ViewBag.NavEnabled == Assets ? "nav-pill-enabled" : "")" href="/Assets/Index">Assets</a>
+                <a class="nav-link nav-hover text-light @(ViewBag.NavEnabled == Assets ? "nav-pill-enabled" : "")" href="/Assets/">Assets</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link nav-hover text-light @(ViewBag.NavEnabled == Leaderboard ? "nav-pill-enabled" : "")" href="/Users/Leaderboard">Leaderboard</a>
+                <a class="nav-link nav-hover text-light @(ViewBag.NavEnabled == Leaderboard ? "nav-pill-enabled" : "")" href="/Users/Leaderboard/">Leaderboard</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link nav-hover text-light @(ViewBag.NavEnabled == Transactions ? "nav-pill-enabled" : "")" href="/Transactions/Index">Transactions</a>
+                <a class="nav-link nav-hover text-light @(ViewBag.NavEnabled == Transactions ? "nav-pill-enabled" : "")" href="/Transactions/">Transactions</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link nav-hover text-light @(ViewBag.NavEnabled == Settings ? "nav-pill-enabled" : "")" href="/Settings/Index">Settings</a>
+                <a class="nav-link nav-hover text-light @(ViewBag.NavEnabled == Settings ? "nav-pill-enabled" : "")" href="/Settings/">Settings</a>
             </li>
             <li class="nav-item ms-lg-auto">
                 <span class="nav-link text-light">               
@@ -33,7 +33,9 @@
                 </span>
             </li>
             <li class="nav-item">
-                <a class="btn btn-danger" href="/Authentication/Logout">Logout</a>
+                <form action="/Authentication/Logout" method="post" class="d-inline">
+                    <button type="submit" class="btn btn-danger">Logout</button>
+                </form>
             </li>
         </ul>
     </div>

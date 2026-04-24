@@ -7,6 +7,7 @@ using RealTimeStockSimulator.Services.Interfaces;
 
 namespace RealTimeStockSimulator.Controllers
 {
+    [Route("Assets")]
     [Authorize]
     public class AssetsController : AuthenticatedUserController
     {
@@ -21,6 +22,7 @@ namespace RealTimeStockSimulator.Controllers
             _usersService = usersService;
         }
 
+        [HttpGet]
         public IActionResult Index()
         {
             List<Asset> assets = _assetsService.GetAllAssets();
@@ -28,12 +30,13 @@ namespace RealTimeStockSimulator.Controllers
             return View(assets);
         }
 
-        public IActionResult Buy(ProcessBuySellVM confirmViewModel)
+        [HttpGet("Buy/{symbol}")]
+        public IActionResult Buy(string symbol)
         {
             try
             {
-                Asset assets = _assetsService.GetAssetFromBuySellViewModel(confirmViewModel);
-                BuyVM viewModel = new BuyVM(assets, confirmViewModel.Amount);
+                Asset asset = _assetsService.GetAssetBySymbolOrThrow(symbol);
+                BuyVM viewModel = new BuyVM(asset, 1);
 
                 return View(viewModel);
             }
@@ -45,8 +48,9 @@ namespace RealTimeStockSimulator.Controllers
             }
         }
 
-        public async Task<IActionResult> ProcessBuy(ProcessBuySellVM confirmViewModel)
-        {
+        [HttpPost("ProcessBuy/{symbol}")]
+        public async Task<IActionResult> ProcessBuy(string symbol, ProcessBuySellVM confirmViewModel)
+        {   
             Asset? asset = null;
 
             try
@@ -56,7 +60,7 @@ namespace RealTimeStockSimulator.Controllers
                     confirmViewModel.Amount = 1;
                 }
 
-                asset = _assetsService.GetAssetFromBuySellViewModel(confirmViewModel);
+                asset = _assetsService.GetAssetBySymbolOrThrow(symbol);
                 decimal moneyAfterPurchase = _ownershipsService.BuyAsset(LoggedInUser, asset, (int)confirmViewModel.Amount);
 
                 LoggedInUser.Money = moneyAfterPurchase;
@@ -83,17 +87,13 @@ namespace RealTimeStockSimulator.Controllers
             }
         }
 
-        public IActionResult Sell(ProcessBuySellVM confirmViewModel)
+        [HttpGet("Sell/{symbol}")]
+        public IActionResult Sell(string symbol)
         {
             try
             {
-                if (confirmViewModel.Amount == null || confirmViewModel.Amount < 1)
-                {
-                    confirmViewModel.Amount = 1;
-                }
-
-                OwnershipAsset? ownershipAsset = _ownershipsService.GetOwnershipAssetFromBuySellViewModel(confirmViewModel, LoggedInUser.UserId);
-                SellVM viewModel = new SellVM(ownershipAsset, confirmViewModel.Amount);
+                OwnershipAsset ownershipAsset = _ownershipsService.GetOwnershipAssetFromSymbolAndUserIdOrThrow(symbol, LoggedInUser.UserId);
+                SellVM viewModel = new SellVM(ownershipAsset, 1);
 
                 return View(viewModel);
             }
@@ -105,7 +105,8 @@ namespace RealTimeStockSimulator.Controllers
             }
         }
 
-        public async Task<IActionResult> ProcessSell(ProcessBuySellVM confirmViewModel)
+        [HttpPost("ProcessSell/{symbol}")]
+        public async Task<IActionResult> ProcessSell(string symbol, ProcessBuySellVM confirmViewModel)
         {
             OwnershipAsset? ownershipAsset = null;
 
@@ -116,7 +117,7 @@ namespace RealTimeStockSimulator.Controllers
                     confirmViewModel.Amount = 1;
                 }
 
-                ownershipAsset = _ownershipsService.GetOwnershipAssetFromBuySellViewModel(confirmViewModel,LoggedInUser.UserId);
+                ownershipAsset = _ownershipsService.GetOwnershipAssetFromSymbolAndUserIdOrThrow(symbol, LoggedInUser.UserId);
                 decimal moneyAfterSelling = _ownershipsService.SellAsset(LoggedInUser, ownershipAsset, (int)confirmViewModel.Amount);
 
                 LoggedInUser.Money = moneyAfterSelling;

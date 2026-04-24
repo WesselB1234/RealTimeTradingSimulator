@@ -34,8 +34,7 @@
 
     <partial name="_ErrorMessage" />
 
-    <form action="/Assets/ProcessSell" method="post">
-        <input type="hidden" name="symbol" value="@Model.OwnershipAsset.Symbol" />
+    <form action="/Assets/ProcessSell/@Model.OwnershipAsset.Symbol" method="post">
         <div class="mb-2">
             <label class="form-label" for="amount">Amount:</label>
             <input class="form-control" type="number" id="amount" name="amount" value="@amountValue" data-amount-label-number="1" data-amount-label-symbol="@Model.OwnershipAsset.Symbol" data-amount-label-value="@amountValue" 

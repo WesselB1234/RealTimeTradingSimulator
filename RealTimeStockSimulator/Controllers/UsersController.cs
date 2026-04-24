@@ -6,6 +6,7 @@ using RealTimeStockSimulator.Models.ViewModels;
 
 namespace RealTimeStockSimulator.Controllers
 {
+    [Route("Users")]
     [Authorize]
     public class UsersController : AuthenticatedUserController
     {
@@ -18,11 +19,13 @@ namespace RealTimeStockSimulator.Controllers
             _ownershipsService = ownershipsService;
         }
 
+        [HttpGet("Leaderboard")]
         public IActionResult Leaderboard()
         {
             return View(_ownershipsService.GetValueOrderedMultiOwnershipsPagnated(20, 1));
         }
 
+        [HttpGet("Portfolio/{userId}")]
         public IActionResult Portfolio(int userId)
         {
             UserAccount? user = _usersService.GetUserByUserId(userId);

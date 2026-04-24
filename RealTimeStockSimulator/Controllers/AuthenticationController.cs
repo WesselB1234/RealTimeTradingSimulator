@@ -7,6 +7,7 @@ using RealTimeStockSimulator.Services.Interfaces;
 
 namespace RealTimeStockSimulator.Controllers
 {
+    [Route("Authentication")]
     public class AuthenticationController : Controller
     {
         private IUsersService _usersService;
@@ -16,6 +17,7 @@ namespace RealTimeStockSimulator.Controllers
             _usersService = usersService;
         }
 
+        [HttpGet("NotAuthorized")]
         public IActionResult NotAuthorized()
         {
             TempData["ErrorMessage"] = "Your account is not authorized to perform this action.";
@@ -23,6 +25,7 @@ namespace RealTimeStockSimulator.Controllers
             return RedirectToAction("Login");
         }
 
+        [HttpGet("NotLoggedIn")]
         public IActionResult NotLoggedIn()
         {
             TempData["ErrorMessage"] = "You must be logged in to perform this action.";
@@ -30,11 +33,13 @@ namespace RealTimeStockSimulator.Controllers
             return RedirectToAction("Login");
         }
 
+        [HttpGet("Login")]
         public IActionResult Login(LoginVM loginViewModel)
         {
             return View(loginViewModel); 
         }
 
+        [HttpPost("ProcessLogin")]
         public async Task<IActionResult> ProcessLogin(LoginVM loginViewModel)
         {
             UserAccount? user = _usersService.GetUserByLoginCredentials(loginViewModel.UserName, loginViewModel.Password);
@@ -50,11 +55,13 @@ namespace RealTimeStockSimulator.Controllers
             return View("Login", loginViewModel);
         }
 
+        [HttpGet("Register")]
         public IActionResult Register(RegisterVM registerViewModel)
         {
             return View(registerViewModel);
         }
 
+        [HttpPost("ProcessRegister")]
         public async Task<IActionResult> ProcessRegister(RegisterVM registerViewModel)
         {
             try
@@ -80,7 +87,8 @@ namespace RealTimeStockSimulator.Controllers
             }
         }
 
-        [Authorize]        
+        [HttpPost("Logout")]
+        [Authorize]
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync();

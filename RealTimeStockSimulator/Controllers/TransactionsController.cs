@@ -5,6 +5,7 @@ using RealTimeStockSimulator.Services.Interfaces;
 
 namespace RealTimeStockSimulator.Controllers
 {
+    [Route("Transactions")]
     [Authorize]
     public class TransactionsController : AuthenticatedUserController
     {
@@ -15,6 +16,7 @@ namespace RealTimeStockSimulator.Controllers
             _marketTransactionsService = marketTransactionsService;
         }
 
+        [HttpGet]
         public IActionResult Index()
         {
             List<MarketTransactionAsset> transactions = _marketTransactionsService.GetTransactionsByUserPagnated(LoggedInUser.UserId, 25, 1);

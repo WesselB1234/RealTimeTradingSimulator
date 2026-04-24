@@ -1,7 +1,6 @@
 ﻿using RealTimeStockSimulator.Models;
 using RealTimeStockSimulator.Models.Enums;
 using RealTimeStockSimulator.Models.Helpers;
-using RealTimeStockSimulator.Models.ViewModels;
 using RealTimeStockSimulator.Repositories.Interfaces;
 using RealTimeStockSimulator.Services.Interfaces;
 
@@ -114,26 +113,21 @@ namespace RealTimeStockSimulator.Services
             return user.Money + (ownershipAsset.AssetPriceInfos.Price * amount);
         }
 
-        public OwnershipAsset GetOwnershipAssetFromBuySellViewModel(ProcessBuySellVM confirmViewModel, int userId)
+        public OwnershipAsset GetOwnershipAssetFromSymbolAndUserIdOrThrow(string symbol, int userId)
         {
-            if (confirmViewModel.Symbol == null)
-            {
-                throw new Exception("Symbol is empty.");
-            }
+            OwnershipAsset? ownershipAsset = GetOwnershipAssetByUserId(userId, symbol);
 
-            OwnershipAsset? asset = GetOwnershipAssetByUserId(userId, confirmViewModel.Symbol);
-
-            if (asset == null)
+            if (ownershipAsset == null)
             {
                 throw new Exception("Asset does not exist or you do not own this asset.");
             }
 
-            if (asset.AssetPriceInfos == null)
+            if (ownershipAsset.AssetPriceInfos == null)
             {
                 throw new Exception("Asset does not have a price.");
             }
 
-            return asset;
+            return ownershipAsset;
         }
 
         public MultiOwnership GetValueOrderedMultiOwnershipsPagnated(int pageSize, int currentPage)
